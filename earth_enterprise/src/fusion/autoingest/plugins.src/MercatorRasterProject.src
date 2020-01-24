@@ -83,7 +83,7 @@ class MercatorRasterProjectAssetVersionImpl {
     for(uint i = 0; i < insets.size(); ++i) {
       // NOTE: the date is stored in the asset, not the version!!!
       MercatorRasterProductAsset resource(insets[i].dataAsset);
-      std::string resource_date = resource->GetAcquisitionDate();
+      std::string resource_date = resource->GetAcquisitionDate().toStdString();
       if (resource_date != kUnknownDate) {
         if (result == kUnknownDate || resource_date.compare(result) > 0) {
           result = resource_date;

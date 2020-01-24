@@ -31,6 +31,7 @@
 #include <qpaintdevicemetrics.h>
 #include <qsimplerichtext.h>
 #include <qgrid.h>
+#include <qobject.h>
 
 #include <qcanvas.h>
 

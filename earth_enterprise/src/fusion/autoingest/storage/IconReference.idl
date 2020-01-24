@@ -21,7 +21,7 @@ class IconReference {
   enum Type { Internal = 0, External = 1 };
 
   Type type    = IconReference::Internal;
-  QString href = QString(kDefaultIconName);    // dot
+  QString href = QString(kDefaultIconName.c_str());    // dot
 
 #hquote
   bool operator<(const IconReference &o) const;

@@ -109,12 +109,12 @@ EOF
     print $fh <<EOF;
 		        AssetThrowPolicy::WarnOrThrow
                           (kh::tr("Unknown asset type '%1' while parsing %2")
-			   .arg(ToQString(tagname), ToQString(filename)));
+			   .arg(ToQString(tagname.c_str()), ToQString(filename.c_str())));
 		    }
 	        } catch (const std::exception &e) {
 		    AssetThrowPolicy::WarnOrThrow
 		      (kh::tr("Error loading %1: %2")
-		       .arg(ToQString(filename), QString::fromUtf8(e.what())));
+		       .arg(ToQString(filename.c_str()), QString::fromUtf8(e.what())));
 		} catch (...) {
 		    AssetThrowPolicy::WarnOrThrow(kh::tr("Unable to load ")
 						  + filename);
@@ -180,12 +180,12 @@ EOF
     print $fh <<EOF;
 		        AssetThrowPolicy::WarnOrThrow
                           (kh::tr("Unknown asset version type '%1' while parsing %2")
-			   .arg(ToQString(tagname), ToQString(filename)));
+			   .arg(ToQString(tagname.c_str(), ToQString(filename.c_str())));
 		    }
 	        } catch (const std::exception &e) {
 		    AssetThrowPolicy::WarnOrThrow
 		      (kh::tr("Error loading %1: %2")
-		       .arg(ToQString(filename), QString::fromUtf8(e.what())));
+		       .arg(ToQString(filename.c_str()), QString::fromUtf8(e.what())));
 		} catch (...) {
 		    AssetThrowPolicy::WarnOrThrow(kh::tr("Unable to load ")
 						  + filename);

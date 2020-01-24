@@ -39,7 +39,7 @@ class MercatorRasterProductAssetImpl {
   // String is of form "YYYY-MM-DD".
   // If no image date is available, returns "0000-00-00" for "unknown date".
   std::string GetAcquisitionDate(void) const {
-    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate);
+    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate).toStdString();
     return acquisition_date;
   }
 };

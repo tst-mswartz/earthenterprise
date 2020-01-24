@@ -22,7 +22,7 @@
 #include <errno.h>
 #include <cstring>
 #include <qstring.h>
-#include <qobject.h>
+#include <QObject>
 
 // for khstrerror
 #include <notify.h>

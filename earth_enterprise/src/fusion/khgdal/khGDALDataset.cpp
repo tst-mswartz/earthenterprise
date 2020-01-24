@@ -220,10 +220,10 @@ khGDALDatasetImpl::khGDALDatasetImpl(const std::string &filename_,
     // See getMaskDS below
 
   } catch (const std::exception &e) {
-    throw khException(kh::tr("%1: %2").arg(filename).arg(e.what()));
+    throw khException(kh::tr("%1: %2").arg(filename.c_str()).arg(e.what()));
   } catch (...) {
     throw khException(kh::tr("%1: Unknown error while opening")
-                      .arg(filename));
+                      .arg(filename.c_str()));
   }
 }
 
@@ -376,11 +376,11 @@ khGDALDatasetImpl::EnsureKeyholeNormalizedInfo(void)
                         IsMercator());
     haveNormalized = true;
   } catch (const std::exception &e) {
-    throw khException(kh::tr("%1: %2").arg(filename).arg(e.what()));
+    throw khException(kh::tr("%1: %2").arg(filename.c_str()).arg(e.what()));
   } catch (...) {
     throw khException
       (kh::tr("%1: Unknown error calculating normalized geo extents")
-       .arg(filename));
+       .arg(filename.c_str()));
   }
 }
 

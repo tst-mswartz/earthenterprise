@@ -77,7 +77,7 @@ class FusionUniqueId {
       throw khException(
           kh::tr("Unable to save %1\n"
                  "Check system manager logfile for more details.")
-          .arg(filename));
+          .arg(filename.c_str()));
     }
     (void)khChmod(filename, geAssetRoot::FilePerms(geAssetRoot::UniqueIdFile));
     return id;
@@ -132,7 +132,7 @@ class FusionUniqueId {
                                                  geAssetRoot::UniqueIdFile);
     if (!Save(filename)) {
       throw khException(kh::tr("Unable to save %1")
-                        .arg(filename));
+                        .arg(filename.c_str()));
     }
     (void)khChmod(filename, geAssetRoot::FilePerms(geAssetRoot::UniqueIdFile));
   }

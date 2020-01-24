@@ -56,10 +56,10 @@ class SourceConfig {
         switch (AddFile(s)) {
           case NonVolume:
             throw khException
-              (s + kh::tr(" doesn't reside on a known volume."));
+              (s + kh::tr(" doesn't reside on a known volume.").toStdString());
           case CantStat:
             throw khErrnoException
-              (kh::tr("Unable to get file information for ") + s);
+              (kh::tr("Unable to get file information for ").toStdString() + s);
           case FileOK:
             break;
         }

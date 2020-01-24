@@ -550,7 +550,7 @@ DatabaseAssetVersionImplD::CreateQTPacket(
     input_verrefs.push_back(subindex.Ref());
     qtpacket_config.imagery_verref_ = subindex.Ref();
     qtpacket_config.imageryproj_verref_ = imagery_project->GetRef();
-    qtpacket_config.imagery_date_string_ = imagery_project->GetAcquisitionDate();
+    qtpacket_config.imagery_date_string_ = imagery_project->GetAcquisitionDate().toStdString();
   }
   if (combined_terrain) {
     input_versions.push_back(combined_terrain);
@@ -602,7 +602,7 @@ DatabaseAssetVersionImplD::CreateUnifiedIndex(
     AssetVersion subindex = imagery_project->GetGEIndexVersion();
     index_input_versions.push_back(subindex);
     index_input_verrefs.push_back(subindex.Ref());
-    std::string date_string = imagery_project->GetAcquisitionDate();
+    std::string date_string = imagery_project->GetAcquisitionDate().toStdString();
     unified_index_config.indexes_.push_back(
         UnifiedIndexEntry(ToString(geindex::TypedEntry::Imagery),
                           subindex.Ref(),

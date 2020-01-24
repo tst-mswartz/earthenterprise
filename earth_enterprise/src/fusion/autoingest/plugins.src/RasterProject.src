@@ -84,7 +84,7 @@ class RasterProjectAssetVersionImpl {
     for(uint i = 0; i < insets.size(); ++i) {
       // Note: the date is stored in the asset, not the version!!!
       RasterProductAsset resource(insets[i].dataAsset);
-      std::string resource_date = resource->GetAcquisitionDate();
+      std::string resource_date = resource->GetAcquisitionDate().toStdString();
       if (resource_date != kUnknownDate) {
         if (result == kUnknownDate || resource_date.compare(result) > 0) {
           result = resource_date;
@@ -281,7 +281,7 @@ void RasterProjectAssetImplD::AddInsets(
     uint effectivemax = ComputeEffectiveMaxLevel(*item);
     // Get the acquisition date (we want most recent imagery first).
     RasterProductAsset asset = item->dataAsset;
-    std::string date_string = asset->GetAcquisitionDate();
+    std::string date_string = asset->GetAcquisitionDate().toStdString();
 
     // walk backwards until we find where to insert it
     std::vector<InsetStackItem>::reverse_iterator where;
@@ -294,7 +294,7 @@ void RasterProjectAssetImplD::AddInsets(
         // For the same level of detail, we want the newest asset (in terms
         // of acquisition date) first.
         RasterProductAsset where_asset = where->dataAsset;
-        std::string where_date_string = where_asset->GetAcquisitionDate();
+        std::string where_date_string = where_asset->GetAcquisitionDate().toStdString();
         fprintf(stderr, "Where: %s : date: %s\n", where_date_string.c_str(),
                 date_string.c_str());
         if (where_date_string.compare(date_string) <= 0) {
@@ -495,7 +495,7 @@ void RasterProjectAssetImplD::ThrowIfAnyInvalidDates() {
 
   for(uint i = 0; i < config.insets.size(); ++i) {
     RasterProductAsset asset = config.insets[i].dataAsset;
-    std::string date_string = asset->GetAcquisitionDate();
+    std::string date_string = asset->GetAcquisitionDate().toStdString();
     notify(NFY_DEBUG, "DATESTRING: %s\n", date_string.c_str());
     if (date_string == kUnknownDate) {
       missing_dates += "\n\t" + asset->GetRef();

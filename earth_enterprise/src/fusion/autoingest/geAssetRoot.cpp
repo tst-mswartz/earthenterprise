@@ -84,7 +84,7 @@ std::string ReadVersion(const std::string &assetroot) {
 void WriteVersion(const std::string &assetroot) {
   const std::string filename = Filename(assetroot, VersionFile);
   if (!khWriteStringToFile(filename, GEE_VERSION)) {
-    throw khException(kh::tr("Unable to write %1").arg(filename));
+    throw khException(kh::tr("Unable to write %1").arg(filename.c_str()));
   }
   khChmod(filename, FilePerms(VersionFile));
 }

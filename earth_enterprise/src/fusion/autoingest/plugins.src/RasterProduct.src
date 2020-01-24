@@ -41,7 +41,7 @@ class RasterProductAssetImpl {
   // String is of form "YYYY-MM-DD".
   // If no image date is available, returns "0000-00-00" for "unknown date".
   std::string GetAcquisitionDate(void) const {
-    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate);
+    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate.c_str()).toStdString();
     return acquisition_date;
   }
 };
@@ -58,7 +58,7 @@ class RasterProductAssetVersionImpl {
   // String is of form "YYYY-MM-DD".
   // If no image date is available, returns "0000-00-00" for "unknown date".
   std::string GetAcquisitionDate(void) const {
-    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate);
+    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate.c_str()).toStdString();
     return acquisition_date;
   }
 };
@@ -80,7 +80,7 @@ void GetProviderFromMeta(RasterProductConfig &config, khMetaData &meta) {
 
 uint GetMaxLevelFromMeta(const khMetaData& meta) {
   uint prodMaxLevel = 0;
-  FromString(meta.GetValue("maxlevel"), prodMaxLevel);
+  FromString(meta.GetValue("maxlevel").toStdString(), prodMaxLevel);
   return prodMaxLevel;
 }
 
@@ -217,7 +217,7 @@ RasterProductAssetImplD::HandleImportRequest(
       toplevel = rptr->maxLevel();
     } else {
       throw khException(kh::tr("Unable to open product file %1")
-                        .arg(srcfile));
+                        .arg(srcfile.c_str()));
     }
   } else {
     if (!khIsURI(srcfile) && (khExtension(srcfile) == ".pyr")) {
@@ -229,7 +229,7 @@ RasterProductAssetImplD::HandleImportRequest(
       toplevel = pyrio::FindHighestResPyramidFile(srcfile, &srcfile);
       if (!toplevel) {
         throw khException(kh::tr("Unable to find toplevel for %1")
-                          .arg(srcfile));
+                          .arg(srcfile.c_str()));
       }
     } else {
       // For mosaics that will be reprojected, this is only an
@@ -268,7 +268,7 @@ RasterProductAssetImplD::HandleImportRequest(
   }
   if (!asset) {
     throw khException(kh::tr("Unable to create %1 asset %2")
-                      .arg(ToQString(req.type), ToQString(assetname)));
+                      .arg(ToQString(req.type), ToQString(assetname.c_str())));
   }
 
 
