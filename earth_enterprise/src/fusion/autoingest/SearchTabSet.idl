@@ -70,7 +70,7 @@ class SearchTabSet
   {
     QString filename = SearchTabsFilename();
     if (Save(filename)) {
-      khChmod(filename, 0666); // in case the umask trimmed any permissions
+      khChmod(filename.c_str(), 0666); // in case the umask trimmed any permissions
       return true;
     } else {
       return false;

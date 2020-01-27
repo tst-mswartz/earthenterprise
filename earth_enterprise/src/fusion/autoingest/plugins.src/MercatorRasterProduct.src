@@ -39,7 +39,8 @@ class MercatorRasterProductAssetImpl {
   // String is of form "YYYY-MM-DD".
   // If no image date is available, returns "0000-00-00" for "unknown date".
   std::string GetAcquisitionDate(void) const {
-    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate).toStdString();
+    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate.c_str())
+                                        .toUtf8().constData();
     return acquisition_date;
   }
 };
@@ -56,7 +57,8 @@ class MercatorRasterProductAssetVersionImpl {
   // String is of form "YYYY-MM-DD".
   // If no image date is available, returns "0000-00-00" for "unknown date".
   std::string GetAcquisitionDate(void) const {
-    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate);
+    std::string acquisition_date = meta.GetValue("sourcedate", kUnknownDate.c_str())
+                                        .toUtf8().constData();
     return acquisition_date;
   }
 };
@@ -67,7 +69,7 @@ class MercatorRasterProductAssetVersionImpl {
 namespace {
 void GetProviderFromMeta(RasterProductConfig &config, khMetaData &meta) {
   if (config.provider_id_ == 0) {
-    std::string providerkey = meta.GetValue("provider");
+    std::string providerkey = meta.GetValue("provider").toUtf8().constData();
     if (!providerkey.empty()) {
       config.provider_id_ = gstProviderSet::LoadAndGetIdFromKey(providerkey);
       meta.Erase("provider");
@@ -76,7 +78,7 @@ void GetProviderFromMeta(RasterProductConfig &config, khMetaData &meta) {
 }
 
 uint GetMaxLevelFromMeta(const khMetaData& meta) {
-  uint prodMaxLevel = 0;
+  uint prodMaxLevel = 0;GetAc
   FromString(meta.GetValue("maxlevel"), prodMaxLevel);
   return prodMaxLevel;
 }
@@ -104,7 +106,7 @@ void MercatorRasterProductAssetImpl::AfterLoad(void) {
 khExtents<double>
 MercatorRasterProductAssetVersionImpl::GetExtents(void) const
 {
-  std::string extents = meta.GetValue("extents");
+  std::string extents = meta.GetValue("extents").toUtf8().constData();
   std::vector<std::string> coords;
   // split out coords (N,S,E,W)
   split(extents, ",", back_inserter(coords));

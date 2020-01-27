@@ -107,24 +107,26 @@ EOF
     print $fh "{\n";
 
     print $fh <<EOF;
+                        std::string msg { tagname + filename};
 		        AssetThrowPolicy::WarnOrThrow
                           (kh::tr("Unknown asset type '%1' while parsing %2")
-			   .arg(ToQString(tagname.c_str()), ToQString(filename.c_str())));
+                           .arg(msg.c_str()));
 		    }
 	        } catch (const std::exception &e) {
+                    std::string msg { filename + e.what() };
 		    AssetThrowPolicy::WarnOrThrow
 		      (kh::tr("Error loading %1: %2")
-		       .arg(ToQString(filename.c_str()), QString::fromUtf8(e.what())));
+                       .arg(msg.c_str());//ToQString(filename.c_str()), QString::fromUtf8(e.what())));
 		} catch (...) {
 		    AssetThrowPolicy::WarnOrThrow(kh::tr("Unable to load ")
-						  + filename);
+                                                  + filename.c_str());
 		}
 	    } else {
 	        AssetThrowPolicy::WarnOrThrow(kh::tr("Unable to read ")
-					      + filename);
+                                              + filename.c_str());
 	    }
     } else {
-        AssetThrowPolicy::WarnOrThrow(kh::tr("No such file: ") + filename);
+        AssetThrowPolicy::WarnOrThrow(kh::tr("No such file: ") + filename.c_str());
     }
 
     if (!result) {
@@ -188,14 +190,14 @@ EOF
 		       .arg(ToQString(filename.c_str()), QString::fromUtf8(e.what())));
 		} catch (...) {
 		    AssetThrowPolicy::WarnOrThrow(kh::tr("Unable to load ")
-						  + filename);
+                                                  + filename.c_str());
 		}
 	    } else {
 	        AssetThrowPolicy::WarnOrThrow(kh::tr("Unable to read ")
-					      + filename);
+                                              + filename.c_str());
 	    }
     } else {
-        AssetThrowPolicy::WarnOrThrow(kh::tr("No such file: ") + filename);
+        AssetThrowPolicy::WarnOrThrow(kh::tr("No such file: ") + filename.c_str());
     }
 
 
