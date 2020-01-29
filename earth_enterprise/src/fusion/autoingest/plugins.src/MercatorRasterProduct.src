@@ -78,7 +78,7 @@ void GetProviderFromMeta(RasterProductConfig &config, khMetaData &meta) {
 }
 
 uint GetMaxLevelFromMeta(const khMetaData& meta) {
-  uint prodMaxLevel = 0;GetAc
+  uint prodMaxLevel = 0;
   FromString(meta.GetValue("maxlevel"), prodMaxLevel);
   return prodMaxLevel;
 }
@@ -91,7 +91,7 @@ MercatorRasterProductAssetImpl::GetMaxLevel(void) const
 {
   uint prodMaxLevel = GetMaxLevelFromMeta(meta);
   if (!prodMaxLevel) {
-    throw khException(kh::tr("Unable to get maxlevel for ")
+    throw khException(kh::tr("Unable to get maxlevel for ").toUtf8().constData()
                       + GetRef());
   }
   return prodMaxLevel;
@@ -121,7 +121,7 @@ MercatorRasterProductAssetVersionImpl::GetExtents(void) const
     return khExtents<double>(NSEWOrder, N, S, E, W);
   }
 
-  throw khException(kh::tr("Unable to get extents for ")
+  throw khException(kh::tr("Unable to get extents for ").toUtf8().constData()
                     + GetRef());
 }
 
@@ -131,7 +131,7 @@ MercatorRasterProductAssetVersionImpl::GetMaxLevel(void) const
 {
   uint prodMaxLevel = GetMaxLevelFromMeta(meta);
   if (!prodMaxLevel) {
-    throw khException(kh::tr("Unable to get maxlevel for ")
+    throw khException(kh::tr("Unable to get maxlevel for ").toUtf8().constData()
                       + GetRef());
   }
   return prodMaxLevel;

@@ -122,7 +122,7 @@ void AssetTraverser::ContinueSearch(int fd,
   struct stat64 stat_info;
   if (::fstat64(fd, &stat_info) < 0) {
     throw khErrnoException(kh::tr("Unable to get info for %1")
-                           .arg(fulldir).c_str());
+                           .arg(fulldir.c_str()));
   }
   if (!S_ISDIR(stat_info.st_mode)) {
     // we don't check if relpath is a dir before calling this routine
