@@ -679,7 +679,12 @@ sub EmitMemberReader
         } elsif ($member->{xmlskiptag}) {
             print $fh $prefix, "FromElement(elem, $obj.$mname);\n";
         } else {
-            print $fh $prefix, "GetElementOrDefault(elem, \"$mtname\", $obj.$mname, $member->{loaddefault});\n";
+            my $temp=$member->{loaddefault};
+            if (index($temp, "Qt::") != -1)
+            {
+               $temp = "static_cast<QColor>(".$temp.")";
+            }
+            print $fh $prefix, "GetElementOrDefault(elem, \"$mtname\", $obj.$mname, $temp);\n";
         }
     } else {
         if ($member->{xmlattr}) {

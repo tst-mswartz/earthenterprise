@@ -109,7 +109,7 @@ extraObjs = [TaskStorageObj, JobStorageObj, NextTaskIdObj, TaskRuleObj,
   env.ObjFromOtherDir(otherDirObjs)
 sysmanObjs = map(lambda f: str(f).replace(".cpp", ".o"), sysmanFiles)
 sysmanLibs = ['gegdal', 'geraster', 'gesearchtabs', 'genet', 'gepublish', 'gefconfigutil',
-  'geindex_r', 'geutil', 'gecommon', 'gexml', 'gemiscconfig', 'qt-mt', 'xerces-c', 'geos',
+  'geindex_r', 'geutil', 'gecommon', 'gexml', 'gemiscconfig', 'QtCore', 'xerces-c', 'geos',
   'gomp']
 testLibs = sysmanLibs + ['gtest']
 
@@ -125,7 +125,7 @@ geresourceprovider = env.executable('geresourceprovider',
      env['FUSIONVER'],
      env['BUILDDATE'],
      ],
-    LIBS=['geautoingest', 'geconfigutil', 'gefconfigutil', 'geutil', 'gecommon', 'gexml', 'gemiscconfig', 'xerces-c', 'qt-mt'])
+    LIBS=['geautoingest', 'geconfigutil', 'gefconfigutil', 'geutil', 'gecommon', 'gexml', 'gemiscconfig', 'xerces-c', 'QtCore'])
 
 
 env.install('fusion_bin', [ gesystemmanager, geresourceprovider ] )

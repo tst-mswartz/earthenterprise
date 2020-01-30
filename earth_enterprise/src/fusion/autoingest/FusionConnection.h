@@ -400,10 +400,10 @@ FusionConnection::TryNotify(const std::string &cmdname, const Arg &arg,
   try {
     Notify(cmdname, arg, timeout);
   } catch (const std::exception &e) {
-    error = QString(cmdname) + ": " + QString::fromUtf8(e.what());
+    error = QString(cmdname.c_str()) + ": " + QString::fromUtf8(e.what());
     return false;
   } catch (...) {
-    error = QString(cmdname) + ": " + kh::tr("Unknown error");
+    error = QString(cmdname.c_str()) + ": " + kh::tr("Unknown error");
     return false;
   }
   return true;

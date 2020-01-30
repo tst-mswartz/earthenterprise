@@ -455,7 +455,7 @@ namespace AssetFactory
           return asset;
       }
       throw khException(kh::tr("%1 '%2' does not exist")
-                        .arg(Impl::EXPECTED_SUBTYPE).arg(ref_));
+                        .arg(Impl::EXPECTED_SUBTYPE.c_str()).arg(ref_.c_str()));
   }
 
   template <class MutableDerivedAssetHandleType, class ConfigType>
@@ -473,7 +473,7 @@ namespace AssetFactory
           return asset;
       }
       throw khException(kh::tr("%1 '%2' does not exist")
-                        .arg(Impl::EXPECTED_SUBTYPE).arg(ref_));
+                        .arg(Impl::EXPECTED_SUBTYPE.c_str()).arg(ref_.c_str()));
   }
 
   template <class MutableDerivedAssetHandleType, class ConfigType>
@@ -490,7 +490,7 @@ namespace AssetFactory
           return asset;
       }
       throw khException(kh::tr("%1 '%2' does not exist")
-                        .arg(Impl::EXPECTED_SUBTYPE).arg(ref_));
+                        .arg(Impl::EXPECTED_SUBTYPE.c_str()).arg(ref_.c_str()));
   }
 
   template<class MutableDerivedAssetHandleType, class ConfigType>
@@ -503,10 +503,10 @@ namespace AssetFactory
     MutableDerivedAssetHandleType asset = Find<MutableDerivedAssetHandleType>(ref_);
     if (asset) {
         throw khException(kh::tr("%1 '%2' already exists")
-                          .arg(Impl::EXPECTED_SUBTYPE).arg(ref_));
-    } else {
-        return Make<MutableDerivedAssetHandleType, ConfigType>(ref_, inputs_, meta, config);
+                          .arg(Impl::EXPECTED_SUBTYPE.c_str()).arg(ref_.c_str()));
     }
+
+    return Make<MutableDerivedAssetHandleType, ConfigType>(ref_, inputs_, meta, config);
   }
 }
 

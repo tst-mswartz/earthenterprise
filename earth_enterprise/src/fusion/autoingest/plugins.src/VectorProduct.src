@@ -38,7 +38,7 @@ class VectorProductAssetVersionImpl {
 namespace {
 void GetProviderFromMeta(VectorProductConfig &config, khMetaData &meta) {
   if (config.provider_id_ == 0) {
-    std::string providerkey = meta.GetValue("provider");
+    std::string providerkey = meta.GetValue("provider").toUtf8().constData();
     if (!providerkey.empty()) {
       config.provider_id_ = gstProviderSet::LoadAndGetIdFromKey(providerkey);
       meta.Erase("provider");
