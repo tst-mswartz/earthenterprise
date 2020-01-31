@@ -310,7 +310,7 @@ RasterProductAssetImplD::HandleImportRequest(
         if (!pyrio::FindHighestResMaskPyramidFile(srcfile, &maskfile)) {
           throw khException
             (kh::tr("Unable to find toplevel mask for %1")
-             .arg(srcfile));
+             .arg(srcfile.c_str()));
         }
       } else if (req.config.sourceIsProduct) {
         maskfile = khReplaceExtension(srcfile, ".kmp");
@@ -323,7 +323,9 @@ RasterProductAssetImplD::HandleImportRequest(
         }
       }
       if (!khExists(maskfile)) {
-        throw khException(kh::tr("Unable to find maskfile for ") + srcfile);
+        std::string msg { kh::tr("Unable to find maskfile for ").toUtf8().constData() };
+        msg += srcfile;
+        throw khException(msg.c_str());
       }
     } else {
       throw khException(kh::tr("havemask only supported with file sources"));

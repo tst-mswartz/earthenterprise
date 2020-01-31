@@ -225,11 +225,11 @@ void MercatorRasterProjectAssetImplD::AddInsets(
     // error if there's anything I already have
     if (have.find(item.dataAsset) != have.end()) {
       throw khException(kh::tr("Project already has inset '%1'")
-                        .arg(item.dataAsset));
+                        .arg(item.dataAsset.c_str()));
     }
 
     // figure out what its levels should be
-    uint effectivemax = ComputeEffectiveMaxLevel(*item);
+    uint effectivemax = ComputeEffectiveMaxLevel(item);
 
     // walk backwards until we find where to insert it
     std::vector<InsetStackItem>::reverse_iterator where;
@@ -243,12 +243,12 @@ void MercatorRasterProjectAssetImplD::AddInsets(
     // Remember: since 'where' is a reverse iterator, 'where.base()' is
     // one after 'where' (in the forward sense). Since insert is insert
     // before, where.base is exactly what we want.
-    config.insets.insert(where.base(), InsetStackItem(item->dataAsset,
+    config.insets.insert(where.base(), InsetStackItem(item.dataAsset,
                                                       effectivemax,
-                                                      item->overridemax));
+                                                      item.overridemax));
 
     // update my "have" set so I won't try to add the same one again
-    have.insert(item->dataAsset);
+    have.insert(item.dataAsset);
   }
 
   SyncInputRefs();
@@ -309,7 +309,7 @@ void MercatorRasterProjectAssetImplD::UpdateStack(void) {
   bool changed = false;
   for (auto& inset : config.insets) {
     uint effectivemax = ComputeEffectiveMaxLevel(inset);
-    if (effectivemax != inset->maxlevel) {
+    if (effectivemax != inset.maxlevel) {
       inset.maxlevel = effectivemax;
       changed = true;
     }
@@ -345,7 +345,7 @@ void MercatorRasterProjectAssetImplD::UpdateStack(void) {
 void MercatorRasterProjectAssetImplD::HandleEditRequest(
     const RasterProjectEditRequest &req) {
   // Make sure the assetRef's are valid.
-  for (const auto& req.config.insets) {
+  for (const auto& inset : req.config.insets) {
     ValidateRefForInput<MercatorRasterProductAssetVersionD>(inset.dataAsset);
   }
 
@@ -498,7 +498,7 @@ void MercatorRasterProjectAssetImplD::HandleDropFromRequest(
       throw khException(kh::tr("Project doesn't have inset '%1'")
                         .arg(r.c_str()));
     } else {
-      todrop.insert(*r);
+      todrop.insert(r);
     }
 
   }
@@ -785,7 +785,7 @@ void MercatorRasterProjectAssetVersionImplD::LoadInsetInfoForIndexing(
   // make an array of all the resource version refs
   // this is needed by the DBRoot generator
   // while we're at it makes the map of fuid -> provider id for the indexer
-  for (const auto& i : inset_infos) {
+  for (const auto& i : *inset_infos) {
     if (i.resource_->config.provider_id_ != 0) {
       used_provider_ids->insert(i.resource_->config.provider_id_);
     }
