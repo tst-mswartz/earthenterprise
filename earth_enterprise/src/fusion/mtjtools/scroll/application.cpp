@@ -17,7 +17,8 @@
 #include <qpixmap.h>
 #include <qtoolbar.h>
 #include <qtoolbutton.h>
-#include <qpopupmenu.h>
+//#include <qpopupmenu.h>
+#include <qmenu.h>
 #include <qmenubar.h>
 #include <qtextedit.h>
 #include <qfile.h>

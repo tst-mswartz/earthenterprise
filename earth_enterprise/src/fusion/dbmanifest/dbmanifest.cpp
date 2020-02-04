@@ -889,12 +889,12 @@ void DbManifest::GetGEJsonFiles(const std::string& stream_url,
         kDefaultLocaleSuffix : std::string(locale_set.supportedLocales[i]);
 
     // Create the JSON buffer for the database and this locale.
-    std::string json_text = JsonUtils::GEJsonBuffer(stream_url.c_str(),
-                                                    qurl.host(),
-                                                    qurl.protocol(),
+    std::string json_text = JsonUtils::GEJsonBuffer(stream_url,
+                                                    qurl.host().toUtf8().constData(),
+                                                    qurl.protocol().toUtf8().constData(),
                                                     raster_layers,
                                                     vector_layers,
-                                                    locale.c_str());
+                                                    locale);
 
     // Write the JSON file and add it to the manifest.
     // add server config entry (Relative path) and
@@ -968,11 +968,11 @@ void DbManifest::GetMapsJsonFiles(
 
     // Create the JSON buffer for the database and this locale.
     std::string json_text = JsonUtils::MapsJsonBuffer(stream_url,
-                                                      qurl.host(),
-                                                      qurl.protocol(),
+                                                      qurl.host().toUtf8().constData(),
+                                                      qurl.protocol().toUtf8().constData(),
                                                       layers,
                                                       fusion_config_,
-                                                      locale.c_str());
+                                                      locale);
 
     // Write the JSON file and add it to the manifest.
     // add server config entry (Relative path) and

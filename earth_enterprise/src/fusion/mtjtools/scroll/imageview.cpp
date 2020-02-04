@@ -16,12 +16,13 @@
 //      Qt-based Image View widget
 //
 
+
 #include <qimage.h>
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qstatusbar.h>
 #include <qcursor.h>
-
+#include <QtGui/QKeyEvent>
 #include "imageview.h"
 #include "khistogram.h"
 #include "zoom.h"
@@ -688,8 +689,8 @@ void ImageView::setFilename(char *name) {
 }
 
 void ImageView::keyPressEvent(QKeyEvent *e) {
-  if (e->ascii() >= '0' && e->ascii() <= '7') {
-    setRadius(e->ascii() - '0');
+  if (e->text() >= '0' && e->text() <= '7') {
+    setRadius(e->text() - '0');
   } else if (e->key() == Qt::Key_Up && e->state() == 0) {
     QPoint where = QCursor::pos();
     where.setY(where.y() - 1);
@@ -728,22 +729,22 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     resizeContents(int(width()*_scale), int(height()*_scale));
     center(int(width()*_scale*prevX), int(height()*_scale*prevY));
     updateContents();
-  } else if (e->ascii() == '=') {
+  } else if (e->text() == '=') {
     _resetOnFileOpen = (_resetOnFileOpen ? 0 : 1);
-  } else if (e->ascii() == '-') {
+  } else if (e->text() == '-') {
     _swapRedAndBlue = !_swapRedAndBlue;
     updateContents();
-  } else if (e->ascii() == 'u') {
+  } else if (e->text() == 'u') {
     int limit = rowLimit()/2;
     if (limit < 1)
       limit = 1;
     setRowLimit(limit);
-  } else if (e->ascii() == 'U') {
+  } else if (e->text() == 'U') {
     int limit = rowLimit();
     if (limit < 1)
       limit = 1;
     setRowLimit(2*limit);
-  } else if (e->ascii() == 'l') {
+  } else if (e->text() == 'l') {
     // left tail-clip less during histogram processing
     _leftN -= (e->state() & Qt::ControlButton) ? 10 : 1;
     if (_leftN < 0)
@@ -762,7 +763,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     updateLUTs();
     updateContents();
 #endif
-  } else if (e->ascii() == 'L') {
+  } else if (e->text() == 'L') {
     // left tail-clip more during histogram processing
     _leftN += (e->state() & Qt::ControlButton) ? 10 : 1;
     _left = double(_leftN)/double(_leftD);
@@ -779,7 +780,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     updateLUTs();
     updateContents();
 #endif
-  } else if (e->ascii() == 'r') {
+  } else if (e->text() == 'r') {
     // right tail-clip less during histogram processing
     _rightN -= (e->state() & Qt::ControlButton) ? 10 : 1;
     if (_rightN < 0)
@@ -798,7 +799,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     updateLUTs();
     updateContents();
 #endif
-  } else if (e->ascii() == 'R') {
+  } else if (e->text() == 'R') {
     // right tail-clip more during histogram processing
     _rightN += (e->state() & Qt::ControlButton) ? 10 : 1;
     _right = double(_rightN)/double(_rightD);
@@ -815,7 +816,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     updateLUTs();
     updateContents();
 #endif
-  } else if (e->ascii() == 'p') {
+  } else if (e->text() == 'p') {
     // less pre-gamma
     --_preGammaN;
     if (_preGammaN < 0)
@@ -831,7 +832,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     } else {
       update(); // just the frame
     }
-  } else if (e->ascii() == 'P') {
+  } else if (e->text() == 'P') {
     // more pre-gamma
     ++_preGammaN;
     _preGamma = double(_preGammaN)/double(_preGammaD);
@@ -845,7 +846,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     } else {
       update(); // just the frame
     }
-  } else if (e->ascii() == 'g') {
+  } else if (e->text() == 'g') {
     // less post-gamma
     --_postGammaN;
     if (_postGammaN < 0)
@@ -858,7 +859,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     } else {
       update(); // just the frame
     }
-  } else if (e->ascii() == 'G') {
+  } else if (e->text() == 'G') {
     // more post-gamma
     ++_postGammaN;
     _postGamma = double(_postGammaN)/double(_postGammaD);
@@ -869,7 +870,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     } else {
       update(); // just the frame
     }
-  } else if (e->ascii() == 'z') {
+  } else if (e->text() == 'z') {
     // less zoom
     if (e->state() & Qt::AltButton) {
       _zoom -= 4;
@@ -885,7 +886,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     center(int(width()*_scale*xCenter), int(height()*_scale*yCenter));
 
     updateContents();
-  } else if (e->ascii() == 'Z') {
+  } else if (e->text() == 'Z') {
     // more zoom
     if (e->state() & Qt::AltButton) {
       _zoom += 4;
@@ -901,7 +902,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     center(int(xCenter*width()*_scale), int(yCenter*height()*_scale));
 
     updateContents();
-  } else if (e->ascii() == 'h') {
+  } else if (e->text() == 'h') {
     if (_accumulate) {
       // compute whole-image histogram (slow for huge files)
       _statusBar->message("Computing red histogram", 0);
@@ -934,7 +935,7 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
       updateLUTs();
       updateContents();
     }
-  } else if (e->ascii() == 'c') {
+  } else if (e->text() == 'c') {
     _correct = !_correct;
 
 #ifdef really_raw
@@ -955,10 +956,10 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
     } else {
       update(); // just update GUI elements
     }
-  } else if (e->ascii() == 'w' || e->ascii() == 'W') {
+  } else if (e->text() == 'w' || e->text() == 'W') {
     SaveLutWork();
   }
-  else if (e->ascii() == 'A') {
+  else if (e->text() == 'A') {
     // apply the LUT and make a new image!
     char nname[maxbuflen];
     strncpy(nname, _filename, maxbuflen);
@@ -988,11 +989,11 @@ void ImageView::keyPressEvent(QKeyEvent *e) {
 
     // use LUT to create new, transformed image
     kh.transform(_dataset, nname);
-  } else if (e->ascii() == 's') {
+  } else if (e->text() == 's') {
     _contrast--;
     updateLUTs();
     updateContents();
-  } else if (e->ascii() == 'S') {
+  } else if (e->text() == 'S') {
     _contrast++;
     updateLUTs();
     updateContents();
