@@ -14,8 +14,7 @@
 
 
 #include "TextRenderer.h"
-#include "SGLHelps.h"
-
+#include <Qt/q3cstring.h>
 #include <qimage.h>
 #include <SkFontHost.h>
 
@@ -27,7 +26,7 @@
 #include <SkBlurMaskFilter.h>
 
 
-
+using QCString = Q3CString;
 
 namespace maprender {
 
@@ -46,7 +45,7 @@ TextRenderer::TextRenderer(const MapTextStyleConfig &config,
   else if (config.weight == MapTextStyleConfig::BoldItalic)
     typestyle = SkTypeface::kBoldItalic;
 
-  SkTypeface *typeface = FontInfo::GetTypeFace(config.font, typestyle);
+  SkTypeface *typeface = FontInfo::GetTypeFace(config.font.toUtf8().constData(), typestyle);
   if (typeface == NULL) {
     throw khSimpleException("Typeface not found for map tile rendering: ")
         << config.font.utf8()

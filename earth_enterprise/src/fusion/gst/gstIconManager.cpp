@@ -99,7 +99,7 @@ void gstIconManager::SetPath(IconReference::Type ctype,
 
     const std::string& name = d->d_name;
     if (Validate(khComposePath(path, name)) == true) {
-      collection_[ctype].push_back(gstIcon(name, ctype));
+      collection_[ctype].push_back(gstIcon(name.c_str(), ctype));
     }
   }
 

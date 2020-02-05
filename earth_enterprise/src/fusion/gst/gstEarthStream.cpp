@@ -465,7 +465,7 @@ gstEarthStream::gstEarthStream(const std::string& server)
     DbRootRequest request(image_request_handle_, url);
     request.Start();
     if (!request.GetStatus()) {
-      throw khException(kh::tr("Unable to open HTTP database: %1").arg(server));
+      throw khException(kh::tr("Unable to open HTTP database: %1").arg(server.c_str()));
     }
   }
 }

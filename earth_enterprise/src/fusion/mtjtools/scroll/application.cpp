@@ -26,24 +26,34 @@
 #include <qstatusbar.h>
 #include <qmessagebox.h>
 #include <qapplication.h>
-#include <qaccel.h>
+#include <Qt/q3accel.h>
+//#include <qaccel.h>
 #include <qtextstream.h>
 #include <qpainter.h>
-#include <qpaintdevicemetrics.h>
-#include <qsimplerichtext.h>
-#include <qgrid.h>
-#include <qobject.h>
-
-#include <qcanvas.h>
-
+#include <Qt/q3paintdevicemetrics.h>
+//#include <qpaintdevicemetrics.h>
+#include <Qt/q3simplerichtext.h>
+#include <Qt/q3simplerichtext.h>
+#include <Qt/q3grid.h>
+#include <Qt/q3canvas.h>
+//#include <qsimplerichtext.h>
+//#include <qgrid.h>
+//#include <qobject.h>
+//#include <qcanvas.h>
+#include <Qt/qobject.h>
+#include  <Qt/q3filedialog.h>
 #include "fileopen.xpm"
-
+#include <Qt/q3mimefactory.h>
 #include "application.h"
 #include "imageview.h"
 #include "gdal.h"
+#include <Qt/q3popupmenu.h>
+
+using QPopupMenu = Q3PopupMenu;
+using QMimeSourceFactory = Q3MimeSourceFactory;
 
 ApplicationWindow::ApplicationWindow()
-    : QMainWindow( 0, "scroll", WDestructiveClose | WGroupLeader )
+    : QMainWindow( 0, "scroll", Qt::WDestructiveClose | Qt::WGroupLeader )
 {
   QPixmap openIcon;
 
@@ -53,7 +63,6 @@ ApplicationWindow::ApplicationWindow()
   openIcon = QPixmap( fileopen );
   (void) new QToolButton( openIcon, "Open", QString::null,
                           this, SLOT(choose()), fileTools, "open" );
-
   QMimeSourceFactory::defaultFactory()->setPixmap( "fileopen", openIcon );
 
   QPopupMenu * file = new QPopupMenu( this );
