@@ -16,7 +16,6 @@
 //      Qt-based Image View widget
 //
 
-
 #include <qimage.h>
 #include <qbitmap.h>
 #include <qpainter.h>
@@ -691,12 +690,13 @@ void ImageView::setFilename(char *name) {
 void ImageView::keyPressEvent(QKeyEvent *e) {
   if (e->text().toAscii() >= QChar('0') &&
       e->text().toAscii() <= QChar('7')) {
-    setRadius(e->text().toAscii() - QChar('0'));
+    // only looking at a single character
+    setRadius(e->text().toAscii().at(0) - '0');
   } else if (e->key() == Qt::Key_Up && e->state() == 0) {
     QPoint where = QCursor::pos();
     where.setY(where.y() - 1);
     QCursor::setPos(where);
-  } else if (e->key() == Qt::Key_Down && e->state() == 0) {
+  } else if (e->key()== Qt::Key_Down && e->state() == 0) {
     QPoint where = QCursor::pos();
     where.setY(where.y() + 1);
     QCursor::setPos(where);

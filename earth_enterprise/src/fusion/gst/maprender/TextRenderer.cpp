@@ -17,7 +17,7 @@
 #include <Qt/q3cstring.h>
 #include <qimage.h>
 #include <SkFontHost.h>
-
+#include "fusion/gst/maprender/SGLHelps.h"
 #include <khSimpleException.h>
 #include <autoingest/.idl/storage/MapSubLayerConfig.h>
 #include <SkGraphics.h>
@@ -73,10 +73,6 @@ TextRenderer::TextRenderer(const MapTextStyleConfig &config,
   outlinePaint.setStrokeWidth(config.outlineThickness);
   outlinePaint.setStrokeJoin(SkPaint::kRound_Join);
   outlinePaint.setTypeface(typeface);
-//   SkMaskFilter* mf =
-//     SkBlurMaskFilter::Create(2, SkBlurMaskFilter::kNormal_BlurStyle);
-//   outlinePaint.setMaskFilter(mf);
-//   mf->unref();
 }
 
 void
