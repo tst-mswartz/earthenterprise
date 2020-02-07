@@ -22,6 +22,7 @@
 #include <qimage.h>
 
 #include <autoingest/.idl/storage/AssetDefs.h>
+#include <Qt/qpixmap.h>
 
 class AssetDisplayHelper {
  public:

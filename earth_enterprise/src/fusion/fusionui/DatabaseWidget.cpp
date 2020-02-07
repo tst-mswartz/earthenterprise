@@ -37,7 +37,7 @@ void DatabaseWidget::Prefill(const DatabaseEditRequest& request) {
 
   if (request.config.vectorProject.size() != 0) {
     projects.push_back(request.config.vectorProject);
-    vector_project_label->setText(shortAssetName(request.config.vectorProject));
+    vector_project_label->setText(shortAssetName(request.config.vectorProject ));
   } else {
     vector_project_label->setText(empty_text);
   }

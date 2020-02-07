@@ -16,7 +16,8 @@
 #include <qframe.h>
 #include <qlayout.h>
 #include <qdatetimeedit.h>
-#include <qpopupmenu.h>
+#include <Qt/q3popupmenu.h>
+//#include <qpopupmenu.h>
 #include <qlabel.h>
 #include <qmessagebox.h>
 
@@ -71,8 +72,8 @@ AssetProperties::AssetProperties( QWidget* parent, const gstAssetHandle &handle 
 
   Asset asset = handle->getAsset();
   nameLabel->setText( shortAssetName( handle->getName() ) );
-  typeLabel->setText( ToString( asset->type ) );
-  subTypeLabel->setText( asset->PrettySubtype() );
+  typeLabel->setText( ToString( asset->type ).c_str() );
+  subTypeLabel->setText( asset->PrettySubtype().c_str() );
 
   connect( versionsList, SIGNAL( contextMenuRequested( QListViewItem *, const QPoint &, int ) ),
            this, SLOT( rmbClicked( QListViewItem *, const QPoint &, int ) ) );

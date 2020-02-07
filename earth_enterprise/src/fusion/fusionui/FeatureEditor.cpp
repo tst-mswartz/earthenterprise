@@ -14,13 +14,14 @@
 
 
 #include "fusion/fusionui/FeatureEditor.h"
-
+#include <Qt3Support/Q3CheckListItem>
 #include <qevent.h>
 #include <qmessagebox.h>
 #include <qpixmap.h>
 #include <qlabel.h>
 #include <qfiledialog.h>
-#include <qpopupmenu.h>
+#include <Qt/q3popupmenu.h>
+//#include <qpopupmenu.h>
 #include <qmenubar.h>
 #include <qspinbox.h>
 #include <qcombobox.h>
@@ -53,6 +54,8 @@
 
 #include "newfeaturebase.h"
 
+using QCheckListItem = Q3CheckListItem;
+using QListView = Q3ListView;
 static const char* folder_closed_xpm[] = {
   "16 16 9 1",
   "g c #808080",
@@ -1132,22 +1135,6 @@ int BlendEquations[] = {
   GL_MAX
 };
 
-#if 0
-void FeatureEditor::DrawMobileBlocks(const gstDrawState& state) {
-  if (mobile_blocks_.size() == 0)
-    return;
-
-  MobileBlockImpl::BlendFuncModes blend_modes;
-  blend_modes.src_factor = GL_SRC_ALPHA;
-  blend_modes.dest_factor = GL_ONE_MINUS_SRC_ALPHA;
-  blend_modes.equation = GL_FUNC_ADD;
-
-  for (std::vector<MobileBlockHandle>::iterator it = mobile_blocks_.begin();
-       it != mobile_blocks_.end(); ++it)
-    (*it)->Draw(state, blend_modes);
-}
-#endif
-
 
 gstSource* FeatureEditor::OpenSource(const char* src, const char* codec,
                                      bool nofileok) {
@@ -1225,7 +1212,8 @@ void FeatureEditor::AddFeaturesFromSource(gstSource* source) {
   } catch (const SoftErrorPolicy::TooManyException &e) {
     QString error(kh::tr("Too many bad features"));
     for (uint i = 0; i < e.errors_.size(); ++i) {
-      error += "\n" + e.errors_[i];
+      error += "\n";
+      error += e.errors_[i].c_str();
     }
     QMessageBox::critical(this, tr("Error"),
                           tr("Error while importing") +
@@ -1349,60 +1337,6 @@ void FeatureEditor::BoxCut() {
   }
 }
 
-#if 0
-void FeatureEditor::MobileConvert() {
-  mobile_blocks_.clear();
-
-  std::vector<FeatureItem*> select_list;
-  GetSelectList(&select_list);
-  if (select_list.size() == 0)
-    return;
-
-  for (std::vector<FeatureItem*>::iterator it = select_list.begin();
-       it != select_list.end(); ++it) {
-    const gstGeodeHandle& geode = (*it)->Geode();;
-    const gstBBox& box = geode->BoundingBox();
-
-    khLevelCoverage lc(ClientImageryTilespace,
-                       NormToDegExtents(khExtents<double>(NSEWOrder, box.n, box.s,
-                                                          box.e, box.w)),
-                       mobile_level_spin->value(),
-                       mobile_level_spin->value());
-
-    // cut up geode for each block that it intersects
-    for (uint row = lc.extents.beginY(); row < lc.extents.endY(); ++row) {
-      for (uint col = lc.extents.beginX(); col < lc.extents.endX(); ++col) {
-        MobileBlockHandle eb = MobileBlockImpl::Create(
-            khTileAddr(mobile_level_spin->value(), row, col),
-            snap_grid_spin->value(),
-            width_edit->text().toDouble());
-        if (geode->TotalVertexCount() < 2) {
-          continue;
-        }
-        GeodeList pieces;
-        geode->BoxCut(eb->GetBoundingBox(), &pieces);
-        gstSelector::JoinSegments(&pieces);
-
-        if (pieces.size() > 0) {
-          bool success = false;
-          for (GeodeList it = pieces.begin();
-               it != pieces.end(); ++it) {
-            // gstSelector::joinSegments will leave zero-length geodes
-            // for all that were merged into other segments, skip these
-            if (((*it)->TotalVertexCount()) != 0) {
-              if (eb->AddGeometry(*it))
-                success = true;
-            }
-          }
-          if (success)
-            mobile_blocks_.push_back(eb);
-        }
-      }
-    }
-  }
-  emit RedrawPreview();
-}
-#endif
 
 void FeatureEditor::CheckAll() {
   QCheckListItem* item = static_cast<QCheckListItem*>(feature_listview->firstChild());
@@ -1421,38 +1355,6 @@ void FeatureEditor::CheckNone() {
   }
   emit RedrawPreview();
 }
-
-#if 0
-void FeatureEditor::SelectAll() {
-  QCheckListItem* item = static_cast<QCheckListItem*>(feature_listview->firstChild());
-  while (item) {
-    item->setSelected(true);
-    //item->update();
-    item = static_cast<QCheckListItem*>(item->nextSibling());
-  }
-  emit RedrawPreview();
-  feature_listview->update();
-}
-
-void FeatureEditor::SelectNone() {
-  QCheckListItem* item = static_cast<QCheckListItem*>(feature_listview->firstChild());
-  while (item) {
-    item->setSelected(false);
-    //item->update();
-    item = static_cast<QCheckListItem*>(item->nextSibling());
-  }
-  emit RedrawPreview();
-  feature_listview->update();
-}
-
-void FeatureEditor::ShowPrevious() {
-  printf("show previous\n");
-}
-
-void FeatureEditor::ShowNext() {
-  printf("show next\n");
-}
-#endif
 
 void FeatureEditor::ChangePrimType() {
   gstPrimType new_type = prim_type_combo->currentItem() == 0 ? gstPoint :

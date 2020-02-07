@@ -18,7 +18,8 @@
 #ifndef KHSRC_FUSION_FUSIONUI_ASSETTABLEVIEW_H__
 #define KHSRC_FUSION_FUSIONUI_ASSETTABLEVIEW_H__
 
-#include <qtable.h>
+#include <Qt/q3table.h>
+//#include <qtable.h>
 #include <qpoint.h>
 
 #include <gstAssetGroup.h>
@@ -26,6 +27,8 @@
 class QDragObject;
 
 // -----------------------------------------------------------------------------
+using QTableItem = Q3TableItem;
+using QTable = Q3Table;
 
 class AssetTableItem : public QTableItem {
  public:

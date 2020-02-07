@@ -14,8 +14,10 @@
 
 
 #include <qlabel.h>
-#include <qpopupmenu.h>
-#include <qdragobject.h>
+#include <Qt/q3popupmenu.h>
+//#include <qpopupmenu.h>
+#include <Qt/q3dragobject.h>
+//#include <qdragobject.h>
 #include <qfont.h>
 #include <qmessagebox.h>
 

@@ -21,7 +21,8 @@
 #include <qmenubar.h>
 #include <qmessagebox.h>
 #include <qpixmap.h>
-#include <qpopupmenu.h>
+#include <Qt/q3popupmenu.h>
+//#include <qpopupmenu.h>
 #include <qpushbutton.h>
 #include <qtooltip.h>
 #include <qvariant.h>

@@ -17,9 +17,13 @@
 #include <qstringlist.h>
 #include <assert.h>
 
-
+#include <Qt/q3mimefactory.h>
 #include "AssetIconView.h"
 #include "AssetDrag.h"
+#include <QtGui/QImage>
+
+using QMimeSourceFactory = Q3MimeSourceFactory;
+using QImageDrag = Q3ImageDrag;
 
 // -----------------------------------------------------------------------------
 
@@ -49,7 +53,7 @@ AssetIcon::AssetIcon(QIconView* parent, gstAssetHandle handle, int initsz)
   AssetVersion ver(handle->getAsset()->CurrVersionRef());
   if (ver) {
     std::string previewpath = ver->PreviewFilename();
-    if (previewpath.size() && img.load(previewpath)) {
+    if (previewpath.size() && img.load(previewpath.c_str())) {
       image_ = new QImage(img);
     } else {
       image_ = defaultImage;
@@ -66,7 +70,6 @@ AssetIcon::~AssetIcon() {
     delete image_;
 }
 
-
 void AssetIcon::resize(int sz) {
   setPixmap(image_->scale(sz, sz, QImage::ScaleMin));
   setPixmapRect(QRect(0, 0, sz, sz));
@@ -75,7 +78,7 @@ void AssetIcon::resize(int sz) {
 
 // -----------------------------------------------------------------------------
 
-AssetIconView::AssetIconView(QWidget* parent, const char* name, WFlags f)
+AssetIconView::AssetIconView(QWidget* parent, const char* name, Qt::WFlags f)
     : QIconView(parent, name, f) {
   setItemsMovable(false);
 }

@@ -24,10 +24,12 @@
 #include <qstringlist.h>
 #include <qcombobox.h>
 #include <qapplication.h>
-#include <qpopupmenu.h>
+#include <Qt/q3popupmenu.h>
+//#include <qpopupmenu.h>
 #include <qmessagebox.h>
 #include <qpixmap.h>
-#include <qheader.h>
+#include <Qt/q3header.h>
+//#include <qheader.h>
 #include <qprogressdialog.h>
 #include <qlineedit.h>
 #include <qtabwidget.h>
@@ -38,7 +40,8 @@
 #include <qpainter.h>
 #include <qcheckbox.h>
 #include <qsplitter.h>
-#include <qwidgetstack.h>
+#include <Qt/q3widgetstack.h>
+//#include <qwidgetstack.h>
 #include <qcursor.h>
 #include <qthread.h>
 

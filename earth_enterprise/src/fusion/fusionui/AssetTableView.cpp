@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-#include <qdragobject.h>
+#include <Qt/q3dragobject.h>
+//#include <qdragobject.h>
 #include <assert.h>
 
 #include "AssetTableView.h"
@@ -21,7 +21,8 @@
 #include "AssetManager.h"
 #include "AssetDisplayHelper.h"
 #include "Preferences.h"
-
+#include <Qt/q3mimefactory.h>
+using QMimeSourceFactory = Q3MimeSourceFactory;
 // -----------------------------------------------------------------------------
 
 static QPixmap uic_load_pixmap(const QString& name) {

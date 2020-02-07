@@ -18,7 +18,8 @@
 #include <qstringlist.h>
 #include <qpixmap.h>
 #include <qimage.h>
-#include <qiconview.h>
+#include <Qt3Support/q3iconview.h>
+//#include <qiconview.h>
 #include <qmessagebox.h>
 
 #include "IconManager.h"
@@ -29,6 +30,8 @@
 #include <gstFileUtils.h>
 #include <khFileUtils.h>
 #include <fusionui/.idl/filehistory.h>
+
+using QScrollView = Q3ScrollView;
 
 PixmapView::PixmapView(QWidget* parent)
     : QScrollView(parent) {

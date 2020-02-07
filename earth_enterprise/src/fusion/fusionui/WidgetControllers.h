@@ -23,7 +23,8 @@
 #include <khGuard.h>
 #include <geRange.h>
 #include <qcombobox.h>
-#include <qwidgetstack.h>
+#include <Qt/q3widgetstack.h>
+//#include <qwidgetstack.h>
 #include <khMetaData.h>
 #include <gstSite.h>
 
@@ -35,6 +36,7 @@ class QGroupBox;
 class MapShieldConfig;
 
 class WidgetControllerManager;
+using QWidgetStack = Q3WidgetStack;
 
 // ****************************************************************************
 // ***  WidgetController

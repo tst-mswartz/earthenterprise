@@ -18,9 +18,10 @@
 #ifndef _featureEditor_h_
 #define _featureEditor_h_
 
-#include <qdockwindow.h>
-#include <qlistview.h>
-
+#include <Qt/q3dockwindow.h>
+//#include <qdockwindow.h>
+//#include <qlistview.h>
+#include <Qt/q3listview.h>
 #include <khGuard.h>
 #include <gstVertex.h>
 #include <gstGeode.h>
@@ -36,7 +37,9 @@ class gstDrawState;
 class QDropEvent;
 class gstSource;
 class FeatureEditor;
-
+using QListViewItem = Q3ListViewItem;
+using QListView = Q3ListView;
+using QCheckListItem = Q3CheckListItem;
 // ----------------------------------------------------------------------------
 
 QString PrimTypeToString(int type);
