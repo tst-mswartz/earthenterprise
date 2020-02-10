@@ -15,7 +15,8 @@
 
 #include <qcursor.h>
 #include <qtimer.h>
-#include <qdragobject.h>
+#include <Qt/q3dragobject.h>
+//#include <qdragobject.h>
 #include <qmessagebox.h>
 #include <qbitmap.h>
 
@@ -37,7 +38,7 @@ QString GfxView::MaxTexSize;
 QString GfxView::BitsPerComp;
 
 GfxView* GfxView::instance = 0;
-
+using QImageDrag = Q3ImageDrag;
 GfxView::GfxView(QWidget* parent, const char* name)
     : QGLWidget(parent, name),
       start_scale_(-1.0),               // less than 0 -> not dragging
@@ -112,7 +113,7 @@ void GfxView::mousePressEvent(QMouseEvent* e) {
   drag_box_.start(e->x(), e->y());
   drag_box_.end(e->x(), e->y());
 
-  if (e->button() == LeftButton) {
+  if (e->button() == Qt::LeftButton) {
     switch (tool_mode_) {
       case Edit: {
         const int kPickBox = 4;
@@ -147,7 +148,7 @@ void GfxView::mousePressEvent(QMouseEvent* e) {
         break;
     }
 
-  } else if (e->button() == MidButton) {
+  } else if (e->button() == Qt::MidButton) {
     save_tool_mode_ = tool_mode_;
     tool_mode_ = Pan;
     start_pan_[0] = state_.frust.CenterX();
@@ -162,24 +163,24 @@ void GfxView::mouseMoveEvent(QMouseEvent* e) {
                      khTilespace::Denormalize(point.x));
 
   // ignore if no button is pressed
-  if (!(e->state() & (LeftButton | MidButton | RightButton)))
+  if (!(e->state() & (Qt::LeftButton | Qt::MidButton | Qt::RightButton)))
     return;
 
   drag_box_.end(e->x(), e->y());
 
   switch (tool_mode_ | (e->state() & MouseButtonMask)) {
-    case Edit | LeftButton:
+    case Edit | Qt::LeftButton:
       emit MouseMove(ConvertScreenToNormalizedWorld(e->x(), e->y()));
       break;
 
-    case Select | LeftButton:
-    case ZoomBox | LeftButton:
+    case Select | Qt::LeftButton:
+    case ZoomBox | Qt::LeftButton:
       if (rubberband_on_)
         updateGL();
       break;
 
-    case Pan | LeftButton:
-    case Pan | MidButton:
+    case Pan | Qt::LeftButton:
+    case Pan | Qt::MidButton:
       {
         double cx = start_pan_[0] - (static_cast<double>(drag_box_.dX()) *
                                      state_.Scale());
@@ -192,7 +193,7 @@ void GfxView::mouseMoveEvent(QMouseEvent* e) {
       }
       break;
 
-    case ZoomDrag | LeftButton:
+    case ZoomDrag | Qt::LeftButton:
       {
         if (snap_to_level_) {
           // For snapping to level zooming, we choose to step a level for
@@ -232,11 +233,11 @@ void GfxView::mouseMoveEvent(QMouseEvent* e) {
 
 void GfxView::mouseReleaseEvent(QMouseEvent* e) {
   switch (tool_mode_ | e->button()) {
-    case Edit | LeftButton:
+    case Edit | Qt::LeftButton:
       emit MouseRelease();
       break;
 
-    case Select | LeftButton:
+    case Select | Qt::LeftButton:
       if (rubberband_on_) {
         rubberband_on_ = false;
         selectFeatures(e->state());
@@ -244,7 +245,7 @@ void GfxView::mouseReleaseEvent(QMouseEvent* e) {
       }
       break;
 
-    case ZoomBox | LeftButton:
+    case ZoomBox | Qt::LeftButton:
       if (rubberband_on_) {
         rubberband_on_ = false;
         SetCenter(state_.frust.w + drag_box_.cX() * state_.Scale(),
@@ -261,14 +262,14 @@ void GfxView::mouseReleaseEvent(QMouseEvent* e) {
         updateGL();
       }
       break;
-    case Pan | MidButton:
-    case Pan | LeftButton:
+    case Pan | Qt::MidButton:
+    case Pan | Qt::LeftButton:
       if (save_tool_mode_ != Unknown) {
         tool_mode_ = save_tool_mode_;
         save_tool_mode_ = Unknown;
       }
       break;
-    case ZoomDrag | LeftButton:
+    case ZoomDrag | Qt::LeftButton:
       start_scale_ = -1.0;
       adjustLevel(0);
       break;

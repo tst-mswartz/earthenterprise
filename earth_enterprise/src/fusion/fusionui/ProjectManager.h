@@ -20,7 +20,8 @@
 
 #include <qlistview.h>
 #include <qfiledialog.h>
-#include <qdragobject.h>
+#include <Qt/q3dragobject.h>
+//#include <qdragobject.h>
 #include <vector>
 
 #include <limits.h>

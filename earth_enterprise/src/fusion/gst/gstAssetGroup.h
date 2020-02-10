@@ -18,8 +18,11 @@
 #define KHSRC_FUSION_GST_GSTASSETGROUP_H__
 
 #include <vector>
-#include <qstring.h>
-#include <qstringlist.h>
+
+#include <Qt/qstring.h>
+//#include <qstring.h>
+#include <Qt/qstringlist.h>
+//#include <qstringlist.h>
 #include <qdir.h>
 #include <khRefCounter.h>
 
@@ -30,8 +33,8 @@ class gstAssetHandleImpl;
 
 typedef khRefGuard<gstAssetHandleImpl> gstAssetHandle;
 
-QString shortAssetName(const QString& path);
-bool isAssetPath(const QString& path);
+QString shortAssetName(const QString&);
+bool isAssetPath(const QString&);
 
 // -----------------------------------------------------------------------------
 
@@ -47,9 +50,9 @@ class gstAssetFolder {
   std::vector<gstAssetFolder> getAssetFolders() const;
 
   gstAssetFolder getParentFolder() const;
-  gstAssetFolder getChildFolder(const QString& name) const;
+  gstAssetFolder getChildFolder(const QString&) const;
 
-  bool newFolder(const QString& name, QString &error) const;
+  bool newFolder(const QString&, QString&) const;
 
   bool isValid() const { return !dir_name_.isEmpty(); }
 
@@ -61,8 +64,7 @@ class gstAssetFolder {
 
 class gstAssetHandleImpl : public khRefCounter {
  public:
-  static gstAssetHandle Create(const gstAssetFolder& p,
-                               const QString& n) {
+  static inline gstAssetHandle Create(const gstAssetFolder& p,const QString& n) {
     return khRefGuardFromNew(new gstAssetHandleImpl(p, n));
   }
   virtual ~gstAssetHandleImpl();
@@ -77,7 +79,7 @@ class gstAssetHandleImpl : public khRefCounter {
   bool isValid() const;
 
  private:
-  gstAssetHandleImpl(const gstAssetFolder& f, const QString& n);
+  gstAssetHandleImpl(const gstAssetFolder&, const QString&);
   QString relativePath() const;
 
   gstAssetFolder parent_folder_;

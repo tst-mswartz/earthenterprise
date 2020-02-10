@@ -18,12 +18,15 @@
 #ifndef _AssetProperties_h_
 #define _AssetProperties_h_
 
-#include <qlistview.h>
+//#include <qlistview.h>
+#include <Qt/q3listview.h>
 #include <autoingest/AssetVersion.h>
 #include "SystemListener.h"
 #include "assetpropertiesbase.h"
 
 #include <gstAssetGroup.h>
+using QListViewItem = Q3ListViewItem;
+using QListView = Q3ListView;
 
 class AssetVersionItem : public QListViewItem, public AssetWatcher
 {

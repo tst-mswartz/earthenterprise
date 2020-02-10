@@ -129,7 +129,7 @@ LayerItemBase* KMLProjectWidget::NewLayerItem(const QString& assetref) {
   QListViewItem* list_item = ListView()->firstChild();
   while (list_item) {
     KMLLayerItem* layer_item = static_cast<KMLLayerItem*>(list_item);
-    if (layer_item->GetConfig().assetRef == assetref) {
+    if (layer_item->GetConfig().assetRef == assetref.toUtf8().constData()) {
       QMessageBox::critical(
           this, "Error" ,
           kh::tr("'%1' already exists in this project")

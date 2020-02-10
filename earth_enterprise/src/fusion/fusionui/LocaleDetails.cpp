@@ -41,7 +41,7 @@
 #include "Preferences.h"
 #include "LayerLegendWidget.h"
 
-
+using QTable = Q3Table;
 
 
 // ****************************************************************************

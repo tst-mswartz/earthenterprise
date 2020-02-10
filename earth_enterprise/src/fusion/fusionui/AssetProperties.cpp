@@ -16,7 +16,8 @@
 #include <qframe.h>
 #include <qlayout.h>
 #include <qdatetimeedit.h>
-#include <qpopupmenu.h>
+#include <Qt/q3popupmenu.h>
+//#include <qpopupmenu.h>
 #include <qlabel.h>
 #include <qmessagebox.h>
 
@@ -32,16 +33,16 @@
 #define COL_CREATETIME 1
 #define COL_STATE 2
 AssetVersionItem::AssetVersionItem( QListView *parent, const AssetVersion &ver )
-    : QListViewItem( parent, QString( "%1" ).arg( ver->version ),
+    : QListViewItem( parent, QString( "%1" ).arg( ver->version.c_str(0) ),
                      ver->meta.GetValue("createdtime"),
                      ver->PrettyState() ),
-      AssetWatcher(ver->GetRef())
+      AssetWatcher(ver->GetRef().toString().c_str())
 {
 }
 
 int AssetVersionItem::compare( QListViewItem *item, int, bool ) const
 {
-  return atoi( text( 0 ).latin1() ) - atoi( item->text( 0 ).latin1() );
+  return atoi( text( 0 ).latin1() ) - atoi( item->text( 0 ).toUtf8().constData() );
 }
 
 void AssetVersionItem::paintCell( QPainter *p, const QColorGroup &cg,
@@ -59,7 +60,7 @@ void
 AssetVersionItem::changed(void)
 {
   AssetVersion ver(ref);
-  setText( COL_STATE, ver->PrettyState() );
+  setText( COL_STATE, ver->PrettyState().c_str() );
 }
 
 // ------------------------------------------------------------------------
@@ -71,8 +72,8 @@ AssetProperties::AssetProperties( QWidget* parent, const gstAssetHandle &handle 
 
   Asset asset = handle->getAsset();
   nameLabel->setText( shortAssetName( handle->getName() ) );
-  typeLabel->setText( ToString( asset->type ) );
-  subTypeLabel->setText( asset->PrettySubtype() );
+  typeLabel->setText( ToString( asset->type ).c_str() );
+  subTypeLabel->setText( asset->PrettySubtype().c_str() );
 
   connect( versionsList, SIGNAL( contextMenuRequested( QListViewItem *, const QPoint &, int ) ),
            this, SLOT( rmbClicked( QListViewItem *, const QPoint &, int ) ) );

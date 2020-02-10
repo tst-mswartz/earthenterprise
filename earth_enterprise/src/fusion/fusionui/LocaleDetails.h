@@ -18,7 +18,8 @@
 #ifndef KHSRC_FUSION_FUSIONUI_LOCALEDETAILS_H__
 #define KHSRC_FUSION_FUSIONUI_LOCALEDETAILS_H__
 
-#include <qtable.h>
+#include <Qt/q3table.h>
+//#include <qtable.h>
 #include <qcheckbox.h>
 #include <map>
 #include "WidgetControllers.h"

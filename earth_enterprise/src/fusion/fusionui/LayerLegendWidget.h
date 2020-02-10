@@ -30,7 +30,7 @@ class LayerLegendWidget : public QWidget {
   Q_OBJECT
 
  public:
-  LayerLegendWidget( QWidget* parent, const char* name = 0, WFlags fl = 0 );
+  LayerLegendWidget( QWidget* parent, const char* name = 0, Qt::WFlags fl = 0 );
   ~LayerLegendWidget(void);
 
   QVBoxLayout*  vlayout;
