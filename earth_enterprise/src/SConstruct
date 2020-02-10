@@ -240,7 +240,7 @@ if sys.platform[0:5] == 'linux':
     warnflags += ['-Wno-parentheses']
   cppflags = ['-D_LARGEFILE64_SOURCE', '-DQT_THREAD_SUPPORT',
               '-DQT_NO_ASCII_CAST', '-DQT_CLEAN_NAMESPACE', '-D_REENTRANT',
-              '-DGUNIT_NO_GOOGLE3', '-DQT3_SUPPORT', '-I/usr/include/Qt3Support', '-I/usr/include/QtCore', '-I/usr/include/QtGui']
+              '-DGUNIT_NO_GOOGLE3', '-DQT3_SUPPORT', '-I/usr/include/Qt3Support', '-I/usr/include/QtCore', '-I/usr/include/QtGui', '-I/usr/include/qt4/Qt3Support', '-I/usr/include/qt4/QtCore', '-I/usr/include/qt4/QtGui', '-I/usr/include/qt4']
 
   # set any architecture specific specific flags
   if re.compile('i.86').match(march):
@@ -561,7 +561,7 @@ if home: env['ENV']['HOME'] = str(home)
 # setup QTDIR & friends
 # always use our Qt
 qtdir = "/usr/lib64/qt4"
-qtdir_lib = "/usr/lib64/qt4" 
+qtdir_lib = "/usr/lib64/qt4"
 #qtdir_lib = '%s/lib' % exportdir
 env['ENV']['QTDIR'] = str(qtdir)
 env['QTDIR'] = str(qtdir)
