@@ -26,6 +26,7 @@
 
 #include <gstAssetGroup.h>
 using QListViewItem = Q3ListViewItem;
+using QListView = Q3ListView;
 
 class AssetVersionItem : public QListViewItem, public AssetWatcher
 {

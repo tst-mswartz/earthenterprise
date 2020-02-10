@@ -1,4 +1,4 @@
-// Copyright 2017 Google Inc.
+﻿// Copyright 2017 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
 // limitations under the License.
 
 
-#include <qimage.h>
+#include <Qt/qimage.h>
+//#include <qimage.h>
 #include <qstringlist.h>
 #include <assert.h>
 
@@ -21,6 +22,8 @@
 #include "AssetIconView.h"
 #include "AssetDrag.h"
 #include <QtGui/QImage>
+#include <Qt/Qt3Support>
+#include <QtCore/qglobal.h>
 
 using QMimeSourceFactory = Q3MimeSourceFactory;
 using QImageDrag = Q3ImageDrag;
@@ -71,7 +74,8 @@ AssetIcon::~AssetIcon() {
 }
 
 void AssetIcon::resize(int sz) {
-  setPixmap(image_->scale(sz, sz, QImage::ScaleMin));
+
+  setPixmap(image_->scaled(sz, sz, Qt::ScaleMin));
   setPixmapRect(QRect(0, 0, sz, sz));
   calcRect();
 }

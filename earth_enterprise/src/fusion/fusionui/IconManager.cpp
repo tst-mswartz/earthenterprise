@@ -16,10 +16,12 @@
 #include <qapplication.h>
 #include <qpainter.h>
 #include <qstringlist.h>
-#include <qpixmap.h>
+#include <Qt/qpixmap.h>
+//#include <qpixmap.h>
 #include <qimage.h>
 #include <Qt3Support/q3iconview.h>
 //#include <qiconview.h>
+#include <Qt/qicon.h>
 #include <qmessagebox.h>
 
 #include "IconManager.h"
@@ -30,12 +32,13 @@
 #include <gstFileUtils.h>
 #include <khFileUtils.h>
 #include <fusionui/.idl/filehistory.h>
-
+#include <Qt/q3scrollview.h>
 using QScrollView = Q3ScrollView;
+using QIconViewItem  =  Q3IconViewItem;
 
 PixmapView::PixmapView(QWidget* parent)
     : QScrollView(parent) {
-  viewport()->setBackgroundMode(PaletteBase);
+  viewport()->setBackgroundMode(Qt::PaletteBase);
 }
 
 void PixmapView::setPixmap(const QPixmap& pix) {
@@ -63,7 +66,7 @@ void PixmapView::previewUrl(const QUrl& u) {
 
 // -----------------------------------------------------------------------------
 
-IconManager::IconManager(QWidget* parent, bool modal, WFlags flags)
+IconManager::IconManager(QWidget* parent, bool modal, Qt::WFlags flags)
   : IconManagerBase(parent, 0, modal, flags) {
 }
 
@@ -124,13 +127,13 @@ void IconManager::deleteIcon() {
 QStringList IconManager::ChoosePixmaps(QWidget *parent) {
   QString filter("PNG-Pixmaps (*.png *.PNG)");
 
-  QFileDialog fd(QString::null, filter, parent, 0, true);
-  fd.setMode(QFileDialog::ExistingFiles);
+  Q3FileDialog fd(QString::null, filter, parent, 0, true);
+  fd.setMode(Q3FileDialog::ExistingFiles);
   fd.setContentsPreviewEnabled(true);
   PixmapView* pw = new PixmapView(&fd);
   fd.setContentsPreview(pw, pw);
-  fd.setViewMode(QFileDialog::List);
-  fd.setPreviewMode(QFileDialog::Contents);
+  fd.setViewMode(Q3FileDialog::List);
+  fd.setPreviewMode(Q3FileDialog::Contents);
   fd.setCaption(qApp->translate("qChoosePixmap", "Choose Images..."));
 
   IconManagerHistory history;

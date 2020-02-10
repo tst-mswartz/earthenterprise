@@ -1248,8 +1248,8 @@ void FeatureEditor::SelectBox(const gstDrawState& state,
   bool pick_clear = true;
   bool pick_add = true;
 
-  if (btn_state & ShiftButton) {
-    if (btn_state & ControlButton) {
+  if (btn_state & Qt::ShiftModifier) {
+    if (btn_state & Qt::ControlModifier) {
       pick_clear = false;
       pick_add = false;
     } else {

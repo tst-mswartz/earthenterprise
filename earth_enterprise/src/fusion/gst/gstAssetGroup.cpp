@@ -31,9 +31,9 @@ QString shortAssetName(const QString& n) {
          << kDatabaseSuffix.c_str() << kMapLayerSuffix.c_str() << kMapProjectSuffix.c_str()
          << kMapDatabaseSuffix.c_str() << kMercatorMapDatabaseSuffix.c_str()
          << kVectorLayerSuffix.c_str();
-  for (QStringList::Iterator it = suffix.begin(); it != suffix.end(); ++it) {
-    if (sname.endsWith(*it)) {
-      sname.truncate(sname.length() - (*it).length());
+  for (const auto& it : suffix) {
+    if (sname.endsWith(it)) {
+      sname.truncate(sname.length() - it.length());
       break;
     }
   }

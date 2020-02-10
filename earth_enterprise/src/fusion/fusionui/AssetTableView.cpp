@@ -15,7 +15,7 @@
 #include <Qt/q3dragobject.h>
 //#include <qdragobject.h>
 #include <assert.h>
-
+#include <QtGui/QMouseEvent>
 #include "AssetTableView.h"
 #include "AssetDrag.h"
 #include "AssetManager.h"
@@ -23,6 +23,8 @@
 #include "Preferences.h"
 #include <Qt/q3mimefactory.h>
 using QMimeSourceFactory = Q3MimeSourceFactory;
+using QImageDrag = Q3ImageDrag;
+using QTableSelection = Q3TableSelection;
 // -----------------------------------------------------------------------------
 
 static QPixmap uic_load_pixmap(const QString& name) {
@@ -114,14 +116,14 @@ gstAssetHandle AssetTableView::GetAssetHandle(int row) const {
 
 
 void AssetTableView::contentsMousePressEvent(QMouseEvent* event) {
-  if (event->button() == LeftButton)
+  if (event->button() == Qt::LeftButton)
     drag_start_point_ = event->pos();
   QTable::contentsMousePressEvent(event);
 }
 
 
 void AssetTableView::contentsMouseMoveEvent(QMouseEvent* event) {
-  if ((event->state() & LeftButton) && !drag_start_point_.isNull()) {
+  if ((event->state() & Qt::LeftButton) && !drag_start_point_.isNull()) {
     // make sure drag has moved more than 3 pixels so just clicking doesn't
     // accidentally start a drag
     if (QABS(event->pos().x() - drag_start_point_.x()) >= 3 ||
@@ -139,7 +141,7 @@ void AssetTableView::contentsMouseMoveEvent(QMouseEvent* event) {
           assert(item != NULL);
           if (!asset_group.isEmpty())
             asset_group += QChar(127);  // special character used as a separator
-          asset_group += item->GetAssetHandle()->getAsset()->GetRef();
+          asset_group += item->GetAssetHandle()->getAsset()->GetRef().toString().c_str();
         }
       }
       drag_object->setText(asset_group);

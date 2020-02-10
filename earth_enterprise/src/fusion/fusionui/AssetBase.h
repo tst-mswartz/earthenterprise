@@ -18,6 +18,7 @@
 #ifndef KHSRC_FUSION_FUSIONUI_ASSETBASE_H__
 #define KHSRC_FUSION_FUSIONUI_ASSETBASE_H__
 
+#include <QtGui/qmenudata.h>
 #include <qvariant.h>
 #include <qmainwindow.h>
 #include <khMetaData.h>

@@ -295,7 +295,7 @@ void AssetChooser::accept() {
 
     if (item == NULL) {
       // Note: means that name have been edited and we try to find item by name.
-      item = iconView->findItem(getName(), Qt::ExactMatch);
+      item = iconView->findItem(getName(), QKeySequence::ExactMatch);
     }
 
     AssetItem* assetItem = dynamic_cast<AssetItem*>(item);

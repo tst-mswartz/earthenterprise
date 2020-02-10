@@ -37,7 +37,7 @@ void DatabaseWidget::Prefill(const DatabaseEditRequest& request) {
 
   if (request.config.vectorProject.size() != 0) {
     projects.push_back(request.config.vectorProject);
-    vector_project_label->setText(shortAssetName(request.config.vectorProject ));
+    vector_project_label->setText(shortAssetName(request.config.vectorProject.c_str()));
   } else {
     vector_project_label->setText(empty_text);
   }
@@ -49,14 +49,14 @@ void DatabaseWidget::Prefill(const DatabaseEditRequest& request) {
   } else {
     if (request.config.imageryProject.size() != 0) {
       projects.push_back(request.config.imageryProject);
-      imagery_project_label->setText(shortAssetName(request.config.imageryProject));
+      imagery_project_label->setText(shortAssetName(request.config.imageryProject.c_str()));
     } else {
       imagery_project_label->setText(empty_text);
     }
 
     if (request.config.terrainProject.size() != 0) {
       projects.push_back(request.config.terrainProject);
-      terrain_project_label->setText(shortAssetName(request.config.terrainProject));
+      terrain_project_label->setText(shortAssetName(request.config.terrainProject.c_str()));
     } else {
       terrain_project_label->setText(empty_text);
     }

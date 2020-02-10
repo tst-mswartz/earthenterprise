@@ -29,7 +29,8 @@
 //#include <qiconview.h>
 #include <qstringlist.h>
 //#include <qaction.h>
-#include <Qt/q3action.h>
+//#include <Qt/q3action.h>
+#include <Qt/qaction.h>
 #include <Qt/qthread.h>
 //#include <qthread.h>
 #include <qtimer.h>
@@ -52,7 +53,7 @@ class PublisherClient;
 
 class QProgressDialog;
 using QListViewItem = Q3ListViewItem;
-using QAction = Q3Action;
+//using QAction = Q3Action;
 
 class AssetAction : public QAction {
   Q_OBJECT

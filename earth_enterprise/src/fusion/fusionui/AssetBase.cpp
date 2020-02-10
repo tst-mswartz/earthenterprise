@@ -20,7 +20,8 @@
 #include <qlayout.h>
 #include <qmenubar.h>
 #include <qmessagebox.h>
-#include <qpixmap.h>
+#include <Qt/qpixmap.h>
+//#include <qpixmap.h>
 #include <Qt/q3popupmenu.h>
 //#include <qpopupmenu.h>
 #include <qpushbutton.h>
@@ -28,7 +29,8 @@
 #include <qvariant.h>
 #include <qwhatsthis.h>
 #include <khException.h>
-
+#include <Qt/qobject.h>
+#include <Qt/q3mainwindow.h>
 #include "AssetBase.h"
 #include "AssetChooser.h"
 #include "AssetNotes.h"
@@ -36,11 +38,11 @@
 
 #include <fusionui/.idl/layoutpersist.h>
 #include <autoingest/khAssetManagerProxy.h>
-
+using QMainWindow = Q3MainWindow;
 QString AssetBase::untitled_name(QObject::tr("Untitled"));
 
 AssetBase::AssetBase(QWidget* parent)
-  : QMainWindow(parent, 0, WType_TopLevel) {
+  : QMainWindow(parent, 0, Qt::WType_TopLevel) {
   setFocusPolicy(QMainWindow::TabFocus);
   setCentralWidget(new QWidget(this));
   QGridLayout* asset_base_layout = new QGridLayout(centralWidget(), 2, 1, 11, 6);
@@ -59,9 +61,9 @@ AssetBase::AssetBase(QWidget* parent)
 
   // actions
   save_action_ = new QAction(this);
-  save_action_->setIconSet(QIconSet(QPixmap::fromMimeSource("filesave.png")));
+  save_action_->setIconSet(QIconSet(QPixmap("filesave.png")));
   saveas_action_ = new QAction(this);
-  saveas_action_->setIconSet(QIconSet(QPixmap::fromMimeSource("filesaveas.png")));
+  saveas_action_->setIconSet(QIconSet(QPixmap("filesaveas.png")));
   build_action_ = new QAction(this);
   //  build_action_->setIconSet(QIconSet(QPixmap::fromMimeSource("notes.png")));
   savebuild_action_ = new QAction(this);
@@ -70,7 +72,7 @@ AssetBase::AssetBase(QWidget* parent)
   hidden_action_ = new QAction(this);
   hidden_action_->setToggleAction(true);
   notes_action_ = new QAction(this);
-  notes_action_->setIconSet(QIconSet(QPixmap::fromMimeSource("notes.png")));
+  notes_action_->setIconSet(QIconSet(QPixmap("notes.png")));
 
   // menubar
   menu_bar_ = new QMenuBar(this);

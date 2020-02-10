@@ -22,8 +22,8 @@
 //#include <qiconview.h>
 #include <Qt/qdir.h>
 //#include <qdir.h>
-
 #include <gstAssetGroup.h>
+#include <Qt/qnamespace.h>
 
 class QImage;
 
