@@ -27,6 +27,7 @@
 #include <Qt/qwidget.h>
 //class QIconViewItem;
 #include <Qt/q3iconview.h>
+#include <Qt/qevent.h>
 using QIconViewItem = Q3IconViewItem;
 
 class AssetChooser : public AssetChooserBase {

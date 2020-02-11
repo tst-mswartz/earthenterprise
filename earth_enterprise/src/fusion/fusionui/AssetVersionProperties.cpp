@@ -61,8 +61,10 @@ void
 AssetChildItem::configureWidgets(const AssetVersion &ver,
                                  const std::string &msg)
 {
-  setText( COL_SUBTYPE, msg + ver->PrettySubtype());
-  setText( COL_STATE, ver->PrettyState() );
+  std::string tmpMsg { msg };
+  tmpMsg += ver->PrettySubtype();
+  setText( COL_SUBTYPE, tmpMsg.c_str();
+  setText( COL_STATE, ver->PrettyState().c_str()) );
   if ( ver->Logfile().size() != 0 )
     setPixmap( COL_LOG, uic_load_pixmap( "history.png" ) );
   setText( COL_REF, ver->GetRef().toString().c_str() );
@@ -76,7 +78,7 @@ void
 AssetChildItem::changed(void)
 {
   AssetVersion ver(ref);
-  setText( COL_STATE, ver->PrettyState() );
+  setText( COL_STATE, ver->PrettyState().c_str() );
 }
 
 void
@@ -124,7 +126,7 @@ void AssetChildItem::paintCell( QPainter *p, const QColorGroup &cg, int col, int
   QColorGroup ngrp = cg;
 
   if ( col == COL_STATE )
-    ngrp = AssetManager::GetStateDrawStyle( text( col ), p, cg );
+    ngrp = AssetManager::GetStateDrawStyle( text( col ).toUtf8().constData(), p, cg );
 
   QListViewItem::paintCell( p, ngrp, col, width, align );
 }

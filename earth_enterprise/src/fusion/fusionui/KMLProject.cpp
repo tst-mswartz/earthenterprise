@@ -20,10 +20,11 @@
 #include "ProjectLayerView.h"
 #include "AssetChooser.h"
 #include "AssetDerivedImpl.h"
-
+#include <Qt/qlistview.h>
 #include <qmessagebox.h>
 
 class AssetBase;
+//using QListViewItem = Q3ListViewItem;
 
 // ****************************************************************************
 // ***  KMLProjectDefs
@@ -57,13 +58,13 @@ KMLLayerItem::KMLLayerItem(QListView* parent, const KMLProjectConfig::LayerItem&
 
 KMLLayerItem::KMLLayerItem(QListView* parent, const QString& asset_path)
   : LayerItemBase(parent) {
-  config_.assetRef = asset_path;
-  Asset asset(asset_path);
+  config_.assetRef = asset_path.toUtf8().constData();
+  Asset asset(config_.assetRef);
 }
 
 QString KMLLayerItem::text(int col) const {
   if (col == 0) {
-    return QString(config_.assetRef);
+    return QString(config_.assetRef.c_str());
   } else {
     return QString();
   }

@@ -34,6 +34,8 @@
 #include "GfxView.h"
 #include "Preferences.h"
 
+using QTextDrag = Q3TextDrag;
+
 QString GfxView::MaxTexSize;
 QString GfxView::BitsPerComp;
 
@@ -168,7 +170,7 @@ void GfxView::mouseMoveEvent(QMouseEvent* e) {
 
   drag_box_.end(e->x(), e->y());
 
-  switch (tool_mode_ | (e->state() & MouseButtonMask)) {
+  switch (tool_mode_ | (e->state() & Qt::MouseButtonMask)) {
     case Edit | Qt::LeftButton:
       emit MouseMove(ConvertScreenToNormalizedWorld(e->x(), e->y()));
       break;
@@ -395,9 +397,9 @@ void GfxView::zoomToBox(const gstBBox& bbox) {
 void GfxView::toolModeZoomBox(bool state) {
   if (state == 1) {
     tool_mode_ = ZoomBox;
-    QPixmap zoombox(QPixmap::fromMimeSource("zoombox_cursor.png"));
+    QPixmap zoombox("zoombox_cursor.png");
     QBitmap mask;
-    mask = QPixmap::fromMimeSource("zoombox_cursor_mask.png");
+    mask = QPixmap("zoombox_cursor_mask.png");
     zoombox.setMask(mask);
     setCursor(zoombox);
   }
@@ -854,7 +856,7 @@ void GfxView::ValidateGfxMode() {
       this,                                       // parent
       0,                                          // name
       true,                                       // modal
-      WStyle_DialogBorder | WStyle_StaysOnTop);   // style
+      Qt::WStyle_DialogBorder | Qt::WStyle_StaysOnTop);   // style
     error.exec();
   }
 }

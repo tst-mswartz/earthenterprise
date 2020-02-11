@@ -19,8 +19,11 @@
 #define KHSRC_FUSION_FUSIONUI_LOCALEDETAILS_H__
 
 #include <Qt/q3table.h>
-//#include <qtable.h>
-#include <qcheckbox.h>
+using QTable = Q3Table;
+using QTableItem = Q3TableItem;
+#include <Qt/qcheckbox.h>
+#include <Qt/q3scrollview.h>
+using QScrollView = Q3ScrollView;
 #include <map>
 #include "WidgetControllers.h"
 #include <autoingest/.idl/storage/LayerConfig.h>

@@ -50,8 +50,8 @@ LayerProperties::LayerProperties(QWidget* parent, const LayerConfig& config,
 
   layer_config_.AssignUuidIfEmpty();
 
-  uuidEdit->setText(layer_config_.asset_uuid_);
-  assetNameLabel->setText(shortAssetName(layer_config_.assetRef));
+  uuidEdit->setText(layer_config_.asset_uuid_.c_str());
+  assetNameLabel->setText(shortAssetName(layer_config_.assetRef.c_str()));
   preserveTextSpin->setValue(layer_config_.preserveTextLevel);
   isVisibleCheck->setChecked(layer_config_.isVisible);
 
@@ -78,7 +78,7 @@ LayerProperties::LayerProperties(QWidget* parent, const LayerConfig& config,
     fields_table->adjustColumn(col);
 
   search_style_edit->setTextFormat(Qt::PlainText);
-  search_style_edit->setText(config.searchStyle);
+  search_style_edit->setText(config.searchStyle.c_str());
   // hidden for now
   // when we re-enable it here, we must also re-enable it
   // in EmitSearchFileHeader() -- fusion/tools/gevectorpoi.cpp

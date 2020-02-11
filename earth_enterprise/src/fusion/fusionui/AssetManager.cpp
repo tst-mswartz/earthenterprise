@@ -24,26 +24,24 @@
 #include <qstringlist.h>
 #include <qcombobox.h>
 #include <qapplication.h>
-#include <Qt/q3popupmenu.h>
-//#include <qpopupmenu.h>
 #include <qmessagebox.h>
 #include <qpixmap.h>
 #include <Qt/q3header.h>
-//#include <qheader.h>
-#include <qprogressdialog.h>
-#include <qlineedit.h>
-#include <qtabwidget.h>
-#include <qimage.h>
-#include <qpushbutton.h>
-#include <qinputdialog.h>
-#include <qlayout.h>
-#include <qpainter.h>
-#include <qcheckbox.h>
-#include <qsplitter.h>
+using QHeader = Q3Header;
+#include <Qt/qprogressdialog.h>
+#include <Qt/qlineedit.h>
+#include <Qt/qtabwidget.h>
+#include <Qt/qimage.h>
+#include <Qt/qpushbutton.h>
+#include <Qt/qinputdialog.h>
+#include <Qt/qlayout.h>
+#include <Qt/qpainter.h>
+#include <Qt/qcheckbox.h>
+#include <Qt/qsplitter.h>
 #include <Qt/q3widgetstack.h>
-//#include <qwidgetstack.h>
-#include <qcursor.h>
-#include <qthread.h>
+using QWidgetStack = Q3WidgetStack;
+#include <Qt/qcursor.h>
+#include <Qt/qthread.h>
 
 #include "fusion/autoingest/plugins/RasterProductAsset.h"
 #include "fusion/autoingest/plugins/MercatorRasterProductAsset.h"

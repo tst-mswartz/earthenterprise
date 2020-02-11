@@ -23,7 +23,8 @@
 //#include <qstring.h>
 #include <Qt/qstringlist.h>
 //#include <qstringlist.h>
-#include <qdir.h>
+#include <Qt/qdir.h>
+//#include <qdir.h>
 #include <khRefCounter.h>
 
 #include <autoingest/Asset.h>

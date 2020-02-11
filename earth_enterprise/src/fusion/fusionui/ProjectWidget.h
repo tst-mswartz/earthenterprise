@@ -22,7 +22,7 @@
 #include "fusion/fusionui/QValidatorExt.h"
 
 class QListView;
-class QListViewItem;
+//class QListViewItem;
 class ProjectLayerView;
 class LayerItemBase;
 

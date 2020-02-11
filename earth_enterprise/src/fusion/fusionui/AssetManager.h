@@ -23,18 +23,17 @@
 #include <set>
 #include <map>
 
-//#include <qlistview.h>
-#include <Qt/q3listview.h>
+#include <Qt/qlistview.h>
 #include <Qt/q3iconview.h>
-//#include <qiconview.h>
-#include <qstringlist.h>
-//#include <qaction.h>
-//#include <Qt/q3action.h>
+#include <Qt/qstringlist.h>
 #include <Qt/qaction.h>
 #include <Qt/qthread.h>
-//#include <qthread.h>
-#include <qtimer.h>
-
+#include <Qt/qtimer.h>
+#include <Qt/q3popupmenu.h>
+using QPopupMenu = Q3PopupMenu;
+#include <Qt/q3listview.h>
+using QListViewItem = Q3ListViewItem;
+#include <Qt/qobject.h>
 #include "fusion/autoingest/.idl/storage/AssetDefs.h"
 #include "fusion/fusionui/.idl/layoutpersist.h"
 #include "fusion/fusionui/.ui/assetmanagerbase.h"
@@ -50,10 +49,7 @@ class AssetChanges;
 class geGuiProgress;
 class geGuiAuth;
 class PublisherClient;
-
 class QProgressDialog;
-using QListViewItem = Q3ListViewItem;
-//using QAction = Q3Action;
 
 class AssetAction : public QAction {
   Q_OBJECT

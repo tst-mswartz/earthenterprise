@@ -15,20 +15,21 @@
 
 #include "fusion/fusionui/FeatureEditor.h"
 #include <Qt3Support/Q3CheckListItem>
-#include <qevent.h>
-#include <qmessagebox.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qfiledialog.h>
+#include <Qt/qevent.h>
+#include <Qt/qmessagebox.h>
+#include <Qt/qpixmap.h>
+#include <Qt/qmime.h>
+#include <Qt/qlabel.h>
+#include <Qt/q3filedialog.h>
 #include <Qt/q3popupmenu.h>
-//#include <qpopupmenu.h>
-#include <qmenubar.h>
-#include <qspinbox.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qgroupbox.h>
-#include <qlayout.h>
-#include <qbuttongroup.h>
+using QPopupMenu = Q3PopupMenu;
+#include <Qt/qmenubar.h>
+#include <Qt/qspinbox.h>
+#include <Qt/qcombobox.h>
+#include <Qt/qlineedit.h>
+#include <Qt/qgroupbox.h>
+#include <Qt/qlayout.h>
+#include <Qt/qbuttongroup.h>
 
 #include "fusion/fusionui/ProjectManager.h"
 #include "fusion/fusionui/AssetDrag.h"
@@ -55,7 +56,6 @@
 #include "newfeaturebase.h"
 
 using QCheckListItem = Q3CheckListItem;
-using QListView = Q3ListView;
 static const char* folder_closed_xpm[] = {
   "16 16 9 1",
   "g c #808080",
@@ -630,8 +630,8 @@ void FeatureEditor::DeleteFeature(FeatureItem* feature_item) {
 }
 
 bool FeatureEditor::Save() {
-  QFileDialog fd(this);
-  fd.setMode(QFileDialog::AnyFile);
+  Q3FileDialog fd(this);
+  fd.setMode(Q3FileDialog::AnyFile);
   fd.addFilter("Keyhole Geometry (*.kvgeom)");
   if (fd.exec() != QDialog::Accepted)
     return false;
@@ -964,8 +964,8 @@ void FeatureEditor::Open() {
   if (!Close())
     return;
 
-  QFileDialog file_dialog(this);
-  file_dialog.setMode(QFileDialog::ExistingFile);
+  Q3FileDialog file_dialog(this);
+  file_dialog.setMode(Q3FileDialog::ExistingFile);
 
   file_dialog.addFilter("US Census Tiger Line Files (*.rt1 *.RT1)");
   file_dialog.addFilter("OpenGIS GML (*.gml *.GML)");
@@ -1173,7 +1173,7 @@ void FeatureEditor::AddFeaturesFromSource(gstSource* source) {
     feature_listview->addColumn(current_header_->Name(col));
 
   // only adjust columns after all have been added
-  feature_listview->setResizeMode(QListView::AllColumns);
+  feature_listview->setResizeMode(Q3ListView::AllColumns);
 
   SoftErrorPolicy soft_errors(kMaxBadFeatures);
   try {
