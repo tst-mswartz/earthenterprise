@@ -30,6 +30,11 @@ using QPopupMenu = Q3PopupMenu;
 #include <Qt/qgroupbox.h>
 #include <Qt/qlayout.h>
 #include <Qt/qbuttongroup.h>
+#include <Qt/q3mimefactory.h>
+using QMimeSourceFactory = Q3MimeSourceFactory;
+#include <Qt/qmime.h>
+#include <Qt/q3dragobject.h>
+using QImageDrag = Q3ImageDrag;
 
 #include "fusion/fusionui/ProjectManager.h"
 #include "fusion/fusionui/AssetDrag.h"

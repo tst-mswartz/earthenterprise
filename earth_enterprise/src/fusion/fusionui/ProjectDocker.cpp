@@ -13,7 +13,8 @@
 // limitations under the License.
 
 
-#include <qvgroupbox.h>
+#include <Qt/q3vgroupbox.h>
+using QVGroupBox = Q3VGroupBox;
 #include <qhgroupbox.h>
 #include <qlayout.h>
 

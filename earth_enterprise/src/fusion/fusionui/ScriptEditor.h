@@ -22,8 +22,8 @@
 #include <vector>
 #include <map>
 
-#include <qstring.h>
-#include <qstringlist.h>
+#include <Qt/qstring.h>
+#include <Qt/qstringlist.h>
 #include "scripteditorbase.h"
 #include <gstRecord.h>
 #include <gstSourceManager.h>

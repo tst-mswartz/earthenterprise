@@ -14,18 +14,18 @@
 
 
 #include <set>
-#include <qlineedit.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
-#include <qimage.h>
-#include <qcheckbox.h>
-#include <qgroupbox.h>
-#include <qtextedit.h>
-#include <qmessagebox.h>
-#include <qtabwidget.h>
+#include <Qt/qlineedit.h>
+#include <Qt/qcombobox.h>
+#include <Qt/qspinbox.h>
+#include <Qt/qlabel.h>
+#include <Qt/qpixmap.h>
+#include <Qt/qpushbutton.h>
+#include <Qt/qimage.h>
+#include <Qt/qcheckbox.h>
+#include <Qt/qgroupbox.h>
+#include <Qt/qtextedit.h>
+#include <Qt/qmessagebox.h>
+#include <Qt/qtabwidget.h>
 
 #include <gstLayer.h>
 #include <gstAssetGroup.h>
@@ -126,7 +126,7 @@ LayerConfig LayerProperties::GetConfig() {
                   SearchField::UseTypeFromString(fields_table->text(row, 1))));
   }
 
-  layer_config_.searchStyle = search_style_edit->text();
+  layer_config_.searchStyle = search_style_edit->text().toUtf8().constData();
 
   return layer_config_;
 }

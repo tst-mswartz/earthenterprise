@@ -14,15 +14,12 @@
 
 
 #include <Qt/qimage.h>
-//#include <qimage.h>
-#include <qstringlist.h>
+#include <Qt/qstringlist.h>
 #include <assert.h>
 
 #include <Qt/q3mimefactory.h>
 #include "AssetIconView.h"
 #include "AssetDrag.h"
-#include <QtGui/QImage>
-#include <Qt/Qt3Support>
 #include <QtCore/qglobal.h>
 
 using QMimeSourceFactory = Q3MimeSourceFactory;
@@ -74,8 +71,7 @@ AssetIcon::~AssetIcon() {
 }
 
 void AssetIcon::resize(int sz) {
-
-  setPixmap(image_->scaled(sz, sz, Qt::ScaleMin));
+  setPixmap(image_->scaled(sz, sz, Qt::KeepAspectRatio));
   setPixmapRect(QRect(0, 0, sz, sz));
   calcRect();
 }
@@ -92,6 +88,6 @@ void AssetIconView::startDrag() {
   assert(icon != NULL);
 
   AssetDrag* ad = new AssetDrag(this, icon->getAssetHandle()->getAsset());
-  ad->setPixmap(icon->image()->scale(64, 64, QImage::ScaleMin));
+  ad->setPixmap(icon->image()->scale(64, 64, Qt::KeepAspectRatio));
   ad->dragCopy();
 }

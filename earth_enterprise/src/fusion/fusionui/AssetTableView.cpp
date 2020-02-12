@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include <Qt/q3dragobject.h>
-//#include <qdragobject.h>
 #include <assert.h>
 #include <QtGui/QMouseEvent>
 #include "AssetTableView.h"

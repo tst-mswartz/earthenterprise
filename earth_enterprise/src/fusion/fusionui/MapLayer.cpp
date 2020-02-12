@@ -17,25 +17,27 @@
 
 #include <utility>
 
-#include <qcolor.h>
-#include <qcolordialog.h>
-#include <qcombobox.h>
-#include <qheader.h>
-#include <qinputdialog.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qlistbox.h>
-#include <qmessagebox.h>
-#include <qpainter.h>
-#include <qpopupmenu.h>
-#include <qpushbutton.h>
-#include <qspinbox.h>
-#include <qtextedit.h>
-#include <qwidgetstack.h>
-#include <qgroupbox.h>
-#include <qapplication.h>
-#include <qtooltip.h>
-#include <qcheckbox.h>
+#include <Qt/qcolor.h>
+#include <Qt/qcolordialog.h>
+#include <Qt/qcombobox.h>
+#include <Qt/q3header.h>
+using QHeader = Q3Header;
+#include <Qt/qinputdialog.h>
+#include <Qt/qlabel.h>
+#include <Qt/qlineedit.h>
+#include <Qt/q3listbox.h>
+#include <Qt/qmessagebox.h>
+#include <Qt/qpainter.h>
+#include <Qt/q3popupmenu.h>
+using QPopupMenu = Q3PopupMenu;
+#include <Qt/qpushbutton.h>
+#include <Qt/qspinbox.h>
+#include <Qt/qtextedit.h>
+#include <Qt/q3widgetstack.h>
+#include <Qt/qgroupbox.h>
+#include <Qt/qapplication.h>
+#include <Qt/qtooltip.h>
+#include <Qt/qcheckbox.h>
 
 #include <SkBitmap.h>
 #include <SkImageDecoder.h>
@@ -161,7 +163,7 @@ void MapAssetItem::BuildChildren() {
 
 QString MapAssetItem::text(int col) const {
   if (col == 0) {
-    return config_.asset_ref;
+    return config_.asset_ref.c_str();
   } else {
     return QString::null;
   }
@@ -336,7 +338,7 @@ void MapLayerWidget::DeleteSearchField() {
                            QString::null, 1, 1) == 0) {
     fields_table->removeRow(row);
     if (previous_asset_)
-      UpdateAvailableSearchAttributes(previous_asset_->AssetRef());
+      UpdateAvailableSearchAttributes(previous_asset_->AssetRef().c_str());
   }
   UpdateSearchFieldButtons();
 }
@@ -344,11 +346,11 @@ void MapLayerWidget::DeleteSearchField() {
 void MapLayerWidget::UpdateAvailableSearchAttributes(QString assetRef) {
   attributes.clear();
 
-  Asset vector_resource_asset(assetRef);
+  Asset vector_resource_asset(assetRef.toUtf8().constData());
   if (vector_resource_asset->type != AssetDefs::Vector ||
       vector_resource_asset->subtype != kProductSubtype) {
     notify(NFY_WARN, "Invalid product: %s %d ", assetRef.data(),
-           vector_resource_asset->type);
+           vector_resource_asset->type.c_str());
     return;
   }
 
@@ -1044,14 +1046,14 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
                               &workingDisplayRule.feature.stroke_width,
                               0.0, 25.0, 1);
 
-  CheckableController<QCheckBox>::Create(
+  CheckableController<Qt/qCheckBox>::Create(
       lineManager, draw_as_roads_check,
       &workingDisplayRule.feature.drawAsRoads);
 
   // -----
   {
     WidgetControllerManager *boxManager =
-      CheckableController<QGroupBox>::Create(
+      CheckableController<Qt/qGroupBox>::Create(
           lineManager, line_label_box,
           &workingDisplayRule.feature.label.enabled);
     FieldGeneratorController::Create(*boxManager,
@@ -1072,7 +1074,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   // -----
   {
     WidgetControllerManager *boxManager =
-      CheckableController<QGroupBox>::Create(
+      CheckableController<Qt/qGroupBox>::Create(
           lineManager, line_shield_box,
           &workingDisplayRule.feature.shield.enabled);
 
@@ -1150,7 +1152,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   // -----
   {
     WidgetControllerManager *boxManager =
-      CheckableController<QGroupBox>::Create(
+      CheckableController<Qt/qGroupBox>::Create(
           polygonManager, poly_clabel_box,
           &workingDisplayRule.site.label.enabled);
     FieldGeneratorController::Create(*boxManager,
@@ -1168,14 +1170,14 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
         *boxManager, poly_clabel_style,
         &workingDisplayRule.site.label.textStyle);
 
-    CheckableController<QCheckBox>::Create(
+    CheckableController<Qt/qCheckBox>::Create(
         *boxManager, poly_clabel_displayall_check,
         &workingDisplayRule.site.label.displayAll);
   }
   // -----
   {
     WidgetControllerManager *boxManager =
-      CheckableController<QGroupBox>::Create(
+      CheckableController<Qt/qGroupBox>::Create(
           polygonManager, poly_olabel_box,
           &workingDisplayRule.feature.label.enabled);
     FieldGeneratorController::Create(*boxManager,
@@ -1254,7 +1256,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   // The label widget in point.
   {
     WidgetControllerManager *boxManager =
-      CheckableController<QGroupBox>::Create(
+      CheckableController<Qt/qGroupBox>::Create(
           pointManager, point_center_label_box,
           &mapFeatureConfig.isPointLabelEnabled);
     FieldGeneratorController::Create(*boxManager,
@@ -1282,7 +1284,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
                                    MinDisplayMarginPxl, MaxDisplayMarginPxl);
     {
       WidgetControllerManager *resizeManager =
-        CheckableController<QGroupBox>::Create(
+        CheckableController<Qt/qGroupBox>::Create(
             *boxManager, point_marker_resizer_box,
             &mapFeatureConfig.isMarkerResizerEnabled);
       {
@@ -1306,7 +1308,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   // The Outer Label widget in point.
   {
     WidgetControllerManager *boxManager =
-      CheckableController<QGroupBox>::Create(
+      CheckableController<Qt/qGroupBox>::Create(
           pointManager, point_outer_label_box,
           &mapLabelConfig.hasOutlineLabel);
     FieldGeneratorController::Create(*boxManager,

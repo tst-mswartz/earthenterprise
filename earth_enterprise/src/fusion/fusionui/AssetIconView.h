@@ -19,18 +19,18 @@
 #define KHSRC_FUSION_FUSIONUI_ASSETICONVIEW_H__
 
 #include <Qt/q3iconview.h>
-//#include <qiconview.h>
+#include <Qt/qimage.h>
 #include <Qt/qdir.h>
-//#include <qdir.h>
 #include <gstAssetGroup.h>
 #include <Qt/qnamespace.h>
+#include <Qt/q3listview.h>
 
-class QImage;
 
 // -----------------------------------------------------------------------------
 
 using QIconView = Q3IconView;
 using QIconViewItem = Q3IconViewItem;
+
 
 class AssetIcon : public QIconViewItem {
  public:
