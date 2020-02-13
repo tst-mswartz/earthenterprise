@@ -16,7 +16,7 @@
 #include <Qt/qimage.h>
 #include <Qt/qstringlist.h>
 #include <assert.h>
-
+#include <Qt/qabstractbutton.h>
 #include <Qt/q3mimefactory.h>
 #include "AssetIconView.h"
 #include "AssetDrag.h"
