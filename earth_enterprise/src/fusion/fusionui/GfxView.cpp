@@ -13,19 +13,18 @@
 // limitations under the License.
 
 
-#include <qcursor.h>
-#include <qtimer.h>
+#include <Qt/qcursor.h>
+#include <Qt/qtimer.h>>
 #include <Qt/q3dragobject.h>
-//#include <qdragobject.h>
-#include <qmessagebox.h>
-#include <qbitmap.h>
+#include <Qt/qmessagebox.h>
+#include <Qt/qbitmap.h>
 
 #include <gstTexture.h>
 #include <gstTextureManager.h>
 #include <notify.h>
 #include <gstHistogram.h>
 #include <font.h>
-#include <qpainter.h>
+#include <Qt/qpainter.h>
 #include <khTimer.h>
 #include <gstIconManager.h>
 #include <khTileAddr.h>
@@ -408,21 +407,21 @@ void GfxView::toolModeZoomBox(bool state) {
 void GfxView::toolModeZoomDrag(bool state) {
   if (state == 1) {
     tool_mode_ = ZoomDrag;
-    setCursor(SizeVerCursor);
+    setCursor(Qt::SizeVerCursor);
   }
 }
 
 void GfxView::toolModeSelect(bool state) {
   if (state == 1) {
     tool_mode_ = Select;
-    setCursor(ArrowCursor);
+    setCursor(Qt::ArrowCursor);
   }
 }
 
 void GfxView::toolModePan(bool state) {
   if (state == 1) {
     tool_mode_ = Pan;
-    setCursor(PointingHandCursor);
+    setCursor(Qt::PointingHandCursor);
   }
 }
 

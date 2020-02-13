@@ -20,8 +20,8 @@
 
 #include <Qt/q3table.h>
 //#include <qtable.h>
-#include <qpoint.h>
-
+//#include <qpoint.h>
+#include <Qt/qpoint.h>
 #include <gstAssetGroup.h>
 
 class QDragObject;

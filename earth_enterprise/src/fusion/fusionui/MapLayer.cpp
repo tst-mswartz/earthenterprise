@@ -21,7 +21,6 @@
 #include <Qt/qcolordialog.h>
 #include <Qt/qcombobox.h>
 #include <Qt/q3header.h>
-using QHeader = Q3Header;
 #include <Qt/qinputdialog.h>
 #include <Qt/qlabel.h>
 #include <Qt/qlineedit.h>
@@ -29,7 +28,6 @@ using QHeader = Q3Header;
 #include <Qt/qmessagebox.h>
 #include <Qt/qpainter.h>
 #include <Qt/q3popupmenu.h>
-using QPopupMenu = Q3PopupMenu;
 #include <Qt/qpushbutton.h>
 #include <Qt/qspinbox.h>
 #include <Qt/qtextedit.h>
@@ -38,9 +36,10 @@ using QPopupMenu = Q3PopupMenu;
 #include <Qt/qapplication.h>
 #include <Qt/qtooltip.h>
 #include <Qt/qcheckbox.h>
-
+#include <Qt/qobject.h>
 #include <SkBitmap.h>
 #include <SkImageDecoder.h>
+#include <Qt/qstring.h>
 
 #include "fusion/fusionui/AssetChooser.h"
 #include "fusion/fusionui/AssetNotes.h"
@@ -69,6 +68,9 @@ using QPopupMenu = Q3PopupMenu;
 #include "common/geInstallPaths.h"
 
 class AssetBase;
+using QListViewItemIterator = Q3ListViewItemIterator;
+using QPopupMenu = Q3PopupMenu;
+using QHeader = Q3Header;
 
 // ****************************************************************************
 // ***  MapProjectDefs
@@ -357,7 +359,7 @@ void MapLayerWidget::UpdateAvailableSearchAttributes(QString assetRef) {
   AssetVersion ver(vector_resource_asset->GetLastGoodVersionRef());
   if (!ver) {
     notify(NFY_WARN,
-           "Unable to get good version of asset %s.\n", assetRef.data());
+           "Unable to get good version of asset %s.\n", assetRef.data()->toAscii());
     return;
   }
 
@@ -553,7 +555,7 @@ void MapLayerWidget::ChooseAsset() {
 
 
   MapSubLayerConfig config;
-  config.asset_ref = newpath;
+  config.asset_ref = newpath.toUtf8().constData();
   config.display_rules.resize(1);
   config.display_rules[0].name = tr("default select all");
   MapAssetItem *new_item = new MapAssetItem(asset_listview, config);
@@ -1046,14 +1048,14 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
                               &workingDisplayRule.feature.stroke_width,
                               0.0, 25.0, 1);
 
-  CheckableController<Qt/qCheckBox>::Create(
+  CheckableController<QCheckBox>::Create(
       lineManager, draw_as_roads_check,
       &workingDisplayRule.feature.drawAsRoads);
 
   // -----
   {
     WidgetControllerManager *boxManager =
-      CheckableController<Qt/qGroupBox>::Create(
+      CheckableController<QGroupBox>::Create(
           lineManager, line_label_box,
           &workingDisplayRule.feature.label.enabled);
     FieldGeneratorController::Create(*boxManager,
@@ -1074,7 +1076,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   // -----
   {
     WidgetControllerManager *boxManager =
-      CheckableController<Qt/qGroupBox>::Create(
+      CheckableController<QGroupBox>::Create(
           lineManager, line_shield_box,
           &workingDisplayRule.feature.shield.enabled);
 
@@ -1152,7 +1154,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   // -----
   {
     WidgetControllerManager *boxManager =
-      CheckableController<Qt/qGroupBox>::Create(
+      CheckableController<QGroupBox>::Create(
           polygonManager, poly_clabel_box,
           &workingDisplayRule.site.label.enabled);
     FieldGeneratorController::Create(*boxManager,
@@ -1170,14 +1172,14 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
         *boxManager, poly_clabel_style,
         &workingDisplayRule.site.label.textStyle);
 
-    CheckableController<Qt/qCheckBox>::Create(
+    CheckableController<QCheckBox>::Create(
         *boxManager, poly_clabel_displayall_check,
         &workingDisplayRule.site.label.displayAll);
   }
   // -----
   {
     WidgetControllerManager *boxManager =
-      CheckableController<Qt/qGroupBox>::Create(
+      CheckableController<QGroupBox>::Create(
           polygonManager, poly_olabel_box,
           &workingDisplayRule.feature.label.enabled);
     FieldGeneratorController::Create(*boxManager,
@@ -1256,7 +1258,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   // The label widget in point.
   {
     WidgetControllerManager *boxManager =
-      CheckableController<Qt/qGroupBox>::Create(
+      CheckableController<QGroupBox>::Create(
           pointManager, point_center_label_box,
           &mapFeatureConfig.isPointLabelEnabled);
     FieldGeneratorController::Create(*boxManager,
@@ -1284,7 +1286,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
                                    MinDisplayMarginPxl, MaxDisplayMarginPxl);
     {
       WidgetControllerManager *resizeManager =
-        CheckableController<Qt/qGroupBox>::Create(
+        CheckableController<QGroupBox>::Create(
             *boxManager, point_marker_resizer_box,
             &mapFeatureConfig.isMarkerResizerEnabled);
       {
@@ -1292,7 +1294,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
         resizerMode.push_back(
             std::make_pair(
                 static_cast<int>(MapShieldConfig::IconFixedAspectStyle),
-                tr("Fixed")));
+                QObject::tr("Fixed")));
         resizerMode.push_back(
             std::make_pair(
                 static_cast<int>(MapShieldConfig::IconVariableAspectStyle),
@@ -1308,7 +1310,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   // The Outer Label widget in point.
   {
     WidgetControllerManager *boxManager =
-      CheckableController<Qt/qGroupBox>::Create(
+      CheckableController<QGroupBox>::Create(
           pointManager, point_outer_label_box,
           &mapLabelConfig.hasOutlineLabel);
     FieldGeneratorController::Create(*boxManager,
@@ -1326,7 +1328,7 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
       ComboContents labelPosition;
       for (int i = 0; i <= static_cast<int>(VectorDefs::Right); ++i) {
         labelPosition.push_back(
-            std::make_pair(i, ToString((VectorDefs::EightSides)i)));
+            std::make_pair(i, ToString((VectorDefs::EightSides))));
       }
       EnumComboController<VectorDefs::EightSides>::Create(
           *boxManager, point_outer_label_position,
@@ -1397,7 +1399,7 @@ void MapLayerWidget::ApplyAssetEdits(MapAssetItem *item) {
 void MapLayerWidget::AssembleEditRequest(MapLayerEditRequest* request) {
   // get LayerLegend
   legendManager.SyncToConfig();
-  if (request->assetname != AssetBase::untitled_name) {
+  if (request->assetname != AssetBase::untitled_name.toUtf8().constData()) {
     const QString &legend_name = legend_config_.defaultLocale.name.GetValue();
     if (legend_name.stripWhiteSpace().isEmpty()) {
       throw khException(kh::tr("Missing legend name"));
@@ -1522,7 +1524,7 @@ bool MapFeatureConfig::IsValid(std::string& error) const {
       error += "The 'Icon Image' needs to be specified.";
       return false;
     }
-    IconReference ref(shield.icon_type_, icon_href);
+    IconReference ref(shield.icon_type_, icon_href.c_str());
     SkBitmap icon;
     if (!SkImageDecoder::DecodeFile(ref.SourcePath().c_str(), &icon)) {
       error = error + "The icon file '" + ref.SourcePath().c_str() +

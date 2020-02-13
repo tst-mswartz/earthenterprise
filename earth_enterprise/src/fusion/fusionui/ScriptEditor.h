@@ -27,6 +27,8 @@
 #include "scripteditorbase.h"
 #include <gstRecord.h>
 #include <gstSourceManager.h>
+#include <Qt/q3listbox.h>
+using QListBoxItem = Q3ListBoxItem;
 
 class gstFormat;
 
