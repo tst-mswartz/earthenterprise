@@ -28,12 +28,11 @@
 #include <autoingest/AssetVersion.h>
 #include <autoingest/khAssetManagerProxy.h>
 
-
 #define COL_VER 0
 #define COL_CREATETIME 1
 #define COL_STATE 2
 AssetVersionItem::AssetVersionItem( QListView *parent, const AssetVersion &ver )
-    : QListViewItem( parent, QString( "%1" ).arg( ver->version.c_str(0) ),
+    : QListViewItem( parent, QString( "%1" ).arg( ver->version ),
                      ver->meta.GetValue("createdtime"),
                      ver->PrettyState() ),
       AssetWatcher(ver->GetRef().toString().c_str())
@@ -126,7 +125,7 @@ AssetProperties::rmbClicked( QListViewItem *item,
   QPopupMenu menu( this );
   if (actions.Contribute(&menu))
     menu.insertSeparator();
-  menu.insertItem( tr( "Version Properties" ), VERSION_PROPERTIES );
+  menu.insertItem( QObject::tr( "Version Properties" ), VERSION_PROPERTIES );
 
   int selection = menu.exec(pos);
   switch (selection) {

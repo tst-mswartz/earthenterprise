@@ -14,7 +14,7 @@
 
 
 #include <Qt/qcursor.h>
-#include <Qt/qtimer.h>>
+#include <Qt/qtimer.h>
 #include <Qt/q3dragobject.h>
 #include <Qt/qmessagebox.h>
 #include <Qt/qbitmap.h>

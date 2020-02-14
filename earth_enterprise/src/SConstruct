@@ -245,7 +245,7 @@ if sys.platform[0:5] == 'linux':
     warnflags += ['-Wno-parentheses']
   cppflags = ['-D_LARGEFILE64_SOURCE', '-DQT_THREAD_SUPPORT',
               '-DQT_NO_ASCII_CAST', '-DQT_CLEAN_NAMESPACE', '-D_REENTRANT',
-              '-DGUNIT_NO_GOOGLE3', '-DQT3_SUPPORT']
+              '-DGUNIT_NO_GOOGLE3', '-DQT3_SUPPORT', '-DQT_NO_TRANSLATION','-DQDOC']
   if is_os_ubuntu:
     cppflags += ['-I/usr/include/qt4/Qt3Support', '-I/usr/include/qt4/QtCore', '-I/usr/include/qt4/QtGui', '-I/usr/include/qt4']
   else:

@@ -26,7 +26,7 @@
 
 class AssetBase;
 class MapProjectEditRequest;
-class QListViewItem;
+//class QListViewItem;
 
 class MapProjectWidget : public ProjectWidget,
                          public AssetWidgetBase {

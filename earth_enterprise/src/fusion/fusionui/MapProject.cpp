@@ -23,12 +23,14 @@
 #include "AssetDerivedImpl.h"
 #include "ProjectLayerView.h"
 
-#include <qpopupmenu.h>
-#include <qpushbutton.h>
-#include <qheader.h>
-#include <qmessagebox.h>
-#include <qgroupbox.h>
-#include <qlineedit.h>
+#include <Qt/q3popupmenu.h>
+using QPopupMenu = Q3PopupMenu;
+#include <Qt/qpushbutton.h>
+#include <Qt/q3header.h>
+#include <Qt/qmessagebox.h>
+#include <Qt/qgroupbox.h>
+#include <Qt/qlineedit.h>
+#include <Qt/qobject.h>
 
 class AssetBase;
 
@@ -61,7 +63,7 @@ class MapLayerItem : public LayerItemBase {
 
 MapLayerItem::MapLayerItem(QListView* parent, const QString& asset_path)
   : LayerItemBase(parent) {
-  layer_item_config_.assetRef = asset_path;
+  layer_item_config_.assetRef = asset_path.toUtf8().constData();
   Init();
 }
 
@@ -81,12 +83,12 @@ void MapLayerItem::Init() {
       setText(0, layer_item_config_.legend.GetValue().defaultLocale.name);
     }
 
-    setText(1, shortAssetName(layer_item_config_.assetRef));
+    setText(1, shortAssetName(layer_item_config_.assetRef.c_str()));
     AssetDisplayHelper a(layer_asset->type, layer_asset->subtype);
     setPixmap(1, a.GetPixmap());
   } else {
     setText(0, "<INVALID>");
-    setText(1, shortAssetName(layer_item_config_.assetRef));
+    setText(1, shortAssetName(layer_item_config_.assetRef.c_str()));
     setPixmap(1, AssetDisplayHelper::Pixmap(AssetDisplayHelper::Key_Unknown));
   }
 }
@@ -123,8 +125,8 @@ MapProjectWidget::MapProjectWidget(QWidget *parent, AssetBase* base)
   HideLegend();
   HideUuid();
   ListView()->EnableAssetDrops(AssetDefs::Map, kLayer);
-  ListView()->setColumnText(0, tr("Legend Name"));
-  ListView()->addColumn(tr(kLayer.c_str()));
+  ListView()->setColumnText(0, QObject::tr("Legend Name"));
+  ListView()->addColumn(QObject::tr(kLayer.c_str()));
   ListView()->header()->show();
 }
 
@@ -179,7 +181,7 @@ LayerItemBase* MapProjectWidget::NewLayerItem(const QString& assetref) {
   QListViewItem* list_item = ListView()->firstChild();
   while (list_item) {
     MapLayerItem* map_layer_item = static_cast<MapLayerItem*>(list_item);
-    if (map_layer_item->layer_item_config_.assetRef == assetref) {
+    if (map_layer_item->layer_item_config_.assetRef == assetref.toUtf8().constData()) {
       QMessageBox::critical(
           this, "Error" ,
           kh::tr("Map layer '%1' already exists in this project")

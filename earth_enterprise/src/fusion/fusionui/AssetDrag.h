@@ -19,9 +19,9 @@
 #define KHSRC_FUSION_FUSIONUI_ASSETDRAG_H__
 
 #include <Qt/q3dragobject.h>
-//#include <qdragobject.h>
 #include <autoingest/Asset.h>
 using QTextDrag = Q3TextDrag;
+
 class AssetDrag : public QTextDrag {
  public:
   AssetDrag(QWidget* drag_source, Asset asset);

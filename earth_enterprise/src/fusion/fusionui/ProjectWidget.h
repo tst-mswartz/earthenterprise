@@ -20,8 +20,9 @@
 
 #include "projectwidgetbase.h"
 #include "fusion/fusionui/QValidatorExt.h"
+#include <Qt/qlistview.h>
 
-class QListView;
+//class QListView;
 //class QListViewItem;
 class ProjectLayerView;
 class LayerItemBase;

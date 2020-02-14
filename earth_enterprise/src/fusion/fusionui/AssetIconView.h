@@ -24,6 +24,7 @@
 #include <gstAssetGroup.h>
 #include <Qt/qnamespace.h>
 #include <Qt/q3listview.h>
+#include <Qt/qwidget.h>
 
 
 // -----------------------------------------------------------------------------

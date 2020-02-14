@@ -20,11 +20,10 @@
 #include "ProjectLayerView.h"
 #include "AssetChooser.h"
 #include "AssetDerivedImpl.h"
-#include <Qt/qlistview.h>
-#include <qmessagebox.h>
+#include <Qt/qmessagebox.h>
 
 class AssetBase;
-//using QListViewItem = Q3ListViewItem;
+using QListViewItem = Q3ListViewItem;
 
 // ****************************************************************************
 // ***  KMLProjectDefs
