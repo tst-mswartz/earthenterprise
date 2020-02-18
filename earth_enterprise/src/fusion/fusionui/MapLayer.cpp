@@ -16,7 +16,7 @@
 #include "fusion/fusionui/MapLayer.h"
 
 #include <utility>
-
+#include <Qt/qobject.h>
 #include <Qt/qcolor.h>
 #include <Qt/qcolordialog.h>
 #include <Qt/qcombobox.h>
@@ -40,7 +40,9 @@
 #include <SkBitmap.h>
 #include <SkImageDecoder.h>
 #include <Qt/qstring.h>
-
+//#include <Qt/qfiledialog.h>
+#include <Qt/q3filedialog.h>
+//using QFileDialog = Q3FileDialog;
 #include "fusion/fusionui/AssetChooser.h"
 #include "fusion/fusionui/AssetNotes.h"
 #include "fusion/fusionui/GfxView.h"
@@ -69,6 +71,7 @@
 
 class AssetBase;
 using QListViewItemIterator = Q3ListViewItemIterator;
+using QListView = Q3ListView;
 using QPopupMenu = Q3PopupMenu;
 using QHeader = Q3Header;
 
@@ -347,19 +350,19 @@ void MapLayerWidget::DeleteSearchField() {
 
 void MapLayerWidget::UpdateAvailableSearchAttributes(QString assetRef) {
   attributes.clear();
-
-  Asset vector_resource_asset(assetRef.toUtf8().constData());
+  std::string aRef { assetRef.toUtf8().constData() };
+  Asset vector_resource_asset(aRef);
   if (vector_resource_asset->type != AssetDefs::Vector ||
       vector_resource_asset->subtype != kProductSubtype) {
-    notify(NFY_WARN, "Invalid product: %s %d ", assetRef.data(),
-           vector_resource_asset->type.c_str());
+    notify(NFY_WARN, "Invalid product: %s %d ", aRef.c_str(),
+           vector_resource_asset->type);
     return;
   }
 
   AssetVersion ver(vector_resource_asset->GetLastGoodVersionRef());
   if (!ver) {
     notify(NFY_WARN,
-           "Unable to get good version of asset %s.\n", assetRef.data()->toAscii());
+           "Unable to get good version of asset %s.\n", assetRef.toUtf8().constData());
     return;
   }
 
@@ -536,8 +539,9 @@ void MapLayerWidget::ChooseAsset() {
     return;
 
   {
+    std::string npath { newpath.toUtf8().constData() };
     // Check if it's ready for us to use
-    Asset asset(newpath);
+    Asset asset(npath);
     if (!asset) {
       QMessageBox::critical(this, "Error" ,
                             tr("%1 isn't a valid asset.").arg(newpath),
@@ -694,11 +698,11 @@ void MapLayerWidget::UpdateButtons(QListViewItem* item) {
     move_rule_up_btn->setEnabled(filter_item->CanMoveUp());
     move_rule_down_btn->setEnabled(filter_item->CanMoveDown());
 
-    QToolTip::add(new_rule_btn, tr("New Rule"));
-    QToolTip::add(delete_rule_btn, tr("Delete Rule"));
-    QToolTip::add(copy_rule_btn, tr("Copy Rule"));
-    QToolTip::add(move_rule_up_btn, tr("Move Rule Up"));
-    QToolTip::add(move_rule_down_btn, tr("Move Rule Down"));
+    QToolTip::add(new_rule_btn, QObject::tr("New Rule"));
+    QToolTip::add(delete_rule_btn, QObject::tr("Delete Rule"));
+    QToolTip::add(copy_rule_btn, QObject::tr("Copy Rule"));
+    QToolTip::add(move_rule_up_btn, QObject::tr("Move Rule Up"));
+    QToolTip::add(move_rule_down_btn, QObject::tr("Move Rule Down"));
   }
 }
 
@@ -723,7 +727,7 @@ void MapLayerWidget::CurrentItemChanged(QListViewItem* item) {
   MapAssetItem* asset_item = dynamic_cast<MapAssetItem*>(item);
   if (asset_item) {
     SelectAsset(asset_item);
-    UpdateAvailableSearchAttributes(asset_item->AssetRef());
+    UpdateAvailableSearchAttributes(asset_item->AssetRef().c_str());
   }
 
   MapFilterItem* filter_item = dynamic_cast<MapFilterItem*>(item);
@@ -879,7 +883,7 @@ void MapLayerWidget::ExportTemplate() {
   QFileDialog fd(this);
   fd.setCaption(tr("Export Template"));
   fd.setMode(QFileDialog::AnyFile);
-  fd.addFilter(tr("Fusion Map Template File (*.kmdsp)"));
+  fd.addFilter(QObject::tr("Fusion Map Template File (*.kmdsp)"));
 
   if (fd.exec() != QDialog::Accepted)
     return;
@@ -888,7 +892,7 @@ void MapLayerWidget::ExportTemplate() {
   QString template_file(fd.selectedFile());
   if (!template_file.endsWith(".kmdsp"))
     template_file += QString(".kmdsp");
-  if (!cfg.Save(template_file.latin1())) {
+  if (!cfg.Save(template_file.toUtf8().constData())) {
     QMessageBox::critical(this, "Error",
                           tr("Unable to save file: ") + template_file,
                           tr("OK"), 0, 0, 0);
@@ -1213,8 +1217,9 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   {  // The point rendering shape input; Marker Type
     ComboContents pointMarker;
     for (int i = 0; i <= static_cast<int>(VectorDefs::Icon); ++i) {
+        std::string pm { ToString(VectorDefs::PointMarker) };
       pointMarker.push_back(
-          std::make_pair(i, ToString((VectorDefs::PointMarker)i)));
+          std::make_pair(i, pm.c_str()));
     }
     EnumComboController<VectorDefs::PointMarker>::Create(
         pointManager, point_marker, &mapFeatureConfig.pointMarker,
@@ -1236,8 +1241,9 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   {  // The point fill type; Fill Type
     ComboContents pointFillOutline;
     for (int i = 0; i <= static_cast<int>(VectorDefs::FillOnly); ++i) {
+      std::string pm { ToString(VectorDefs::PolygonDrawMode) };
       pointFillOutline.push_back(
-          std::make_pair(i, ToString((VectorDefs::PolygonDrawMode)i)));
+          std::make_pair(i, pm.c_str()));
     }
     EnumComboController<VectorDefs::PolygonDrawMode>::Create(
         pointManager, point_fill_outline, &mapFeatureConfig.polygonDrawMode,
@@ -1327,8 +1333,9 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
     {
       ComboContents labelPosition;
       for (int i = 0; i <= static_cast<int>(VectorDefs::Right); ++i) {
+        std::string pm { ToString(VectorDefs::EightSides) };
         labelPosition.push_back(
-            std::make_pair(i, ToString((VectorDefs::EightSides))));
+            std::make_pair(i, pm.c_str()));
       }
       EnumComboController<VectorDefs::EightSides>::Create(
           *boxManager, point_outer_label_position,

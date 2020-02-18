@@ -15,8 +15,7 @@
 
 #include <Qt/q3vgroupbox.h>
 using QVGroupBox = Q3VGroupBox;
-#include <qhgroupbox.h>
-#include <qlayout.h>
+#include <Qt/qlayout.h>
 
 #include "ProjectDocker.h"
 #include "ProjectManager.h"

@@ -13,16 +13,14 @@
 // limitations under the License.
 
 
-#include <qapplication.h>
-#include <qpainter.h>
-#include <qstringlist.h>
+#include <Qt/qapplication.h>
+#include <Qt/qpainter.h>
+#include <Qt/qstringlist.h>
 #include <Qt/qpixmap.h>
-//#include <qpixmap.h>
-#include <qimage.h>
-#include <Qt3Support/q3iconview.h>
-//#include <qiconview.h>
+#include <Qt/qimage.h>
+#include <Qt/q3iconview.h>
 #include <Qt/qicon.h>
-#include <qmessagebox.h>
+#include <Qt/qmessagebox.h>
 
 #include "IconManager.h"
 #include "PixmapManager.h"

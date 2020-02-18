@@ -13,13 +13,13 @@
 // limitations under the License.
 
 
-#include <qframe.h>
-#include <qlayout.h>
-#include <qdatetimeedit.h>
+#include <Qt/qframe.h>
+#include <Qt/qlayout.h>
+#include <Qt/qdatetimeedit.h>
 #include <Qt/q3popupmenu.h>
 //#include <qpopupmenu.h>
-#include <qlabel.h>
-#include <qmessagebox.h>
+#include <Qt/qlabel.h>
+#include <Qt/qmessagebox.h>
 
 #include "AssetProperties.h"
 #include "AssetVersionProperties.h"
@@ -31,15 +31,15 @@
 #define COL_VER 0
 #define COL_CREATETIME 1
 #define COL_STATE 2
-AssetVersionItem::AssetVersionItem( QListView *parent, const AssetVersion &ver )
-    : QListViewItem( parent, QString( "%1" ).arg( ver->version ),
+AssetVersionItem::AssetVersionItem( Q3ListView *parent, const AssetVersion &ver )
+    : Q3ListViewItem( parent, QString( "%1" ).arg( ver->version ),
                      ver->meta.GetValue("createdtime"),
                      ver->PrettyState() ),
       AssetWatcher(ver->GetRef().toString().c_str())
 {
 }
 
-int AssetVersionItem::compare( QListViewItem *item, int, bool ) const
+int AssetVersionItem::compare( Q3ListViewItem *item, int, bool ) const
 {
   return atoi( text( 0 ).latin1() ) - atoi( item->text( 0 ).toUtf8().constData() );
 }
@@ -52,7 +52,7 @@ void AssetVersionItem::paintCell( QPainter *p, const QColorGroup &cg,
   if ( column == 2 )
     ncg = AssetManager::GetStateDrawStyle( text( column ), p, cg );
 
-  QListViewItem::paintCell( p, ncg, column, width, alignment );
+  Q3ListViewItem::paintCell( p, ncg, column, width, alignment );
 }
 
 void
@@ -74,8 +74,8 @@ AssetProperties::AssetProperties( QWidget* parent, const gstAssetHandle &handle 
   typeLabel->setText( ToString( asset->type ).c_str() );
   subTypeLabel->setText( asset->PrettySubtype().c_str() );
 
-  connect( versionsList, SIGNAL( contextMenuRequested( QListViewItem *, const QPoint &, int ) ),
-           this, SLOT( rmbClicked( QListViewItem *, const QPoint &, int ) ) );
+  connect( versionsList, SIGNAL( contextMenuRequested( Q3ListViewItem *, const QPoint &, int ) ),
+           this, SLOT( rmbClicked( Q3ListViewItem *, const QPoint &, int ) ) );
 
 
   refresh();
@@ -104,7 +104,7 @@ void AssetProperties::refresh()
 }
 
 
-void AssetProperties::selectVersion( QListViewItem *item )
+void AssetProperties::selectVersion( Q3ListViewItem *item )
 {
   if ( item ) {
     AssetVersionItem *ver = ( AssetVersionItem* )item;
@@ -114,7 +114,7 @@ void AssetProperties::selectVersion( QListViewItem *item )
 
 
 void
-AssetProperties::rmbClicked( QListViewItem *item,
+AssetProperties::rmbClicked( Q3ListViewItem *item,
                              const QPoint &pos, int )
 {
   AssetVersionItem *verItem = dynamic_cast<AssetVersionItem*>(item);

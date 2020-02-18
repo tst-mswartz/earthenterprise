@@ -18,8 +18,8 @@
 #ifndef _ObjectDetail_h_
 #define _ObjectDetail_h_
 
-#include <qlistview.h>
-
+#include <Qt/q3listview.h>
+using QListViewItem = Q3ListViewItem;
 #include <khGuard.h>
 #include <gstVertex.h>
 #include <gstGeode.h>

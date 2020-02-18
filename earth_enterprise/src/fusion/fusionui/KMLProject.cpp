@@ -23,7 +23,6 @@
 #include <Qt/qmessagebox.h>
 
 class AssetBase;
-using QListViewItem = Q3ListViewItem;
 
 // ****************************************************************************
 // ***  KMLProjectDefs
@@ -37,10 +36,10 @@ KMLProjectDefs::SubmitFuncType KMLProjectDefs::kSubmitFunc =
 // ****************************************************************************
 class KMLLayerItem : public LayerItemBase {
  public:
-  KMLLayerItem(QListView* parent, const KMLProjectConfig::LayerItem& cfg);
-  KMLLayerItem(QListView* parent, const QString& asset_path);
+  KMLLayerItem(Q3ListView* parent, const KMLProjectConfig::LayerItem& cfg);
+  KMLLayerItem(Q3ListView* parent, const QString& asset_path);
 
-  // inherited from QListViewItem
+  // inherited from Q3ListViewItem
   virtual QString text(int col) const;
 
   KMLProjectConfig::LayerItem& GetConfig() { return config_; }
@@ -50,12 +49,12 @@ class KMLLayerItem : public LayerItemBase {
   KMLProjectConfig::LayerItem config_;
 };
 
-KMLLayerItem::KMLLayerItem(QListView* parent, const KMLProjectConfig::LayerItem& cfg)
+KMLLayerItem::KMLLayerItem(Q3ListView* parent, const KMLProjectConfig::LayerItem& cfg)
   : LayerItemBase(parent),
     config_(cfg) {
 }
 
-KMLLayerItem::KMLLayerItem(QListView* parent, const QString& asset_path)
+KMLLayerItem::KMLLayerItem(Q3ListView* parent, const QString& asset_path)
   : LayerItemBase(parent) {
   config_.assetRef = asset_path.toUtf8().constData();
   Asset asset(config_.assetRef);
@@ -72,13 +71,13 @@ QString KMLLayerItem::text(int col) const {
 void KMLLayerItem::AdjustLevel() {
   while (CanMoveUp()) {
     SwapPosition(Previous());
-    QListViewItem::listView()->sort();
-    QListViewItem::listView()->setSelected(this, true);
+    Q3ListViewItem::listView()->sort();
+    Q3ListViewItem::listView()->setSelected(this, true);
   }
   while (CanMoveDown()) {
     SwapPosition(Next());
-    QListViewItem::listView()->sort();
-    QListViewItem::listView()->setSelected(this, true);
+    Q3ListViewItem::listView()->sort();
+    Q3ListViewItem::listView()->setSelected(this, true);
   }
 }
 
@@ -100,7 +99,7 @@ void KMLProjectWidget::Prefill(const KMLProjectEditRequest &req) {
 
 void KMLProjectWidget::AssembleEditRequest(KMLProjectEditRequest *request) {
   request->config.layers.clear();
-  QListViewItem* item = ListView()->firstChild();
+  Q3ListViewItem* item = ListView()->firstChild();
   while (item) {
     KMLLayerItem* kml_layer_item = static_cast<KMLLayerItem*>(item);
     request->config.layers.push_back(kml_layer_item->GetConfig());
@@ -126,7 +125,7 @@ LayerItemBase* KMLProjectWidget::NewLayerItem() {
 
 LayerItemBase* KMLProjectWidget::NewLayerItem(const QString& assetref) {
   // check to make sure we don't already have this one
-  QListViewItem* list_item = ListView()->firstChild();
+  Q3ListViewItem* list_item = ListView()->firstChild();
   while (list_item) {
     KMLLayerItem* layer_item = static_cast<KMLLayerItem*>(list_item);
     if (layer_item->GetConfig().assetRef == assetref.toUtf8().constData()) {

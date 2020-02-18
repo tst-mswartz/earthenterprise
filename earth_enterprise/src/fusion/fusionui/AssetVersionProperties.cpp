@@ -47,14 +47,14 @@ static QPixmap uic_load_pixmap( const QString &name )
 #define COL_LOG 2
 #define COL_REF 3
 
-AssetChildItem::AssetChildItem( QListView *parent, const AssetVersion &ver)
-    : QListViewItem( parent ), AssetWatcher(ver->GetRef())
+AssetChildItem::AssetChildItem( Q3ListView *parent, const AssetVersion &ver)
+    : Q3ListViewItem( parent ), AssetWatcher(ver->GetRef())
 {
   configureWidgets(ver);
 }
 
-AssetChildItem::AssetChildItem( QListViewItem *parent, const AssetVersion &ver, const std::string &msg )
-    : QListViewItem( parent ), AssetWatcher(ver->GetRef())
+AssetChildItem::AssetChildItem( Q3ListViewItem *parent, const AssetVersion &ver, const std::string &msg )
+    : Q3ListViewItem( parent ), AssetWatcher(ver->GetRef())
 {
   configureWidgets(ver, msg);
 }
@@ -110,13 +110,13 @@ AssetChildItem::setOpen(bool open)
 
 
     // open second
-    QListViewItem::setOpen(open);
+    Q3ListViewItem::setOpen(open);
   } else {
     // close first
-    QListViewItem::setOpen(open);
+    Q3ListViewItem::setOpen(open);
 
     // delete all my children
-    QListViewItem *tokill;
+    Q3ListViewItem *tokill;
     while ((tokill = firstChild())) {
       delete tokill;
     }
@@ -130,7 +130,7 @@ void AssetChildItem::paintCell( QPainter *p, const QColorGroup &cg, int col, int
   if ( col == COL_STATE )
     ngrp = AssetManager::GetStateDrawStyle( text( col ).toUtf8().constData(), p, cg );
 
-  QListViewItem::paintCell( p, ngrp, col, width, align );
+  Q3ListViewItem::paintCell( p, ngrp, col, width, align );
 }
 
 std::string
@@ -152,8 +152,8 @@ AssetVersionProperties::AssetVersionProperties( const std::string &verref_ )
   depListView->setSorting( -1 );
   depListView->setRootIsDecorated( true );
 
-  connect( depListView, SIGNAL( contextMenuRequested( QListViewItem *, const QPoint &, int ) ),
-           this, SLOT( rmbClicked( QListViewItem *, const QPoint &, int ) ) );
+  connect( depListView, SIGNAL( contextMenuRequested( Q3ListViewItem *, const QPoint &, int ) ),
+           this, SLOT( rmbClicked( Q3ListViewItem *, const QPoint &, int ) ) );
 
   openverprops.insert(std::make_pair(verref, this));
 
@@ -172,7 +172,7 @@ void AssetVersionProperties::refresh()
 
 
   AssetVersion ver(verref);
-  QListViewItem *item = new AssetChildItem( depListView, ver );
+  Q3ListViewItem *item = new AssetChildItem( depListView, ver );
 
   // automatically open the first level
   item->setOpen( true );
@@ -185,7 +185,7 @@ void AssetVersionProperties::refresh()
 
 }
 
-void AssetVersionProperties::clicked( QListViewItem *item, const QPoint & pos, int col )
+void AssetVersionProperties::clicked( Q3ListViewItem *item, const QPoint & pos, int col )
 {
   if ( item == NULL || col != COL_LOG )
     return;
@@ -211,7 +211,7 @@ AssetVersionProperties::Open(const std::string &verref)
 }
 
 void
-AssetVersionProperties::rmbClicked( QListViewItem *item,
+AssetVersionProperties::rmbClicked( Q3ListViewItem *item,
                                     const QPoint &pos, int )
 {
   AssetChildItem *childItem = dynamic_cast<AssetChildItem*>(item);

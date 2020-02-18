@@ -14,9 +14,10 @@
 
 
 #include <stdlib.h>
-#include <qtable.h>
-#include <qpushbutton.h>
-#include <qmessagebox.h>
+#include <Qt/qglobal.h>
+#include <Qt/q3table.h>
+#include <Qt/qpushbutton.h>
+#include <Qt/qmessagebox.h>
 
 #include <khFileUtils.h>
 

@@ -18,7 +18,7 @@
 #define KHSRC_FUSION_GST_GSTASSETGROUP_H__
 
 #include <vector>
-
+#include <Qt/qglobal.h>
 #include <Qt/qstring.h>
 //#include <qstring.h>
 #include <Qt/qstringlist.h>
