@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
+#include <cstdlib>
 #include <Qt/qframe.h>
 #include <Qt/qlayout.h>
 #include <Qt/qdatetimeedit.h>
@@ -35,13 +35,15 @@ AssetVersionItem::AssetVersionItem( Q3ListView *parent, const AssetVersion &ver 
     : Q3ListViewItem( parent, QString( "%1" ).arg( ver->version ),
                      ver->meta.GetValue("createdtime"),
                      ver->PrettyState() ),
-      AssetWatcher(ver->GetRef().toString().c_str())
+      AssetWatcher(ver->GetRef().toString())
 {
 }
 
 int AssetVersionItem::compare( Q3ListViewItem *item, int, bool ) const
 {
-  return atoi( text( 0 ).latin1() ) - atoi( item->text( 0 ).toUtf8().constData() );
+  int lhs = atoi( text( 0 ).toUtf8().constData() );
+  int rhs = atoi( item->text( 0 ).toUtf8().constData() )
+  return lhs - rhs;
 }
 
 void AssetVersionItem::paintCell( QPainter *p, const QColorGroup &cg,

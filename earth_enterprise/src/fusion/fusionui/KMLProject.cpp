@@ -139,7 +139,7 @@ LayerItemBase* KMLProjectWidget::NewLayerItem(const QString& assetref) {
     list_item = layer_item->Next();
   }
 
-  KMLLayerItem* item = new KMLLayerItem(ListView(), assetref);
+  KMLLayerItem* item = new KMLLayerItem(static_cast<Q3ListView*>(ListView()), assetref);
   item->AdjustLevel();
   return item;
 }

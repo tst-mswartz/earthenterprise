@@ -48,7 +48,7 @@ QString PrimTypeToString(int type);
 
 class FeatureItem : public QCheckListItem {
  public:
-  FeatureItem(QListView* parent, int id, gstGeodeHandle g, gstRecordHandle a);
+  FeatureItem(Q3ListView* parent, int id, gstGeodeHandle g, gstRecordHandle a);
   ~FeatureItem();
 
   virtual int compare(QListViewItem* item, int, bool) const;

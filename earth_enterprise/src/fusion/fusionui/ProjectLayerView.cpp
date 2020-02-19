@@ -51,7 +51,7 @@ void ProjectLayerView::contentsDragMoveEvent(QDragMoveEvent* e) {
   // QScrollView::contentsDragMoveEvent seems to be more reliable than
   // QScrollView::contentsDragEnterEvent so use it even though it will
   // continue to be called as the drag is moved around the widget
-  e->accept(AssetDrag::canDecode(e, drag_asset_type_, drag_asset_subtype_));
+  e->accept(AssetDrag::canDecode(dynamic_cast<QMimeSource*>(e), drag_asset_type_, drag_asset_subtype_));
 }
 
 void ProjectLayerView::contentsDropEvent(QDropEvent* e) {

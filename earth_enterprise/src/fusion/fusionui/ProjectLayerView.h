@@ -24,6 +24,7 @@
 #include <Qt/qwidget.h>
 #include <Qt/qlistview.h>
 #include <Qt/q3listview.h>
+#include <Qt/qevent.h>
 using QListViewItem = Q3ListViewItem;
 
 class ProjectLayerView : public QListView {

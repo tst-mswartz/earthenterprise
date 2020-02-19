@@ -168,7 +168,7 @@ class NewFeatureDialog : public NewFeatureBase {
 
 // ----------------------------------------------------------------------------
 
-FeatureItem::FeatureItem(QListView* parent, int id, gstGeodeHandle geode,
+FeatureItem::FeatureItem(Q3ListView* parent, int id, gstGeodeHandle geode,
                          gstRecordHandle attrib)
     : QCheckListItem(parent, QString::number(id), QCheckListItem::CheckBox),
       id_(id),
@@ -427,8 +427,8 @@ FeatureEditor::FeatureEditor(QWidget* parent)
   if (!Preferences::ExperimentalMode)
     experimental_box->hide();
 
-  if (khExists(Preferences::filepath(kLayoutFilename).latin1())) {
-    if (layout_persist_.Load(Preferences::filepath(kLayoutFilename).latin1())) {
+  if (khExists(Preferences::filepath(kLayoutFilename).toUtf8().constData())) {
+    if (layout_persist_.Load(Preferences::filepath(kLayoutFilename).toUtf8().constData())) {
       // update position
       resize(layout_persist_.width, layout_persist_.height);
       move(layout_persist_.xpos, layout_persist_.ypos);
@@ -471,7 +471,7 @@ FeatureEditor::~FeatureEditor() {
   Close();
 
   layout_persist_.showme = isShown();
-  layout_persist_.Save(Preferences::filepath(kLayoutFilename).latin1());
+  layout_persist_.Save(Preferences::filepath(kLayoutFilename).toUtf8().constData());
 }
 
 void FeatureEditor::moveEvent(QMoveEvent* event) {
@@ -646,7 +646,7 @@ bool FeatureEditor::Save() {
   // TODO: Ideally the save() option will support all OGR formats so the
   // check for existing file(s) will need to be reworked then.
 
-  std::string kvgeom_name = khEnsureExtension(fname.latin1(), ".kvgeom");
+  std::string kvgeom_name = khEnsureExtension(fname.toUtf8().constData(), ".kvgeom");
   std::string kvattr_name = khReplaceExtension(kvgeom_name, ".kvattr");
   std::string kvindx_name = khReplaceExtension(kvgeom_name, ".kvindx");
   if (khExists(kvgeom_name) || khExists(kvattr_name) || khExists(kvindx_name)) {
@@ -674,7 +674,7 @@ bool FeatureEditor::Save() {
 }
 
 bool FeatureEditor::ExportKVP(const QString& fname) {
-  std::string kvp_name = khEnsureExtension(fname.latin1(), ".kvgeom");
+  std::string kvp_name = khEnsureExtension(fname.toUtf8().constData(), ".kvgeom");
   gstKVPFile kvp(kvp_name.c_str());
   if (kvp.OpenForWrite() != GST_OKAY) {
     notify(NFY_WARN, "Unable to open feature file %s", kvp_name.c_str());
@@ -902,7 +902,7 @@ void FeatureEditor::dropEvent(QDropEvent* event) {
     QString text;
     AssetDrag::decode(event, text);
 
-    Asset asset(AssetDefs::FilenameToAssetPath(text.latin1()));
+    Asset asset(AssetDefs::FilenameToAssetPath(text.toUtf8().constData()));
 
     //
     // Handle assets (products)
@@ -951,7 +951,7 @@ void FeatureEditor::dropEvent(QDropEvent* event) {
 
     for (QStringList::Iterator it = files.begin(); it != files.end(); ++it) {
       QString fname = ProjectManager::CleanupDropText(*it);
-      notify(NFY_DEBUG, "Got file: %s", fname.latin1());
+      notify(NFY_DEBUG, "Got file: %s", fname.toUtf8().constData());
     }
   }
   emit RedrawPreview();
@@ -988,7 +988,7 @@ void FeatureEditor::Open() {
 
   QString fname(file_dialog.selectedFile());
 
-  gstSource* new_source = OpenSource(fname.latin1(), 0, false);
+  gstSource* new_source = OpenSource(fname.toUtf8().constData(), 0, false);
   if (new_source) {
     AddFeaturesFromSource(new_source);
     delete new_source;

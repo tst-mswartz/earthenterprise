@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
+#include <Qt/qglobal.h>
+#include <Qt/qobject.h>
 #include <Qt/qcursor.h>
 #include <Qt/qtimer.h>
 #include <Qt/q3dragobject.h>
 #include <Qt/qmessagebox.h>
 #include <Qt/qbitmap.h>
-
+#include <Qt/qcoreapplication.h>
 #include <gstTexture.h>
 #include <gstTextureManager.h>
 #include <notify.h>
@@ -428,7 +429,7 @@ void GfxView::toolModePan(bool state) {
 void GfxView::toolModeEdit(bool state) {
   if (state == 1) {
     tool_mode_ = Edit;
-    setCursor(CrossCursor);
+    setCursor(Qt::CrossCursor);
   }
 }
 
@@ -855,7 +856,7 @@ void GfxView::ValidateGfxMode() {
       this,                                       // parent
       0,                                          // name
       true,                                       // modal
-      Qt::WStyle_DialogBorder | Qt::WStyle_StaysOnTop);   // style
+      Qt::MSWindowsFixedSizeDialogHint | Qt::WindowStaysOnTopHint);   // style
     error.exec();
   }
 }

@@ -16,6 +16,8 @@
 #include "fusion/fusionui/MapLayer.h"
 
 #include <utility>
+
+#include <Qt/qglobal.h>
 #include <Qt/qobject.h>
 #include <Qt/qcolor.h>
 #include <Qt/qcolordialog.h>
@@ -40,9 +42,8 @@
 #include <SkBitmap.h>
 #include <SkImageDecoder.h>
 #include <Qt/qstring.h>
-//#include <Qt/qfiledialog.h>
-#include <Qt/q3filedialog.h>
-//using QFileDialog = Q3FileDialog;
+#include <Qt/qfiledialog.h>
+
 #include "fusion/fusionui/AssetChooser.h"
 #include "fusion/fusionui/AssetNotes.h"
 #include "fusion/fusionui/GfxView.h"
