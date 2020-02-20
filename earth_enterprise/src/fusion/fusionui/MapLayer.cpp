@@ -1218,9 +1218,8 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   {  // The point rendering shape input; Marker Type
     ComboContents pointMarker;
     for (int i = 0; i <= static_cast<int>(VectorDefs::Icon); ++i) {
-        std::string pm { ToString(VectorDefs::PointMarker) };
-      pointMarker.push_back(
-          std::make_pair(i, pm.c_str()));
+        pointMarker.push_back(
+                  std::make_pair(i, ToString((VectorDefs::PointMarker)i).c_str()));
     }
     EnumComboController<VectorDefs::PointMarker>::Create(
         pointManager, point_marker, &mapFeatureConfig.pointMarker,
@@ -1242,9 +1241,8 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   {  // The point fill type; Fill Type
     ComboContents pointFillOutline;
     for (int i = 0; i <= static_cast<int>(VectorDefs::FillOnly); ++i) {
-      std::string pm { ToString(VectorDefs::PolygonDrawMode) };
       pointFillOutline.push_back(
-          std::make_pair(i, pm.c_str()));
+          std::make_pair(i, ToString((VectorDefs::PolygonDrawMode)i).c_str()));
     }
     EnumComboController<VectorDefs::PolygonDrawMode>::Create(
         pointManager, point_fill_outline, &mapFeatureConfig.polygonDrawMode,
@@ -1334,9 +1332,8 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
     {
       ComboContents labelPosition;
       for (int i = 0; i <= static_cast<int>(VectorDefs::Right); ++i) {
-        std::string pm { ToString(VectorDefs::EightSides) };
-        labelPosition.push_back(
-            std::make_pair(i, pm.c_str()));
+          labelPosition.push_back(
+                      std::make_pair(i, ToString((VectorDefs::EightSides)i).c_str()));
       }
       EnumComboController<VectorDefs::EightSides>::Create(
           *boxManager, point_outer_label_position,

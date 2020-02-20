@@ -20,7 +20,7 @@
 #include <Qt/qmessagebox.h>
 
 #include <khFileUtils.h>
-
+#include "khException.h"
 #include "Preferences.h"
 #include "PlacemarkManager.h"
 #include "PlacemarkEdit.h"

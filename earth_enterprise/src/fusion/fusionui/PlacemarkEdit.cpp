@@ -18,6 +18,7 @@
 #include <Qt/qpushbutton.h>
 
 #include "PlacemarkEdit.h"
+#include "khException.h"
 
 
 PlacemarkEdit::PlacemarkEdit( QWidget* parent, const gstPlacemark &pm )
