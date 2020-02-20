@@ -23,7 +23,8 @@
 #include "ProjectWidget.h"
 #include "AssetDisplayHelper.h"
 #include <autoingest/.idl/storage/MapProjectConfig.h>
-
+#include <Qt/qobject.h>
+#include <Qt/qglobal.h>
 class AssetBase;
 class MapProjectEditRequest;
 //class QListViewItem;

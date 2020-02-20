@@ -13,9 +13,9 @@
 // limitations under the License.
 
 
-#include <qlineedit.h>
-#include <qspinbox.h>
-#include <qpushbutton.h>
+#include <Qt/qlineedit.h>
+#include <Qt/qspinbox.h>
+#include <Qt/qpushbutton.h>
 
 #include "PlacemarkEdit.h"
 

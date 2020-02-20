@@ -85,7 +85,7 @@ PixmapManager::PixmapManager() {
              iconpath.c_str());
       continue;
     }
-    pix_map_[theIconManager->GetIcon(int_type, id)] = QPixmap(img);
+    pix_map_[theIconManager->GetIcon(int_type, id)] = QPixmap::fromImage(img);
   }
 
   updateExternal();
@@ -105,7 +105,7 @@ void PixmapManager::updateExternal() {
                iconpath.c_str());
         continue;
       }
-      pix_map_[icon] = QPixmap(img);
+      pix_map_[icon] = QPixmap::fromImage(img);
     }
   }
 }
@@ -127,22 +127,22 @@ QPixmap PixmapManager::GetPixmap(const gstIcon& icon, IconType type) {
     case NormalIcon:
       img = pix.toImage();
       img = img.copy(0, width * 2, width, width);
-      pix = QPixmap(img);
+      pix = QPixmap::fromImage(img);
       break;
     case HighlightIcon:
       img = pix.toImage();
       img = img.copy(0, width, width, width);
-      pix = QPixmap(img);
+      pix = QPixmap::fromImage(img);
       break;
     case RegularPair:
       img = pix.toImage();
       img = img.copy(0, width, width, width*2);
-      pix = QPixmap(img);
+      pix = QPixmap::fromImage(img);
       break;
     case LayerIcon:
       img = pix.toImage();
       img = img.copy(0, 0, 16, 16);
-      pix = QPixmap(img);
+      pix = QPixmap::fromImage(img);
       break;
     case AllThree:
       break;

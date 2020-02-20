@@ -31,8 +31,8 @@ PlacemarkManager::PlacemarkManager()
   placemark_table->setLeftMargin(0);
   placemark_table->setColumnStretchable(0, true);
 
-  if (khExists(Preferences::filepath("placemarks.xml").latin1()))
-    placemarks_.Load(Preferences::filepath("placemarks.xml").latin1());
+  if (khExists(Preferences::filepath("placemarks.xml").toUtf8().constData()))
+    placemarks_.Load(Preferences::filepath("placemarks.xml").toUtf8().constData());
 }
 
 void PlacemarkManager::accept() {
@@ -41,12 +41,12 @@ void PlacemarkManager::accept() {
 }
 
 void PlacemarkManager::Save() {
-  if (!placemarks_.Save(Preferences::filepath("placemarks.xml").latin1())) {
+  if (!placemarks_.Save(Preferences::filepath("placemarks.xml").toUtf8().constData())) {
     QMessageBox::critical(
-        this, tr("Error"),
-        tr("Unable to save Favorites") +
-        tr("Check console for more information"),
-        tr("OK"), 0, 0, 0);
+        this, kh::tr("Error"),
+        kh::tr("Unable to save Favorites") +
+        kh::tr("Check console for more information"),
+        kh::tr("OK"), 0, 0, 0);
   }
 }
 

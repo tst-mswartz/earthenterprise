@@ -125,8 +125,8 @@ MapProjectWidget::MapProjectWidget(QWidget *parent, AssetBase* base)
   HideLegend();
   HideUuid();
   ListView()->EnableAssetDrops(AssetDefs::Map, kLayer);
-  ListView()->setColumnText(0, QObject::tr("Legend Name"));
-  ListView()->addColumn(QObject::tr(kLayer.c_str()));
+  ListView()->setColumnText(0, kh::tr("Legend Name"));
+  ListView()->addColumn(kh::tr(kLayer.c_str()));
   ListView()->header()->show();
 }
 
@@ -223,8 +223,8 @@ void MapProjectWidget::ContextMenu(QListViewItem* item, const QPoint& point,
 
   MapLayerItem* layer_item = static_cast<MapLayerItem*>(item);
   QPopupMenu menu(this);
-  menu.insertItem(tr("Use Layer Defaults"), USE_DEFAULT);
-  menu.insertItem(tr("Override Layer Defaults"), OVERRIDE_DEFAULT);
+  menu.insertItem(kh::tr("Use Layer Defaults"), USE_DEFAULT);
+  menu.insertItem(kh::tr("Override Layer Defaults"), OVERRIDE_DEFAULT);
 
   switch(menu.exec(point)) {
     case USE_DEFAULT:

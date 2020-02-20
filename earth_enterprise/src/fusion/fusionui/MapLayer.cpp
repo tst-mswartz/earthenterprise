@@ -58,7 +58,7 @@
 #include "fusion/fusionui/AssetDerivedImpl.h"
 #include "fusion/fusionui/Preferences.h"
 #include "fusion/fusionui/ThematicFilter.h"
-
+#include "khException.h"
 #include "fusion/autoingest/khAssetManagerProxy.h"
 #include "fusion/autoingest/plugins/MapLayerAsset.h"
 #include "fusion/gst/maprender/SGLHelps.h"
@@ -240,7 +240,7 @@ class SwitchFilterEvent : public QCustomEvent {
 
 
 namespace {
-  QString UntitledNameText(QObject::tr("Untitled"));
+  QString UntitledNameText(kh::tr("Untitled"));
 }
 
 MapLayerWidget::MapLayerWidget(QWidget* parent, AssetBase* base)
@@ -340,7 +340,7 @@ void MapLayerWidget::DeleteSearchField() {
 
   if (QMessageBox::warning(this, "Warning",
                            QObject::trUtf8("Confirm delete.\n\n"),
-                           QObject::tr("OK"), QObject::tr("Cancel"),
+                           kh::tr("OK"), kh::tr("Cancel"),
                            QString::null, 1, 1) == 0) {
     fields_table->removeRow(row);
     if (previous_asset_)
@@ -370,10 +370,10 @@ void MapLayerWidget::UpdateAvailableSearchAttributes(QString assetRef) {
   gstSource* src = new gstSource(ver->GetOutputFilename(0).c_str());
   if (src->Open() != GST_OKAY) {
     QMessageBox::critical(
-        this, QObject::tr("Error"),
+        this, kh::tr("Error"),
         QString(
-            QObject::tr("File has unknown problems:\n\n%1")).arg(src->name()),
-        QObject::tr("OK"), 0, 0, 0);
+            kh::tr("File has unknown problems:\n\n%1")).arg(src->name()),
+        kh::tr("OK"), 0, 0, 0);
     return;
   }
 
@@ -545,15 +545,15 @@ void MapLayerWidget::ChooseAsset() {
     Asset asset(npath);
     if (!asset) {
       QMessageBox::critical(this, "Error" ,
-                            tr("%1 isn't a valid asset.").arg(newpath),
-                            tr("OK"), 0, 0, 0);
+                            kh::tr("%1 isn't a valid asset.").arg(newpath),
+                            kh::tr("OK"), 0, 0, 0);
       return;
     }
     AssetVersion ver(asset->GetLastGoodVersionRef());
     if (!ver) {
       QMessageBox::critical(this, "Error" ,
-                            tr("%1 doesn't have a good version.").arg(newpath),
-                            tr("OK"), 0, 0, 0);
+                            kh::tr("%1 doesn't have a good version.").arg(newpath),
+                            kh::tr("OK"), 0, 0, 0);
       return;
     }
   }
@@ -562,7 +562,7 @@ void MapLayerWidget::ChooseAsset() {
   MapSubLayerConfig config;
   config.asset_ref = newpath.toUtf8().constData();
   config.display_rules.resize(1);
-  config.display_rules[0].name = tr("default select all");
+  config.display_rules[0].name = kh::tr("default select all");
   MapAssetItem *new_item = new MapAssetItem(asset_listview, config);
                                    // note: new item is owned by parent
   while (new_item->CanMoveDown())  // move to last place
@@ -582,7 +582,7 @@ QString MapLayerWidget::RuleName(const QString& caption,
   while (1) {
     bool ok = false;
     text = QInputDialog::getText(caption,
-                                 tr("New Rule Name:"),
+                                 kh::tr("New Rule Name:"),
                                  QLineEdit::Normal,
                                  initial_name,
                                  &ok, this);
@@ -590,14 +590,14 @@ QString MapLayerWidget::RuleName(const QString& caption,
       text.truncate(0);
       break;
     } else if (text.isEmpty()) {
-        QMessageBox::critical(this, tr("Rule Name Error"),
-                              tr("Empty names are not allowed."),
-                              tr("OK"), 0, 0, 0);
+        QMessageBox::critical(this, kh::tr("Rule Name Error"),
+                              kh::tr("Empty names are not allowed."),
+                              kh::tr("OK"), 0, 0, 0);
       continue;
     } else if (text.find(QChar('"')) != -1) {
-        QMessageBox::critical(this, tr("Rule Name Error"),
-                              tr("Rule names cannot contain \""),
-                              tr("OK"), 0, 0, 0);
+        QMessageBox::critical(this, kh::tr("Rule Name Error"),
+                              kh::tr("Rule names cannot contain \""),
+                              kh::tr("OK"), 0, 0, 0);
 
       continue;
     } else {
@@ -684,10 +684,10 @@ void MapLayerWidget::UpdateButtons(QListViewItem* item) {
     move_rule_up_btn->setEnabled(asset_item->CanMoveUp());
     move_rule_down_btn->setEnabled(asset_item->CanMoveDown());
 
-    QToolTip::add(new_rule_btn, tr("New Rule"));
-    QToolTip::add(delete_rule_btn, tr("Delete Resource"));
-    QToolTip::add(move_rule_up_btn, tr("Move Resource Up"));
-    QToolTip::add(move_rule_down_btn, tr("Move Resource Down"));
+    QToolTip::add(new_rule_btn, kh::tr("New Rule"));
+    QToolTip::add(delete_rule_btn, kh::tr("Delete Resource"));
+    QToolTip::add(move_rule_up_btn, kh::tr("Move Resource Up"));
+    QToolTip::add(move_rule_down_btn, kh::tr("Move Resource Down"));
     return;
   }
 
@@ -699,11 +699,11 @@ void MapLayerWidget::UpdateButtons(QListViewItem* item) {
     move_rule_up_btn->setEnabled(filter_item->CanMoveUp());
     move_rule_down_btn->setEnabled(filter_item->CanMoveDown());
 
-    QToolTip::add(new_rule_btn, QObject::tr("New Rule"));
-    QToolTip::add(delete_rule_btn, QObject::tr("Delete Rule"));
-    QToolTip::add(copy_rule_btn, QObject::tr("Copy Rule"));
-    QToolTip::add(move_rule_up_btn, QObject::tr("Move Rule Up"));
-    QToolTip::add(move_rule_down_btn, QObject::tr("Move Rule Down"));
+    QToolTip::add(new_rule_btn, kh::tr("New Rule"));
+    QToolTip::add(delete_rule_btn, kh::tr("Delete Rule"));
+    QToolTip::add(copy_rule_btn, kh::tr("Copy Rule"));
+    QToolTip::add(move_rule_up_btn, kh::tr("Move Rule Up"));
+    QToolTip::add(move_rule_down_btn, kh::tr("Move Rule Down"));
   }
 }
 
@@ -745,28 +745,28 @@ void MapLayerWidget::ContextMenu(
   MapAssetItem* asset_item = dynamic_cast<MapAssetItem*>(item);
   if (asset_item) {
     QPopupMenu menu;
-    int up_id = menu.insertItem(tr("Move Resource Up"),
+    int up_id = menu.insertItem(kh::tr("Move Resource Up"),
                                 this, SLOT(MoveItemUp()));
     if (!asset_item->CanMoveUp())
       menu.setItemEnabled(up_id, false);
-    int down_id = menu.insertItem(tr("Move Resource Down"),
+    int down_id = menu.insertItem(kh::tr("Move Resource Down"),
                                   this, SLOT(MoveItemDown()));
     if (!asset_item->CanMoveDown())
       menu.setItemEnabled(down_id, false);
     menu.insertSeparator();
     menu.insertItem(
-        tr("Export Configuration From Template..."),
+        kh::tr("Export Configuration From Template..."),
         this, SLOT(ExportTemplate()));
     menu.insertItem(
-        tr("Import Configuration From Template..."),
+        kh::tr("Import Configuration From Template..."),
         this, SLOT(ImportTemplate()));
     menu.insertSeparator();
     int del_id =
-        menu.insertItem(tr("Delete Resource"), this, SLOT(DeleteItem()));
+        menu.insertItem(kh::tr("Delete Resource"), this, SLOT(DeleteItem()));
     if (asset_item->SiblingCount() == 1)
       menu.setItemEnabled(del_id, false);
     menu.insertSeparator();
-    menu.insertItem(tr("New Rule"), this, SLOT(NewRule()));
+    menu.insertItem(kh::tr("New Rule"), this, SLOT(NewRule()));
     active_menu_ = &menu;
     menu.exec(point);
     active_menu_ = 0;
@@ -776,18 +776,18 @@ void MapLayerWidget::ContextMenu(
   MapFilterItem* filter_item = dynamic_cast<MapFilterItem*>(item);
   if (filter_item) {
     QPopupMenu menu;
-    menu.insertItem(tr("New Rule"), this, SLOT(NewRule()));
-    menu.insertItem(tr("Copy Rule"), this, SLOT(CopyRule()));
-    menu.insertItem(tr("Rename Rule"), this, SLOT(RenameRule()));
-    int del_id = menu.insertItem(tr("Delete Rule"), this, SLOT(DeleteItem()));
+    menu.insertItem(kh::tr("New Rule"), this, SLOT(NewRule()));
+    menu.insertItem(kh::tr("Copy Rule"), this, SLOT(CopyRule()));
+    menu.insertItem(kh::tr("Rename Rule"), this, SLOT(RenameRule()));
+    int del_id = menu.insertItem(kh::tr("Delete Rule"), this, SLOT(DeleteItem()));
     if (filter_item->SiblingCount() == 1)
       menu.setItemEnabled(del_id, false);
     menu.insertSeparator();
-    int up_id = menu.insertItem(tr("Move Rule Up"), this, SLOT(MoveItemUp()));
+    int up_id = menu.insertItem(kh::tr("Move Rule Up"), this, SLOT(MoveItemUp()));
     if (!filter_item->CanMoveUp())
       menu.setItemEnabled(up_id, false);
     int down_id =
-        menu.insertItem(tr("Move Rule Down"), this, SLOT(MoveItemDown()));
+        menu.insertItem(kh::tr("Move Rule Down"), this, SLOT(MoveItemDown()));
     if (!filter_item->CanMoveDown())
       menu.setItemEnabled(down_id, false);
     active_menu_ = &menu;
@@ -802,14 +802,14 @@ void MapLayerWidget::RenameRule() {
   assert(filter_item);
   MapDisplayRuleConfig cfg = filter_item->Config();
 
-  QString filter_name = RuleName(tr("Rename Rule"), cfg.name);
+  QString filter_name = RuleName(kh::tr("Rename Rule"), cfg.name);
   if (!filter_name.isEmpty()) {
     filter_item->SetName(filter_name);
   }
 }
 
 void MapLayerWidget::NewRule() {
-  QString filter_name = RuleName(tr("New Rule Name:"), tr("Untitled"));
+  QString filter_name = RuleName(kh::tr("New Rule Name:"), kh::tr("Untitled"));
   if (!filter_name.isEmpty()) {
     MapDisplayRuleConfig cfg;
     cfg.name = filter_name;
@@ -840,8 +840,8 @@ void MapLayerWidget::CopyRule() {
 
   MapDisplayRuleConfig from_cfg = filter_item->Config();
 
-  QString filter_name = RuleName(tr("New Rule Name:"),
-                                   from_cfg.name + tr(" (copy)"));
+  QString filter_name = RuleName(kh::tr("New Rule Name:"),
+                                   from_cfg.name + kh::tr(" (copy)"));
 
   if (!filter_name.isEmpty()) {
     MapDisplayRuleConfig cfg = from_cfg;
@@ -882,9 +882,9 @@ void MapLayerWidget::ExportTemplate() {
   assert(item);
 
   QFileDialog fd(this);
-  fd.setCaption(tr("Export Template"));
+  fd.setCaption(kh::tr("Export Template"));
   fd.setMode(QFileDialog::AnyFile);
-  fd.addFilter(QObject::tr("Fusion Map Template File (*.kmdsp)"));
+  fd.addFilter(kh::tr("Fusion Map Template File (*.kmdsp)"));
 
   if (fd.exec() != QDialog::Accepted)
     return;
@@ -895,8 +895,8 @@ void MapLayerWidget::ExportTemplate() {
     template_file += QString(".kmdsp");
   if (!cfg.Save(template_file.toUtf8().constData())) {
     QMessageBox::critical(this, "Error",
-                          tr("Unable to save file: ") + template_file,
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("Unable to save file: ") + template_file,
+                          kh::tr("OK"), 0, 0, 0);
   }
 }
 
@@ -905,9 +905,9 @@ void MapLayerWidget::ImportTemplate() {
     dynamic_cast<MapAssetItem*>(asset_listview->selectedItem());
   assert(item);
 
-  OpenWithHistoryDialog fd(this, tr("Import Template"),
+  OpenWithHistoryDialog fd(this, kh::tr("Import Template"),
                            "maplayertemplatehistory.xml");
-  fd.addFilter(tr("Fusion Map Template File (*.kmdsp)"));
+  fd.addFilter(kh::tr("Fusion Map Template File (*.kmdsp)"));
   if (fd.exec() != QDialog::Accepted)
     return;
 
@@ -915,10 +915,10 @@ void MapLayerWidget::ImportTemplate() {
   std::vector<MapSubLayerConfig> template_cfg_vector(1);
   MapSubLayerConfig& template_cfg = template_cfg_vector[0];
   if (!template_cfg.Load(fd.selectedFile().latin1())) {
-    QMessageBox::critical(this, tr("Error"),
-          QString(tr("Unable to open Fusion Map Template file:\n\n%1")).
+    QMessageBox::critical(this, kh::tr("Error"),
+          QString(kh::tr("Unable to open Fusion Map Template file:\n\n%1")).
           arg(fd.selectedFile()),
-          tr("OK"), 0, 0, 0);
+          kh::tr("OK"), 0, 0, 0);
     return;
   }
   CheckFontSanity(this, &template_cfg_vector);
@@ -947,12 +947,12 @@ bool MapLayerWidget::TrySaveFilter(MapFilterItem* item) throw() {
     ApplyFilterEdits(item);
     success = true;
   } catch(const khException &e) {
-    QMessageBox::critical(this, tr("Error"), e.qwhat(), tr("OK"), 0, 0, 0);
+    QMessageBox::critical(this, kh::tr("Error"), e.qwhat(), kh::tr("OK"), 0, 0, 0);
   } catch(const std::exception &e) {
-    QMessageBox::critical(this, tr("Error"), e.what(), tr("OK"), 0, 0, 0);
+    QMessageBox::critical(this, kh::tr("Error"), e.what(), kh::tr("OK"), 0, 0, 0);
   } catch(...) {
-    QMessageBox::critical(this, tr("Error"), tr("Unknown error"),
-                          tr("OK"), 0, 0, 0);
+    QMessageBox::critical(this, kh::tr("Error"), kh::tr("Unknown error"),
+                          kh::tr("OK"), 0, 0, 0);
   }
   return success;
 }
@@ -995,16 +995,16 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   std::map<VectorDefs::FeatureDisplayType, int> featureToIndexMap;
   featureToIndexMap[VectorDefs::PointZ] = dispCombo.size();
   dispCombo.push_back(std::make_pair(static_cast<int>(VectorDefs::PointZ),
-                                     tr("Label Only")));
+                                     kh::tr("Label Only")));
   featureToIndexMap[VectorDefs::LineZ] = dispCombo.size();
   dispCombo.push_back(std::make_pair(static_cast<int>(VectorDefs::LineZ),
-                                     tr("Lines")));
+                                     kh::tr("Lines")));
   featureToIndexMap[VectorDefs::PolygonZ] = dispCombo.size();
   dispCombo.push_back(std::make_pair(static_cast<int>(VectorDefs::PolygonZ),
-                                     tr("Polygons")));
+                                     kh::tr("Polygons")));
   featureToIndexMap[VectorDefs::IconZ] = dispCombo.size();
   dispCombo.push_back(std::make_pair(static_cast<int>(VectorDefs::IconZ),
-                                     tr("Points")));
+                                     kh::tr("Points")));
   std::vector<WidgetControllerManager*> managers =
     EnumStackController<VectorDefs::FeatureDisplayType>::Create(
         displayRuleManager, draw_as_combo, draw_as_stack,
@@ -1138,11 +1138,11 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
   ComboContents polyMode;
   polyMode.push_back(
       std::make_pair(static_cast<int>(VectorDefs::FillAndOutline),
-                     tr("Outline and Fill")));
+                     kh::tr("Outline and Fill")));
   polyMode.push_back(std::make_pair(static_cast<int>(VectorDefs::OutlineOnly),
-                                    tr("Outline Only")));
+                                    kh::tr("Outline Only")));
   polyMode.push_back(std::make_pair(static_cast<int>(VectorDefs::FillOnly),
-                                    tr("Fill Only")));
+                                    kh::tr("Fill Only")));
   EnumComboController<VectorDefs::PolygonDrawMode>::Create(
       polygonManager, poly_mode,
       &workingDisplayRule.feature.polygonDrawMode,
@@ -1301,11 +1301,11 @@ void MapLayerWidget::SelectFilter(MapFilterItem* item) {
         resizerMode.push_back(
             std::make_pair(
                 static_cast<int>(MapShieldConfig::IconFixedAspectStyle),
-                QObject::tr("Fixed")));
+                kh::tr("Fixed")));
         resizerMode.push_back(
             std::make_pair(
                 static_cast<int>(MapShieldConfig::IconVariableAspectStyle),
-                tr("Variable")));
+                kh::tr("Variable")));
         EnumComboController<MapShieldConfig::ShieldIconScaling>::Create(
             *resizeManager, point_marker_scaling,
             &mapFeatureConfig.shield.scaling_,
@@ -1484,9 +1484,9 @@ void MapLayerWidget::TogglePreview() {
         }
         is_mercator_preview_ = Preferences::getConfig().isMercatorPreview;
       }
-      preview_btn->setText(tr("Disable Preview"));
+      preview_btn->setText(kh::tr("Disable Preview"));
     } else {
-      preview_btn->setText(tr("Preview"));
+      preview_btn->setText(kh::tr("Preview"));
     }
     asset_listview->setEnabled(!preview_enabled_);
     details_stack->setEnabled(!preview_enabled_);
@@ -1497,12 +1497,12 @@ void MapLayerWidget::TogglePreview() {
     emit RedrawPreview();
     return;
   } catch(const khException &e) {
-    QMessageBox::critical(this, tr("Error"), e.qwhat(), tr("OK"), 0, 0, 0);
+    QMessageBox::critical(this, kh::tr("Error"), e.qwhat(), kh::tr("OK"), 0, 0, 0);
   } catch(const std::exception &e) {
-    QMessageBox::critical(this, tr("Error"), e.what(), tr("OK"), 0, 0, 0);
+    QMessageBox::critical(this, kh::tr("Error"), e.what(), kh::tr("OK"), 0, 0, 0);
   } catch(...) {
-    QMessageBox::critical(this, tr("Error"), tr("Unknown error"),
-                          tr("OK"), 0, 0, 0);
+    QMessageBox::critical(this, kh::tr("Error"), kh::tr("Unknown error"),
+                          kh::tr("OK"), 0, 0, 0);
   }
   preview_enabled_ = !preview_enabled_;
 }

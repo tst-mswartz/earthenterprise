@@ -19,6 +19,7 @@
 #define KHSRC_FUSION_FUSIONUI_ASSETTABLEVIEW_H__
 
 #include <Qt/q3table.h>
+#include <Qt/qtableview.h>
 //#include <qtable.h>
 //#include <qpoint.h>
 #include <Qt/qpoint.h>

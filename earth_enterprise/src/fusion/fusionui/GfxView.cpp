@@ -30,7 +30,7 @@
 #include <gstIconManager.h>
 #include <khTileAddr.h>
 #include <gstGridUtils.h>
-
+#include "khException.h"
 #include "GfxView.h"
 #include "Preferences.h"
 
@@ -843,12 +843,12 @@ void GfxView::ValidateGfxMode() {
                       arg(blue).arg(alpha);
     QMessageBox error(
       "Error",
-      tr("Unable to find appropriate graphics mode.\n") +
-      tr("Fusion needs 24 bits for RGB and 8 bits for alpha, or 8/8/8/8.\n") +
-      tr("This system is currently configured to provide: ") +
+      kh::tr("Unable to find appropriate graphics mode.\n") +
+      kh::tr("Fusion needs 24 bits for RGB and 8 bits for alpha, or 8/8/8/8.\n") +
+      kh::tr("This system is currently configured to provide: ") +
       clrmode + "\n" +
-      tr("Perhaps your graphics driver is not installed correctly.\n") +
-      tr("Fusion will attempt to continue, but graphics may perform poorly."),
+      kh::tr("Perhaps your graphics driver is not installed correctly.\n") +
+      kh::tr("Fusion will attempt to continue, but graphics may perform poorly."),
       QMessageBox::Critical,                      // icon
       QMessageBox::Ok,                            // button #1 text
       QMessageBox::NoButton,                      // button #2 text

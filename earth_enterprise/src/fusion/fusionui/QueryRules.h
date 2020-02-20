@@ -22,6 +22,7 @@
 #include <Qt/q3scrollview.h>
 #include <Qt/qwidget.h>
 using QScrollView = Q3ScrollView;
+
 #include <autoingest/.idl/storage/FilterConfig.h>
 
 class QComboBox;

@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #include "fusion/fusionui/PushDatabaseDialog.h"
-#include <qcombobox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
+#include <Qt/qcombobox.h>
+#include <Qt/qlabel.h>
+#include <Qt/qpushbutton.h>
 #include "fusion/autoingest/AssetVersion.h"
 #include "fusion/autoingest/plugins/DatabaseAsset.h"
 #include "fusion/autoingest/plugins/MapDatabaseAsset.h"

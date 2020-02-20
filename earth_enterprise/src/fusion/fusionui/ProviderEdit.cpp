@@ -13,8 +13,8 @@
 // limitations under the License.
 
 
-#include <qlineedit.h>
-#include <qpushbutton.h>
+#include <Qt/qlineedit.h>
+#include <Qt/qpushbutton.h>
 
 #include "ProviderEdit.h"
 

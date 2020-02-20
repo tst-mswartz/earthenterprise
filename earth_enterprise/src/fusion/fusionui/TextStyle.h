@@ -19,10 +19,11 @@
 #ifndef FUSION_FUSIONUI_TEXTSTYLE_H__
 #define FUSION_FUSIONUI_TEXTSTYLE_H__
 
+
 #include "textstylebase.h"
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
+#include <Qt/qpixmap.h>
+#include <Qt/qlabel.h>
+#include <Qt/qpushbutton.h>
 #include <autoingest/.idl/storage/MapSubLayerConfig.h>
 #include <autoingest/.idl/MapTextStyle.h>
 #include "WidgetControllers.h"

@@ -57,7 +57,7 @@ using QImageDrag = Q3ImageDrag;
 
 #include "common/khFileUtils.h"
 #include "common/notify.h"
-
+#include "khException.h"
 #include "newfeaturebase.h"
 
 using QCheckListItem = Q3CheckListItem;
@@ -506,25 +506,25 @@ void FeatureEditor::ContextMenu(QListViewItem* item, const QPoint& pos, int) {
 
   int id;
 
-  menu.insertItem(tr("Zoom to Feature"), mZoomToFeature);
+  menu.insertItem(kh::tr("Zoom to Feature"), mZoomToFeature);
   menu.insertSeparator();
   if (feature_item) {
-    menu.insertItem(tr("Copy Feature"), mCopyFeature);
-    id = menu.insertItem(tr("Paste Feature"), mPasteFeature);
+    menu.insertItem(kh::tr("Copy Feature"), mCopyFeature);
+    id = menu.insertItem(kh::tr("Paste Feature"), mPasteFeature);
     if (!geode_copy_buffer_)
       menu.setItemEnabled(id, false);
-    menu.insertItem(tr("Delete Feature"), mDeleteFeature);
+    menu.insertItem(kh::tr("Delete Feature"), mDeleteFeature);
     menu.insertSeparator();
-    id = menu.insertItem(tr("Revert Feature"), mRevertFeature);
+    id = menu.insertItem(kh::tr("Revert Feature"), mRevertFeature);
     if (!feature_item->HasBackup())
       menu.setItemEnabled(id, false);
   } else if (subpart_item) {
 #if 0
-    menu.insertItem(tr("Copy Subpart"), mCopySubpart);
-    id = menu.insertItem(tr("Paste Subpart"), mPasteSubpart);
+    menu.insertItem(kh::tr("Copy Subpart"), mCopySubpart);
+    id = menu.insertItem(kh::tr("Paste Subpart"), mPasteSubpart);
     if (!geode_copy_buffer_)
       menu.setItemEnabled(id, false);
-    menu.insertItem(tr("Delete Subpart"), mDeleteSubpart);
+    menu.insertItem(kh::tr("Delete Subpart"), mDeleteSubpart);
 #endif
   }
 
@@ -651,9 +651,9 @@ bool FeatureEditor::Save() {
   std::string kvindx_name = khReplaceExtension(kvgeom_name, ".kvindx");
   if (khExists(kvgeom_name) || khExists(kvattr_name) || khExists(kvindx_name)) {
     if (QMessageBox::critical(this, "File Already Exists",
-                              tr("The file already exists.  "
+                              kh::tr("The file already exists.  "
                                  "Do you wish to overwrite it?"),
-                              tr("Yes"), tr("No"), 0, 1) == 0) {
+                              kh::tr("Yes"), kh::tr("No"), 0, 1) == 0) {
       khUnlink(kvgeom_name);
       khUnlink(kvattr_name);
       khUnlink(kvindx_name);
@@ -664,8 +664,8 @@ bool FeatureEditor::Save() {
 
   if (ExportKVP(fname) == false) {
     QMessageBox::critical(this, "Error",
-                          tr("Unable to save file:") + fname ,
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("Unable to save file:") + fname ,
+                          kh::tr("OK"), 0, 0, 0);
     return false;
   }
 
@@ -922,23 +922,23 @@ void FeatureEditor::dropEvent(QDropEvent* event) {
       if (new_source)
         AddFeaturesFromSource(new_source);
     } else {
-      if (QMessageBox::warning(this, tr("Error"),
-                               tr("Cannot open asset.\n"
+      if (QMessageBox::warning(this, kh::tr("Error"),
+                               kh::tr("Cannot open asset.\n"
                                   "Asset does not have a good version.\n"
                                   "Do you want to schedule a build now?"),
-                               tr("Yes"), tr("No"), 0, 1) == 0) {
+                               kh::tr("Yes"), kh::tr("No"), 0, 1) == 0) {
         QString error;
         bool needed;
         if (!khAssetManagerProxy::BuildAsset(asset->GetRef(),
                                              needed, error)) {
           QMessageBox::critical(this, "Error",
-                                tr("Unable to schedule build. ") +
+                                kh::tr("Unable to schedule build. ") +
                                 error,
-                                tr("OK"), 0, 0, 0);
+                                kh::tr("OK"), 0, 0, 0);
         } else if (!needed) {
           QMessageBox::critical(this, "Error" ,
-                                tr("Unable to schedule build. Already up to date"),
-                                tr("OK"), 0, 0, 0);
+                                kh::tr("Unable to schedule build. Already up to date"),
+                                kh::tr("OK"), 0, 0, 0);
         }
       }
     }
@@ -1151,17 +1151,17 @@ gstSource* FeatureEditor::OpenSource(const char* src, const char* codec,
 
 
   if (new_source->Open() != GST_OKAY) {
-    QMessageBox::critical(this, tr("Error"),
-                          QString(tr("File has unknown problems:\n\n%1")).arg(new_source->name()),
-                          tr("OK"), 0, 0, 0);
+    QMessageBox::critical(this, kh::tr("Error"),
+                          QString(kh::tr("File has unknown problems:\n\n%1")).arg(new_source->name()),
+                          kh::tr("OK"), 0, 0, 0);
     return NULL;
   }
 
   if (new_source->NumLayers() == 0) {
-    QMessageBox::critical(this, tr("Error"),
-                          QString(tr("File doesn't have any valid layers:\n\n%1")).
+    QMessageBox::critical(this, kh::tr("Error"),
+                          QString(kh::tr("File doesn't have any valid layers:\n\n%1")).
                           arg(new_source->name()),
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("OK"), 0, 0, 0);
     return NULL;
   }
 
@@ -1209,9 +1209,9 @@ void FeatureEditor::AddFeaturesFromSource(gstSource* source) {
         error += QString::fromUtf8(soft_errors.Errors()[i].c_str());
       }
       QMessageBox::warning(
-          this, tr("Warning"),
+          this, kh::tr("Warning"),
           error,
-          tr("OK"), 0, 0, 0);
+          kh::tr("OK"), 0, 0, 0);
     }
 
   } catch (const SoftErrorPolicy::TooManyException &e) {
@@ -1220,25 +1220,25 @@ void FeatureEditor::AddFeaturesFromSource(gstSource* source) {
       error += "\n";
       error += e.errors_[i].c_str();
     }
-    QMessageBox::critical(this, tr("Error"),
-                          tr("Error while importing") +
+    QMessageBox::critical(this, kh::tr("Error"),
+                          kh::tr("Error while importing") +
                           error,
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("OK"), 0, 0, 0);
   } catch (const khException &e) {
-    QMessageBox::critical(this, tr("Error"),
-                          tr("Error while importing") +
+    QMessageBox::critical(this, kh::tr("Error"),
+                          kh::tr("Error while importing") +
                           e.qwhat(),
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("OK"), 0, 0, 0);
   } catch (const std::exception &e) {
-    QMessageBox::critical(this, tr("Error"),
-                          tr("Error while importing") +
+    QMessageBox::critical(this, kh::tr("Error"),
+                          kh::tr("Error while importing") +
                           e.what(),
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("OK"), 0, 0, 0);
   } catch (...) {
-    QMessageBox::critical(this, tr("Error"),
-                          tr("Error while importing") +
+    QMessageBox::critical(this, kh::tr("Error"),
+                          kh::tr("Error while importing") +
                           "Unknown error",
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("OK"), 0, 0, 0);
   }
 
   emit RedrawPreview();
@@ -1295,8 +1295,8 @@ void FeatureEditor::BoxCut() {
   GetSelectList(&select_list);
   if (select_list.size() == 0) {
     QMessageBox::critical(this, "Error",
-                          tr("Nothing selected!"),
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("Nothing selected!"),
+                          kh::tr("OK"), 0, 0, 0);
     return;
   }
 
@@ -1397,8 +1397,8 @@ void FeatureEditor::Join() {
   GetSelectList(&select_list);
   if (select_list.size() == 0) {
     QMessageBox::critical(this, "Error",
-                          tr("Nothing selected!"),
-                          tr("OK"), 0, 0, 0);
+                          kh::tr("Nothing selected!"),
+                          kh::tr("OK"), 0, 0, 0);
     return;
   }
 

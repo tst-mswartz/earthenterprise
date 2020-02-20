@@ -18,11 +18,11 @@
 
 #include <string>
 #include <vector>
-#include <qframe.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qgroupbox.h>
-#include <qcheckbox.h>
+#include <Qt/qframe.h>
+#include <Qt/qlabel.h>
+#include <Qt/qpushbutton.h>
+#include <Qt/qgroupbox.h>
+#include <Qt/qcheckbox.h>
 
 #include <autoingest/.idl/AssetStorage.h>
 #include <autoingest/plugins/MapProjectAsset.h>
@@ -33,7 +33,7 @@
 #include "fusion/fusionui/AssetChooser.h"
 #include "fusion/fusionversion.h"
 
-QString MercatorMapDatabaseWidget::empty_text(tr("<none>"));
+QString MercatorMapDatabaseWidget::empty_text(kh::tr("<none>"));
 
 MercatorMapDatabaseWidget::MercatorMapDatabaseWidget(QWidget* parent,
                                                      AssetBase* base)

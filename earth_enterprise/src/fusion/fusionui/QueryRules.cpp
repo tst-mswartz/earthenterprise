@@ -13,15 +13,15 @@
 // limitations under the License.
 
 
-#include <qcombobox.h>
-#include <qstringlist.h>
-#include <qgroupbox.h>
-#include <qlineedit.h>
-#include <qobjectlist.h>
-#include <qmessagebox.h>
+#include <Qt/qcombobox.h>
+#include <Qt/qstringlist.h>
+#include <Qt/qgroupbox.h>
+#include <Qt/qlineedit.h>
+#include <Qt/qobject.h>
+#include <Qt/qmessagebox.h>
 
 #include <gstSelectRule.h>
-
+#include "khException.h"
 #include "QueryRules.h"
 
 QueryRules::QueryRules(QWidget* parent, const char* name, WFlags f)
@@ -97,14 +97,14 @@ int QueryRules::BuildRule() {
   }
 
   QStringList opsList;
-  opsList << tr("equals")
-          << tr("is less than or equal to")
-          << tr("is greater than or equal to")
-          << tr("is less than")
-          << tr("is greater than")
-          << tr("is not equal to")
-          << tr("matches")
-          << tr("does not match");
+  opsList << kh::tr("equals")
+          << kh::tr("is less than or equal to")
+          << kh::tr("is greater than or equal to")
+          << kh::tr("is less than")
+          << kh::tr("is greater than")
+          << kh::tr("is not equal to")
+          << kh::tr("matches")
+          << kh::tr("does not match");
 
   QComboBox* ops_box = new QComboBox(box);
   ops_box->insertStringList(opsList);

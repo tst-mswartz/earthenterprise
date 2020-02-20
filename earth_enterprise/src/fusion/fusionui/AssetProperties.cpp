@@ -16,8 +16,6 @@
 #include <Qt/qframe.h>
 #include <Qt/qlayout.h>
 #include <Qt/qdatetimeedit.h>
-#include <Qt/q3popupmenu.h>
-//#include <qpopupmenu.h>
 #include <Qt/qlabel.h>
 #include <Qt/qmessagebox.h>
 
@@ -41,8 +39,8 @@ AssetVersionItem::AssetVersionItem( Q3ListView *parent, const AssetVersion &ver 
 
 int AssetVersionItem::compare( Q3ListViewItem *item, int, bool ) const
 {
-  int lhs = atoi( text( 0 ).toUtf8().constData() );
-  int rhs = atoi( item->text( 0 ).toUtf8().constData() )
+  int lhs = std::stoi(std::string(text(0).toUtf8().constData()));
+  int rhs = std::stoi(std::string(item->text(0).toUtf8().constData()));
   return lhs - rhs;
 }
 
@@ -52,7 +50,7 @@ void AssetVersionItem::paintCell( QPainter *p, const QColorGroup &cg,
   QColorGroup ncg = cg;
 
   if ( column == 2 )
-    ncg = AssetManager::GetStateDrawStyle( text( column ), p, cg );
+    ncg = AssetManager::GetStateDrawStyle(text(column).toUtf8().constData(), p, cg);
 
   Q3ListViewItem::paintCell( p, ncg, column, width, alignment );
 }

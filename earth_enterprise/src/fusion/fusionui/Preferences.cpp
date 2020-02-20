@@ -111,7 +111,7 @@ void Preferences::init() {
   GoogleInternal   = RuntimeOptions::GoogleInternal();
 }
 
-QString Preferences::empty_path("<i>" + QObject::tr("empty") + "</i>");
+QString Preferences::empty_path("<i>" + kh::tr("empty") + "</i>");
 
 Preferences::Preferences(QWidget* parent)
     : PreferencesBase(parent, 0, false, 0),
@@ -121,7 +121,7 @@ Preferences::Preferences(QWidget* parent)
   const PrefsConfig& prefsConfig = getConfig();
 
   // gather all valid codecs from qt and insert in drop-down list
-  codecCombo->insertItem(QObject::tr("<none>"));
+  codecCombo->insertItem(kh::tr("<none>"));
   int count = 0;
   QTextCodec* codec;
   for (; (codec = QTextCodec::codecForIndex(count)); ++count)
@@ -404,21 +404,21 @@ QString Preferences::DefaultTerrainPath() {
 
 void Preferences::ChooseDefaultVectorPath() {
   QString path = QFileDialog::getExistingDirectory(vector_path_label->text(),
-                     this, 0, QObject::tr("Select Folder"), true);
+                     this, 0, kh::tr("Select Folder"), true);
   if (path != QString::null)
     vector_path_label->setText(path);
 }
 
 void Preferences::ChooseDefaultImageryPath() {
   QString path = QFileDialog::getExistingDirectory(imagery_path_label->text(),
-                     this, 0, QObject::tr("Select Folder"), true);
+                     this, 0, kh::tr("Select Folder"), true);
   if (path != QString::null)
     imagery_path_label->setText(path);
 }
 
 void Preferences::ChooseDefaultTerrainPath() {
   QString path = QFileDialog::getExistingDirectory(terrain_path_label->text(),
-                     this, 0, QObject::tr("Select Folder"), true);
+                     this, 0, kh::tr("Select Folder"), true);
   if (path != QString::null)
     terrain_path_label->setText(path);
 }

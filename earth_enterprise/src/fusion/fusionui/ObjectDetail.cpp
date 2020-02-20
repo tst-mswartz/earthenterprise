@@ -14,7 +14,7 @@
 
 
 #include "fusion/fusionui/ObjectDetail.h"
-
+#include "khException.h"
 #include <Qt/qlabel.h>
 #include <Qt/q3table.h>
 #include <Qt/q3header.h>
@@ -100,7 +100,7 @@ ObjectDetail::ObjectDetail(QWidget* parent, uint id, gstGeodeHandle geode,
   //
   vertexListView->setSorting(-1);       // disable sorting
   if (Preferences::GlobalEnableAll)
-    vertexListView->header()->setLabel(1, tr("X, Y"));
+    vertexListView->header()->setLabel(1, kh::tr("X, Y"));
 
   if (geode_handle_->PrimType() == gstMultiPolygon ||
       geode_handle_->PrimType() == gstMultiPolygon25D ||

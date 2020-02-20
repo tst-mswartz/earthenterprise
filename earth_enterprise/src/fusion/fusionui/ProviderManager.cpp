@@ -13,16 +13,18 @@
 // limitations under the License.
 
 
-#include <qtable.h>
-#include <qpopupmenu.h>
-#include <qmessagebox.h>
-#include <qheader.h>
+#include <Qt/q3table.h>
+#include <Qt/q3popupmenu.h>
+#include <Qt/qmessagebox.h>
+#include <Qt/q3header.h>
 #include <notify.h>
 
 #include <autoingest/.idl/gstProvider.h>
 
 #include "ProviderManager.h"
 #include "ProviderEdit.h"
+using QTableItem = Q3TableItem;
+using QTable = Q3Table;
 
 // used for the name column, but holds entire copy of the provider
 class ProviderNameItem : public QTableItem {

@@ -21,6 +21,8 @@
 #include "AssetDisplayHelper.h"
 #include "Preferences.h"
 #include <Qt/q3mimefactory.h>
+#include <Qt/qpalette.h>
+
 using QMimeSourceFactory = Q3MimeSourceFactory;
 using QImageDrag = Q3ImageDrag;
 using QTableSelection = Q3TableSelection;
@@ -55,7 +57,8 @@ gstAssetHandle AssetTableItem::GetAssetHandle() const {
 
 void AssetTableItem::paint(QPainter* p, const QColorGroup& cg, const QRect& cr,
                            bool sel) {
-  QColorGroup ncg = AssetManager::GetStateDrawStyle(text(), p, cg);
+  std::string txt(text().toUtf8().constData());
+  QColorGroup ncg = AssetManager::GetStateDrawStyle(txt, p, cg);
   QTableItem::paint(p, ncg, cr, sel);
 }
 
