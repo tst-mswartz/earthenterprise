@@ -34,7 +34,7 @@ class gstAssetHandleImpl;
 
 typedef khRefGuard<gstAssetHandleImpl> gstAssetHandle;
 
-QString shortAssetName(const QString&);
+const char* shortAssetName(const char*);
 bool isAssetPath(const QString&);
 
 // -----------------------------------------------------------------------------

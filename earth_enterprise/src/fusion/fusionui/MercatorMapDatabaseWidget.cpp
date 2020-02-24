@@ -45,8 +45,7 @@ void MercatorMapDatabaseWidget::Prefill(const MapDatabaseEditRequest& request) {
 
   if (request.config.mapProject.size() != 0) {
     projects.push_back(request.config.mapProject);
-    map_project_label->setText(shortAssetName(
-        QString(request.config.mapProject.c_str())));
+    map_project_label->setText(shortAssetName(request.config.mapProject.c_str()))
   } else {
     map_project_label->setText(empty_text);
   }
@@ -114,7 +113,7 @@ void MercatorMapDatabaseWidget::ChooseMapProject() {
   if (!chooser.getFullPath(newpath))
     return;
 
-  map_project_label->setText(shortAssetName(newpath));
+  map_project_label->setText(shortAssetName(newpath.toUtf8().constData()));
 }
 
 void MercatorMapDatabaseWidget::ChooseImageryProject() {
@@ -154,6 +153,6 @@ void MercatorMapDatabaseWidget::SetImageryProject(const QString& path) {
     ClearImageryProject();
   } else {
     imagery_project_path_ = path;
-    imagery_project_label->setText(shortAssetName(imagery_project_path_));
+    imagery_project_label->setText(shortAssetName(imagery_project_path_.toUtf8().constData()));
   }
 }

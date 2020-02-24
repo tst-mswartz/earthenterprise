@@ -31,7 +31,7 @@
 #define COL_STATE 2
 AssetVersionItem::AssetVersionItem( Q3ListView *parent, const AssetVersion &ver )
     : Q3ListViewItem( parent, QString( "%1" ).arg( ver->version ),
-                     ver->meta.GetValue("createdtime"),
+                     fver->meta.GetValue("createdtime"),
                      ver->PrettyState() ),
       AssetWatcher(ver->GetRef().toString())
 {
@@ -70,7 +70,7 @@ AssetProperties::AssetProperties( QWidget* parent, const gstAssetHandle &handle 
   versionsList->setSorting( 0, false );
 
   Asset asset = handle->getAsset();
-  nameLabel->setText( shortAssetName( handle->getName() ) );
+  nameLabel->setText( shortAssetName( handle->getName().toUtf8().constData() ) );
   typeLabel->setText( ToString( asset->type ).c_str() );
   subTypeLabel->setText( asset->PrettySubtype().c_str() );
 

@@ -47,7 +47,7 @@ AssetIcon::AssetIcon(QIconView* parent, gstAssetHandle handle, int initsz)
     defaultImage = new QImage(uic_load_pixmap("preview_default.png").
                               convertToImage());
 
-  setText(shortAssetName(handle->getName()));
+  setText(shortAssetName(handle->getName().toUtf8().constData()));
 
   QImage img;
   AssetVersion ver(handle->getAsset()->CurrVersionRef());

@@ -42,7 +42,7 @@ void MapDatabaseWidget::Prefill(const MapDatabaseEditRequest& request) {
 
   if (request.config.mapProject.size() != 0) {
     projects.push_back(request.config.mapProject);
-    map_project_label->setText(shortAssetName(request.config.mapProject).c_str());
+    map_project_label->setText(shortAssetName(request.config.mapProject.c_str()));
   } else {
     map_project_label->setText(empty_text);
   }
@@ -107,7 +107,7 @@ void MapDatabaseWidget::ChooseMapProject() {
   if (!chooser.getFullPath(newpath))
     return;
 
-  map_project_label->setText(shortAssetName(newpath));
+  map_project_label->setText(shortAssetName(newpath.toUtf8().constData()));
 }
 
 void MapDatabaseWidget::ChooseImageryProject() {
@@ -120,7 +120,7 @@ void MapDatabaseWidget::ChooseImageryProject() {
   if (!chooser.getFullPath(newpath))
     return;
 
-  imagery_project_label->setText(shortAssetName(newpath));
+  imagery_project_label->setText(shortAssetName(newpath.toUtf8().constData()));
 }
 
 void MapDatabaseWidget::ClearMapProject() {

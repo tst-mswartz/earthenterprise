@@ -284,7 +284,7 @@ void AssetBase::InstallMainWidget() {
 
 void AssetBase::SetName(const QString& text) {
   asset_path_ = text;
-  setCaption(AssetPrettyName() + " : " + shortAssetName(text));
+  setCaption(AssetPrettyName() + " : " + shortAssetName(text.toUtf8().constData()));
   emit NameChanged(text);
 }
 

@@ -25,7 +25,7 @@
 #include "IconManager.h"
 #include "PixmapManager.h"
 #include "Preferences.h"
-
+#include "khException.h"
 #include <gstIconManager.h>
 #include <gstFileUtils.h>
 #include <khFileUtils.h>
@@ -85,8 +85,8 @@ void IconManager::addIcon() {
     return;
 
   for (QStringList::Iterator it = pixmaps.begin(); it != pixmaps.end(); ++it) {
-    gstFileInfo fi((*it).latin1());
-    if (theIconManager->AddIcon((*it).latin1())) {
+    gstFileInfo fi((*it).toUtf8().constData());
+    if (theIconManager->AddIcon((*it).toUtf8().constData())) {
       thePixmapManager->updateExternal();
       QPixmap newpix = thePixmapManager->GetPixmap(
           gstIcon(fi.baseName(), IconReference::External),
@@ -94,12 +94,12 @@ void IconManager::addIcon() {
       new QIconViewItem(masterIconView, fi.baseName(), newpix);
     } else {
       QMessageBox::warning(this, "Fusion",
-                           tr("Problem adding custom icon.\n\n"
+                           kh::tr("Problem adding custom icon.\n\n"
                                "Source %1 must:\n\n"
                                "-  either be RGBA or Palatte-Index type\n"
                                "-  have a file type of PNG\n"
                                "-  have a unique file name").arg(fi.name()),
-                           tr("OK"), 0, 0, 1);
+                           kh::tr("OK"), 0, 0, 1);
     }
   }
   masterIconView->sort();  // Always sort after adding icons.
@@ -112,10 +112,10 @@ void IconManager::deleteIcon() {
     return;
 
   if (QMessageBox::warning(this, "Fusion",
-      tr("Are you sure you want to permanently delete icon \"%1\"")
+      kh::tr("Are you sure you want to permanently delete icon \"%1\"")
           .arg(currIcon->text()),
-      tr("Yes"), tr("Cancel"), 0, 1, 1) == 0) {
-    if (theIconManager->DeleteIcon(currIcon->text().latin1())) {
+      kh::tr("Yes"), kh::tr("Cancel"), 0, 1, 1) == 0) {
+    if (theIconManager->DeleteIcon(currIcon->text().toUtf8().constData())) {
       masterIconView->takeItem(currIcon);
       delete currIcon;
     }
@@ -135,15 +135,15 @@ QStringList IconManager::ChoosePixmaps(QWidget *parent) {
   fd.setCaption(qApp->translate("qChoosePixmap", "Choose Images..."));
 
   IconManagerHistory history;
-  if (khExists(Preferences::filepath("iconmanager.xml").latin1())) {
-    if (history.Load(Preferences::filepath("iconmanager.xml").latin1())) {
+  if (khExists(Preferences::filepath("iconmanager.xml").toUtf8().constData())) {
+    if (history.Load(Preferences::filepath("iconmanager.xml").toUtf8().constData())) {
       fd.setDir(history.lastdir);
     }
   }
 
   if (fd.exec() == QDialog::Accepted) {
     history.lastdir = fd.dirPath();
-    history.Save(Preferences::filepath("iconmanager.xml").latin1());
+    history.Save(Preferences::filepath("iconmanager.xml").toUtf8().constData());
     return fd.selectedFiles();
   } else {
     return QStringList();

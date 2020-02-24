@@ -23,10 +23,11 @@
 #include <Qt/qimage.h>
 #include <Qt/qcheckbox.h>
 #include <Qt/qgroupbox.h>
-#include <Qt/qtextedit.h>
+//#include <Qt/qtextedit.h>
+#include <Qt/q3textedit.h>
 #include <Qt/qmessagebox.h>
 #include <Qt/qtabwidget.h>
-
+#include "khException.h"
 #include <gstLayer.h>
 #include <gstAssetGroup.h>
 #include <gstRecordJSContext.h>
@@ -37,8 +38,10 @@
 #include "SiteIcons.h"
 #include "ScriptEditor.h"
 #include "SearchFieldDialog.h"
+#include "khException.h"
 
-static QString kDefaultLocaleName = QObject::tr("Default");
+using QTextEdit = Q3TextEdit;
+static QString kDefaultLocaleName = kh::tr("Default");
 
 LayerProperties::LayerProperties(QWidget* parent, const LayerConfig& config,
                                  gstLayer* layer)
@@ -158,10 +161,10 @@ void LayerProperties::compileAndAccept() {
                                            newScript, compilationError)) {
     accept();
   } else {
-    QMessageBox::critical(this, QObject::tr("JavaScript Error"),
-                          QObject::tr("JavaScript Error:\n%1")
+    QMessageBox::critical(this, kh::tr("JavaScript Error"),
+                          kh::tr("JavaScript Error:\n%1")
                           .arg(compilationError),
-                          QObject::tr("OK"), 0, 0, 0);
+                          kh::tr("OK"), 0, 0, 0);
   }
 }
 
@@ -186,7 +189,7 @@ void LayerProperties::DeleteSearchField() {
 
   if (QMessageBox::warning(this, "Warning",
                            QObject::trUtf8("Confirm delete.\n\n"),
-                           QObject::tr("OK"), QObject::tr("Cancel"),
+                           kh::tr("OK"), kh::tr("Cancel"),
                            QString::null, 1, 1) == 0)
     fields_table->removeRow(row);
   UpdateButtons();

@@ -1004,7 +1004,7 @@ void AssetManager::ShowAssetMenu(const gstAssetHandle& asset_handle,
   // first item in menu should be the asset name since the table
   // might get redrawn after the menu has popped-up
   AssetDisplayHelper a(current_asset->type, current_asset->subtype);
-  menu.insertItem(a.GetPixmap(), shortAssetName(asset_handle->getName()));
+  menu.insertItem(a.GetPixmap(), shortAssetName(asset_handle->getName().c_str()));
 
   menu.insertSeparator();
   menu.insertSeparator();
@@ -1218,7 +1218,7 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
   // Update the preferences with the user's choice. We want to remember these
   // choices so that we can automatically select this server next time they
   // push/publish.
-  std::string database_name = shortAssetName(asset->GetRef().toString());
+  std::string database_name = shortAssetName(asset->GetRef().toString().c_str());
   Preferences::UpdatePublishServerDbMap(database_name, nickname);
 
   ServerConfig stream_server, search_server;
@@ -1352,7 +1352,7 @@ void AssetManager::PublishDatabase(const gstAssetHandle& handle) {
   // Update the preferences with the user's choice. We want to remember these
   // choices so that we can automatically select this server next time they
   // push/publish.
-  std::string database_name = shortAssetName(asset->GetRef().toString());
+  std::string database_name = shortAssetName(asset->GetRef().toString().c_str());
   Preferences::UpdatePublishServerDbMap(database_name, nickname);
 
   ServerConfig stream_server, search_server;

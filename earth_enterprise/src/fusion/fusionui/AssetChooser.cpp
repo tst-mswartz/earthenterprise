@@ -62,7 +62,7 @@ class FolderItem : public QIconViewItem {
 
 FolderItem::FolderItem(QIconView* parent, const gstAssetFolder& f)
     : QIconViewItem(parent), folder(f) {
-  setText(shortAssetName(f.name()));
+  setText(shortAssetName(f.name().toUtf8().constData()));
   AssetDisplayHelper a(AssetDefs::Invalid, std::string());
   setPixmap(a.GetPixmap());
   setKey(QString("0" + text()));
@@ -83,7 +83,7 @@ class AssetItem : public QIconViewItem {
 
 AssetItem::AssetItem(QIconView* parent, gstAssetHandle handle)
     : QIconViewItem(parent), assetHandle(handle) {
-  setText(shortAssetName(handle->getName()));
+  setText(shortAssetName(handle->getName().toUtf8().constData()));
 
   Asset asset = handle->getAsset();
   AssetDisplayHelper a(asset->type, asset->subtype);
@@ -288,7 +288,7 @@ void AssetChooser::accept() {
       // If name doesn't match with current item name, then reset item
       // pointer to initiate searching of item by name below.
       if (assetItem != NULL &&
-          getName() != shortAssetName(assetItem->getAssetHandle()->getName())) {
+          getName() != shortAssetName(assetItem->getAssetHandle()->getName().toUtf8().constData())) {
         item = NULL;
       }
     }
@@ -300,7 +300,7 @@ void AssetChooser::accept() {
 
     AssetItem* assetItem = dynamic_cast<AssetItem*>(item);
     if (assetItem != NULL) {
-      nameEdit->setText(shortAssetName(assetItem->getAssetHandle()->getName()));
+      nameEdit->setText(shortAssetName(assetItem->getAssetHandle()->getName().toUtf8().constData()));
       gstAssetHandle asset_handle = assetItem->getAssetHandle();
       Asset asset = asset_handle->getAsset();
       type_ = asset->type;
@@ -405,7 +405,7 @@ const gstAssetFolder& AssetChooser::getFolder() const {
 void AssetChooser::selectItem(QIconViewItem* item) {
   AssetItem* assetItem = dynamic_cast<AssetItem*>(item);
   if (assetItem != NULL) {
-    nameEdit->setText(shortAssetName(assetItem->getAssetHandle()->getName()));
+    nameEdit->setText(shortAssetName(assetItem->getAssetHandle()->getName().toUtf8().constData()));
   }
 }
 
@@ -418,7 +418,7 @@ void AssetChooser::nameChanged(const QString& str) {
        // If name doesn't match with current item, then clear selection.
       AssetItem* assetItem = dynamic_cast<AssetItem*>(item);
       if (assetItem != NULL &&
-          getName() != shortAssetName(assetItem->getAssetHandle()->getName())) {
+          getName() != shortAssetName(assetItem->getAssetHandle()->getName().toUtf8().constData())) {
         iconView->clearSelection();
       }
     }

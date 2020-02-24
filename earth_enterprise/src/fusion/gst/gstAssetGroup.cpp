@@ -21,8 +21,8 @@
 
 #include "gstAssetGroup.h"
 
-QString shortAssetName(const QString& n) {
-  QString sname = n;
+const char* shortAssetName(const char* n) {
+  QString sname(n);
   QStringList suffix;
   suffix << kVectorAssetSuffix.c_str() << kImageryAssetSuffix.c_str()
          << kMercatorImageryAssetSuffix.c_str() << kTerrainAssetSuffix.c_str()
@@ -37,7 +37,7 @@ QString shortAssetName(const QString& n) {
       break;
     }
   }
-  return sname;
+  return sname.toUtf8().constData();
 }
 
 bool isAssetPath(const QString& str) {

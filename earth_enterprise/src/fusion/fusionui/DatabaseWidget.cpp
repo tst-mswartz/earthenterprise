@@ -97,7 +97,7 @@ void DatabaseWidget::ChooseVectorProject() {
   if (!chooser.getFullPath(newpath))
     return;
 
-  vector_project_label->setText(shortAssetName(newpath));
+  vector_project_label->setText(shortAssetName(newpath.toUtf8().constData()));
 }
 
 void DatabaseWidget::ChooseImageryProject() {
@@ -110,7 +110,7 @@ void DatabaseWidget::ChooseImageryProject() {
   if (!chooser.getFullPath(newpath))
     return;
 
-  imagery_project_label->setText(shortAssetName(newpath));
+  imagery_project_label->setText(shortAssetName(newpath.toUtf8().constData()));
 }
 
 void DatabaseWidget::ChooseTerrainProject() {
@@ -123,7 +123,7 @@ void DatabaseWidget::ChooseTerrainProject() {
   if (!chooser.getFullPath(newpath))
     return;
 
-  terrain_project_label->setText(shortAssetName(newpath));
+  terrain_project_label->setText(shortAssetName(newpath.toUtf8().constData()));
 }
 
 void DatabaseWidget::ClearVectorProject() {
