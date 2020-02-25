@@ -47,8 +47,8 @@ MapProjectDefs::SubmitFuncType MapProjectDefs::kSubmitFunc =
 class MapLayerItem : public LayerItemBase {
   friend class MapProjectWidget;
  public:
-  MapLayerItem(QListView* parent, const QString& asset_path);
-  MapLayerItem(QListView* parent, const MapProjectConfig::LayerItem& layer_cfg);
+  MapLayerItem(Q3ListView* parent, const QString& asset_path);
+  MapLayerItem(Q3ListView* parent, const MapProjectConfig::LayerItem& layer_cfg);
   void Init();
   const MapProjectConfig::LayerItem& GetConfig() const {
     return layer_item_config_;
@@ -61,13 +61,13 @@ class MapLayerItem : public LayerItemBase {
   MapProjectConfig::LayerItem layer_item_config_;
 };
 
-MapLayerItem::MapLayerItem(QListView* parent, const QString& asset_path)
+MapLayerItem::MapLayerItem(Q3ListView* parent, const QString& asset_path)
   : LayerItemBase(parent) {
   layer_item_config_.assetRef = asset_path.toUtf8().constData();
   Init();
 }
 
-MapLayerItem::MapLayerItem(QListView* parent,
+MapLayerItem::MapLayerItem(Q3ListView* parent,
                            const MapProjectConfig::LayerItem& layer_cfg)
   : LayerItemBase(parent),
     layer_item_config_(layer_cfg) {

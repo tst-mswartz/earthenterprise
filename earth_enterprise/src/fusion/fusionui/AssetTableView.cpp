@@ -70,7 +70,8 @@ AssetStateItem::AssetStateItem(QTable* table, QString state)
 
 void AssetStateItem::paint(QPainter* p, const QColorGroup& cg, const QRect& cr,
                            bool sel) {
-  QColorGroup ncg = AssetManager::GetStateDrawStyle(text(), p, cg);
+  std::string txt(text().toUtf8().constData());
+  QColorGroup ncg = AssetManager::GetStateDrawStyle(txt, p, cg);
   QTableItem::paint(p, ncg, cr, sel);
 }
 

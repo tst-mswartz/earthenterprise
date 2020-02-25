@@ -27,11 +27,16 @@
 // for khstrerror
 #include <notify.h>
 
-
 namespace kh {
 inline QString tr(const char *srcText, const char *comment = 0) {
   return QObject::tr(srcText, comment);
 }
+
+inline QString trUtf8(const char * sourceText, const char * disambiguation = 0, int n = -1)
+{
+    return QObject::trUtf8(sourceText, disambiguation, n);
+}
+
 inline QString no_tr(const char *srcText) {
   return QString::fromAscii(srcText);
 }

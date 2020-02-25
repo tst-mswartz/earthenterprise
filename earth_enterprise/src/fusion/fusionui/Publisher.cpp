@@ -22,7 +22,7 @@
 #include <Qt/q3header.h>
 #include <Qt/qpushbutton.h>
 #include <Qt/qurl.h>
-
+#include "khException.h"
 #include "fusion/fusionui/ServerCombinationEdit.h"
 
 Publisher::Publisher(QWidget* parent, bool modal, Qt::WFlags flags)

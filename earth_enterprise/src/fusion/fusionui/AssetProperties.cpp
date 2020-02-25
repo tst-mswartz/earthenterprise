@@ -31,8 +31,8 @@
 #define COL_STATE 2
 AssetVersionItem::AssetVersionItem( Q3ListView *parent, const AssetVersion &ver )
     : Q3ListViewItem( parent, QString( "%1" ).arg( ver->version ),
-                     fver->meta.GetValue("createdtime"),
-                     ver->PrettyState() ),
+                     ver->meta.GetValue("createdtime"),
+                     ver->PrettyState().c_str() ),
       AssetWatcher(ver->GetRef().toString())
 {
 }

@@ -68,7 +68,7 @@ PushDatabaseDialog::PushDatabaseDialog(
     valid_versions_.push_back(*version);
     QString item = QString("%1:").arg(asset_version->version);
     item += "    " + asset_version->meta.GetValue("createdtime");
-    item += "  " + asset_version->PrettyState();
+    item += "  " + QString(asset_version->PrettyState().c_str());
     version_combo->insertItem(item);
   }
 
