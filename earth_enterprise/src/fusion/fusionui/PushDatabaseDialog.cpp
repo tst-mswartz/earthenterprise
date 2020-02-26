@@ -78,7 +78,7 @@ PushDatabaseDialog::PushDatabaseDialog(
 
   int current_server_index = 0;
   for (int i = 0; i < static_cast<int>(nicknames.size()); ++i) {
-    if (previous_server_name == nicknames[i].ascii()) {
+    if (previous_server_name == nicknames[i].toUtf8().constData()) {
       current_server_index = i;
       break;
     }

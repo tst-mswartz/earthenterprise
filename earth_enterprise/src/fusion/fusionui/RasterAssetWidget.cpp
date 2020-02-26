@@ -20,17 +20,19 @@
 #include <algorithm>
 #include <gdal.h>
 #include "fusion/khgdal/khgdal.h"
-#include <qcheckbox.h>
-#include <qcolordialog.h>
-#include <qcombobox.h>
-#include <qfiledialog.h>
-#include <qgroupbox.h>
+#include <Qt/qcheckbox.h>
+#include <Qt/qcolordialog.h>
+#include <Qt/qcombobox.h>
+#include <Qt/qfiledialog.h>
+#include <Qt/qgroupbox.h>
 #include <qinputdialog.h>
-#include <qlabel.h>
-#include <qlistbox.h>
-#include <qmessagebox.h>
-#include <qpushbutton.h>
+#include <Qt/qinputdialog.h>
+#include <Qt/qlabel.h>
+#include <Qt/q3listbox.h>
+#include <Qt/qmessagebox.h>
+#include <Qt/qpushbutton.h>
 #include <qspinbox.h>
+#include <Qt/qspinbox.h>
 
 #include "autoingest/.idl/gstProvider.h"
 #include "autoingest/.idl/storage/RasterProductConfig.h"
@@ -675,13 +677,13 @@ void RasterAssetWidget::AssembleEditRequest(
       case SourceConfig::FileOK:
         break;
       case SourceConfig::CantStat:
-        throw khException(tr("Unable to get file information for ")
+        throw khException(kh::tr("Unable to get file information for ").toUtf8().constData()
                           + filename + "\n" +
                           khErrnoException::errorString(errno));
       case SourceConfig::NonVolume:
-        throw khException(filename + tr(" doesn't reside on a known volume.\n") +
-                         " You can move your asset files to a known volume, or create a new volume\n" +
-			 " that contains their current location using geconfigureassetroot command.");
+        throw khException(filename + kh::tr(" doesn't reside on a known volume.\n").toUtf8().constData()
+                          + " You can move your asset files to a known volume, or create a new volume\n"
+                          + " that contains their current location using geconfigureassetroot command.");
     }
   }
 

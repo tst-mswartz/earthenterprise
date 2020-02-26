@@ -21,14 +21,14 @@
 #include <khArray.h>
 #include <Qt/q3scrollview.h>
 #include <Qt/qwidget.h>
-using QScrollView = Q3ScrollView;
+//using QScrollView = Q3ScrollView;
 
 #include <autoingest/.idl/storage/FilterConfig.h>
 
 class QComboBox;
 class QLineEdit;
 
-class QueryRules : public QScrollView {
+class QueryRules : public Q3ScrollView {
   Q_OBJECT
 
  public:

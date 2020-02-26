@@ -107,6 +107,6 @@ std::string PublishDatabaseDialog::GetSelectedVersion() {
 }
 
 std::string PublishDatabaseDialog::GetTargetPath() {
-  return target_path_edit->text();
+  return target_path_edit->text().toUtf8().constData();
 }
 

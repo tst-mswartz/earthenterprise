@@ -17,14 +17,16 @@
 #include <Qt/qstringlist.h>
 #include <Qt/qgroupbox.h>
 #include <Qt/qlineedit.h>
-#include <Qt/qobject.h>
+//#include <Qt/qobject.h>
 #include <Qt/qmessagebox.h>
-
+#include <Qt/q3objectdict.h>
+#include <Qt/q3scrollview.h>
+using QScrollView = Q3ScrollView;
 #include <gstSelectRule.h>
 #include "khException.h"
 #include "QueryRules.h"
 
-QueryRules::QueryRules(QWidget* parent, const char* name, WFlags f)
+QueryRules::QueryRules(QWidget* parent, const char* name, Qt::WFlags f)
   : QScrollView(parent, name, f) {
   rule_count_ = rule_modified_ = 0;
   setVScrollBarMode(QScrollView::AlwaysOn);
@@ -50,12 +52,11 @@ void QueryRules::init(const FilterConfig& config) {
   rule_count_ = 0;
 
   // now add the new ones back in
-  for (std::vector<SelectRuleConfig>::const_iterator it =
-       config.selectRules.begin(); it != config.selectRules.end(); ++it) {
+  for (const auto& it : config.selectRules) {
     int id = BuildRule() - 1;
-    field_[id]->setCurrentItem((*it).fieldNum);
-    oper_[id]->setCurrentItem(static_cast<int>((*it).op));
-    rval_[id]->setText((*it).rvalue);
+    field_[id]->setCurrentItem(it.fieldNum);
+    oper_[id]->setCurrentItem(static_cast<int>(it.op));
+    rval_[id]->setText(it.rvalue);
   }
 
   rule_modified_ = 0;
@@ -199,7 +200,7 @@ void QueryRules::viewportResizeEvent(QResizeEvent* event) {
     }
   }
 
-  QScrollView::viewportResizeEvent(event);
+  Q3ScrollView::viewportResizeEvent(event);
 }
 
 void QueryRules::setFieldDesc(const QStringList& from) {

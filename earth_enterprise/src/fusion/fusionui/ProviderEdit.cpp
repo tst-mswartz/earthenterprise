@@ -44,7 +44,7 @@ int ProviderEdit::configure(const gstProvider &provider) {
 gstProvider ProviderEdit::getProvider() const {
   gstProvider provider = orig_;
   provider.name = nameEdit->text();
-  provider.key = keyEdit->text().utf8();
+  provider.key = keyEdit->text().toUtf8().constData();
   provider.copyright = copyrightEdit->text();
   return provider;
 }
