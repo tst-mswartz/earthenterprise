@@ -203,6 +203,9 @@ class ServeThread : public QThread {
 
   bool retval() { return retval_; }
 
+ public slots:
+  void deleteLater();
+
  signals:
   void sfinished();
 

@@ -21,7 +21,7 @@
 set -x
 set -e
 
-ASSET_ROOT="/usr/local/google/gevol_test/assets"
+ASSET_ROOT="/gevol/assets"
 echo "Using asset root: $ASSET_ROOT"
 
 # This is a simplified tutorial script.  It does not have all the dependencies as the Python QA tutorial script, nor does it do any kind of checking.

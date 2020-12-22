@@ -206,6 +206,8 @@ void AssetTraverser::ContinueSearch(int fd,
   }
 
   for (const auto& dir : subdirs) {
+  //for (std::deque<std::string>::const_iterator dir = subdirs.begin();
+  //     dir != subdirs.end(); ++dir) { 
     bool is_symlink = false;
 
     // open using low level ::open

@@ -387,6 +387,16 @@ void AssetAction::CloseAll() {
   // make a copy of our asset window vector since deleting will
   // invalidate iterators on the original
   std::vector<AssetAction*> close_actions = all_actions;
+
+  for (std::vector<AssetAction*>::iterator it = close_actions.begin();
+    it != close_actions.end(); ++it) {
+      if ((*it)->asset_window_->OkToQuit()) { 
+        delete (*it)->asset_window_;
+      } else { 
+        return;
+      }
+  }
+  /*
   for (auto& it : close_actions) {
     if (it->asset_window_->OkToQuit()) {
       delete it->asset_window_;
@@ -395,6 +405,7 @@ void AssetAction::CloseAll() {
       return;
     }
   }
+  */
 }
 
 void AssetAction::Cascade(const QPoint& start_pos) {
@@ -403,6 +414,15 @@ void AssetAction::Cascade(const QPoint& start_pos) {
   int x = start_pos.x() + xoffset;
   int y = start_pos.y() + yoffset;
 
+  for (std::vector<AssetAction*>::iterator it = all_actions.begin();
+    it != all_actions.end(); ++it) { 
+      (*it)->asset_window_->move(x,y);
+      (*it)->asset_window_->showNormal();
+      (*it)->asset_window_->raise();
+      x += xoffset;
+      y += yoffset;
+  }
+  /*
   for (auto& it : all_actions) {
     it->asset_window_->move(x, y);
     it->asset_window_->showNormal();
@@ -410,6 +430,7 @@ void AssetAction::Cascade(const QPoint& start_pos) {
     x += xoffset;
     y += yoffset;
   }
+  */
 }
 
 //------------------------------------------------------------------------------
@@ -427,6 +448,10 @@ void ServeThread::start() {
   QThread::start();
 }
 
+void ServeThread::deleteLater() {
+  //QObject::deleteLater();
+}
+
 PushThread::PushThread(PublisherClient* publisher_client,
                        const std::string& gedb_path)
     : ServeThread(publisher_client, gedb_path) {
@@ -434,6 +459,7 @@ PushThread::PushThread(PublisherClient* publisher_client,
 
 void PushThread::run(void) {
 #if 1
+  system("/usr/bin/logger assetmanager pushthread 458");
   retval_ = publisher_client_->PushDatabase(gedb_path_);
 #else
   // Note: can be used for testing.
@@ -445,7 +471,9 @@ void PushThread::run(void) {
   }
   retval_ = true;
 #endif
+  system("/usr/bin/logger assetmanager pushthread 470");
   emit sfinished();
+  system("/usr/bin/logger assetmanager pushthread 472");
 }
 
 PublishThread::PublishThread(PublisherClient* publisher_client,
@@ -481,8 +509,9 @@ void ServeAssistant::Stop() {
 }
 
 void ServeAssistant::SetCanceled() {
-  progress_->setCanceled();
+  //progress_->setCanceled();
 }
+
 
 void ServeAssistant::Perform() {
   progress_dialog_->setMinimum(0);
@@ -1069,7 +1098,9 @@ void AssetManager::ShowAssetMenu(const gstAssetHandle& asset_handle,
       break;
 
     case PUSH_DB:
+      system("/usr/bin/logger assetmanager 1096");
       PushDatabase(asset_handle);
+      system("/usr/bin/logger assetmanager 1098");
       refresh();
       break;
 
@@ -1170,11 +1201,14 @@ class FixCursor {
 };
 
 void AssetManager::PushDatabase(const gstAssetHandle& handle) {
+  system("/usr/bin/logger assetmanager 1199");
   Asset asset = handle->getAsset();
   ServerCombinationSet sc_set;
   sc_set.Load();
+  system("/usr/bin/logger assetmanager 1203");
 
   if (asset->versions.size() == 0) {
+    system("/usr/bin/logger assetmanager 1205");
     QMessageBox::critical(this, "Error",
             tr("Please build the database first."), 0, 0, 0);
     return;
@@ -1186,12 +1220,15 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
     return;
   }
 
+  system("/usr/bin/logger assetmanager 1218");
   std::vector<QString> nicknames;
   std::vector<ServerCombination>::const_iterator it =
       sc_set.combinations.begin();
   for (; it != sc_set.combinations.end(); ++it) {
     nicknames.push_back(it->nickname);
   }
+
+  system("/usr/bin/logger assetmanager 1226");
 
   PushDatabaseDialog push_db_dlg(this, asset, nicknames);
   if (!push_db_dlg.HasValidVersions()) {
@@ -1206,10 +1243,12 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
   if (push_db_dlg.exec() != QDialog::Accepted)
     return;
 
+  system("/usr/bin/logger assetmanager 1241");
   AssetVersion db_asset_version();
 
   std::string gedb_path;
   AssetVersion gedb_version;
+  system("/usr/bin/logger assetmanager 1246");
   if (asset->subtype == kMapDatabaseSubtype) {
     MapDatabaseAssetVersion mdav(push_db_dlg.GetSelectedVersion());
     gedb_version = mdav->GetMapdbChild();
@@ -1221,6 +1260,7 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
     gedb_version = dav->GetGedbChild();
   }
 
+  system("/usr/bin/logger assetmanager 1258");
   gedb_path = gedb_version->GetOutputFilename(0);
 
   QString nickname = push_db_dlg.GetSelectedNickname();
@@ -1231,6 +1271,7 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
   std::string database_name = shortAssetName(asset->GetRef().toString().c_str());
   Preferences::UpdatePublishServerDbMap(database_name, nickname.toUtf8().constData());
 
+  system("/usr/bin/logger assetmanager 1269");
   ServerConfig stream_server, search_server;
   for (it = sc_set.combinations.begin();
        it != sc_set.combinations.end(); ++it) {
@@ -1249,13 +1290,17 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
   PublisherClient publisher_client(AssetDefs::MasterHostName(),
                                    stream_server, search_server,
                                    &progress, &auth);
+  system("/usr/bin/logger assetmanager 1288");
   if (!publisher_client.AddDatabase(
           gedb_path, push_db_dlg.GetSelectedVersion())) {
     QMessageBox::critical(this, "Push Failed",
-            tr("Error: %1 ").arg(publisher_client.ErrMsg().c_str()), 0, 0, 0);
+            tr("Error pushing database"), 0, 0, 0);
+            //tr("Error: %1 ").arg(publisher_client.ErrMsg().c_str()), 0, 0, 0);
+    system("/usr/bin/logger assetmanager 1294");
     return;
   }
 
+  system("/usr/bin/logger assetmanager 1298");
   FixCursor fix_cursor(this);
   QProgressDialog progress_dialog(tr("Pushing database..."),
                                   tr("Cancel"), 0, 100, this);
@@ -1265,13 +1310,17 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
   // so any calls to the auth dialog now need to be asynchronous.
   auth.SetSynchronous(false);
   PushThread push_thread(&publisher_client, gedb_path);
+  system("/usr/bin/logger assetmanager 1308");
 
   {
     ServeAssistant push_assistant(&progress_dialog, &progress, &auth);
     QObject::connect(&progress_dialog, SIGNAL(canceled()),
                      &push_assistant, SLOT(SetCanceled()));
     QObject::connect(&push_thread, SIGNAL(sfinished()), &push_assistant, SLOT(Stop()));
-    QObject::connect(&push_thread, SIGNAL(sfinished()), &push_thread, SLOT(deleteLater()));
+    //QObject::connect(&push_thread, SIGNAL(sfinished()), qApp, SLOT(deleteLater()));
+    //QObject::connect(&push_thread, SIGNAL(sfinished()), qApp, SLOT(push_thread->deleteLater()));
+    QObject::connect(&push_thread, SIGNAL(sfinished()), qApp, SLOT(push_thread->quit()));
+    system("/usr/bin/logger assetmanager 1316");
 
     push_thread.start();
     push_assistant.Start();
@@ -1283,6 +1332,7 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
   }
 
   if (progress_dialog.wasCanceled()) {
+    system("/usr/bin/logger assetmanager 1328");
     QMessageBox::critical(this, "Push Interrupted",
                           tr("Push Interrupted"), 0, 0, 0);
     return;
@@ -1292,9 +1342,15 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
   progress_dialog.reset();
 
   if (!push_thread.retval()) {
-    QMessageBox::critical(this, "Push Failed",
-            tr("Error: %1").arg(publisher_client.ErrMsg().c_str()), 0, 0, 0);
-    return;
+    try { 
+        system("/usr/bin/logger assetmanager 1339");
+        QMessageBox::critical(this, "Push Failed",
+                tr("Error pushing number 2"), 0, 0, 0);
+                //tr("Error: %1").arg(publisher_client.ErrMsg().c_str()), 0, 0, 0);
+        return;
+    } catch (...) { 
+        1;
+    }
   }
 
   QMessageBox::information(this, tr("Success"),
@@ -1401,7 +1457,11 @@ void AssetManager::PublishDatabase(const gstAssetHandle& handle) {
                      &publish_assistant, SLOT(SetCanceled()));
     QObject::connect(
         &publish_thread, SIGNAL(sfinished()), &publish_assistant, SLOT(Stop()));
-    QObject::connect(&publish_thread, SIGNAL(sfinished()), &publish_thread, SLOT(deleteLater()));
+    //QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(deleteLater()));
+    //QObject::connect(&publish_thread, SIGNAL(sfinished()), &publish_thread, SLOT(deleteLater()));
+    //QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(&QObject::deleteLater()));
+    //QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(publish_thread->deleteLater()));
+    QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(publish_thread->quit()));
 
     publish_thread.start();
     publish_assistant.Start();
@@ -1795,6 +1855,7 @@ void AssetManager::UpdateTableItem(int row, gstAssetHandle handle,
   }
   assetTableView->adjustRow(row);
 
+  // ???? TODO ? 
   for (int i = 0; i < assetTableView->numRows(); ++i) {
       std::string aname {
         assetTableView->GetItem(i)->GetAssetHandle()
@@ -1816,6 +1877,8 @@ void AssetManager::TrackChangesInTableView(
 
   // one
   for (const auto& ref : changed) {
+  //for (std::set<std:string>::const_iterator ref = changed.begin();
+     //ref != changed.end(); ++ref) { 
     QString baseRef = khBasename(ref).c_str();
     bool found = false;
     // try to find a match in the existing items
@@ -1886,7 +1949,8 @@ void AssetManager::UpdateTableView(const gstAssetFolder& folder) {
 
   std::vector<gstAssetHandle> items = folder.getAssetHandles();
 
-  if (items.empty()) {
+  //if (items.empty()) {
+  if(items.size() == 0) { 
     return;
   }
 
@@ -1894,8 +1958,10 @@ void AssetManager::UpdateTableView(const gstAssetFolder& folder) {
 
   int rowcount = 0;
 
-  for (const auto& item : items) {
-    gstAssetHandle handle = item;
+  for (unsigned int row = 0; row < items.size(); ++row) { 
+  //for (const auto& item : items) {
+    gstAssetHandle handle = items[row];
+    //gstAssetHandle handle = item;
     Asset asset = handle->getAsset();
     bool visible = IsAssetVisible(asset);
 

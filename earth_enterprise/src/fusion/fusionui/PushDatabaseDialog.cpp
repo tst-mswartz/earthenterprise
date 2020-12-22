@@ -45,6 +45,7 @@ PushDatabaseDialog::PushDatabaseDialog(
     if (asset_version->state != AssetDefs::Succeeded)
       continue;
 
+    system("/usr/bin/logger pushdatabasedialog.cpp 48");
     if (asset_version->subtype == kMapDatabaseSubtype) {
       MapDatabaseAssetVersion mdav(asset_version);
       if (!mdav->GetMapdbChild())
@@ -65,6 +66,7 @@ PushDatabaseDialog::PushDatabaseDialog(
       }
     }
 
+    system("/usr/bin/logger pushdatabasedialog.cpp 68");
     valid_versions_.push_back(*version);
     QString item = QString("%1:").arg(asset_version->version);
     item += "    " + asset_version->meta.GetValue("createdtime");
@@ -75,6 +77,8 @@ PushDatabaseDialog::PushDatabaseDialog(
   // Find the previously used published server for the specific database.
   std::string previous_server_name =
     Preferences::PublishServerName(database_name);
+
+  system("/usr/bin/logger pushdatabasedialog.cpp 80");
 
   int current_server_index = 0;
   for (int i = 0; i < static_cast<int>(nicknames.size()); ++i) {
