@@ -448,9 +448,9 @@ void ServeThread::start() {
   QThread::start();
 }
 
-void ServeThread::deleteLater() {
-  //QObject::deleteLater();
-}
+//void ServeThread::deleteLater() {
+//  //QObject::deleteLater();
+//}
 
 PushThread::PushThread(PublisherClient* publisher_client,
                        const std::string& gedb_path)
@@ -1317,9 +1317,10 @@ void AssetManager::PushDatabase(const gstAssetHandle& handle) {
     QObject::connect(&progress_dialog, SIGNAL(canceled()),
                      &push_assistant, SLOT(SetCanceled()));
     QObject::connect(&push_thread, SIGNAL(sfinished()), &push_assistant, SLOT(Stop()));
-    //QObject::connect(&push_thread, SIGNAL(sfinished()), qApp, SLOT(deleteLater()));
+    //QObject::connect(&push_thread, SIGNAL(sfinished()), qApp, SLOT(deleteLater()), Qt::QueuedConnection);
+    QObject::connect(&push_thread, SIGNAL(sfinished()), this, SLOT(&QObject::deleteLater()));//, Qt::QueuedConnection);
     //QObject::connect(&push_thread, SIGNAL(sfinished()), qApp, SLOT(push_thread->deleteLater()));
-    QObject::connect(&push_thread, SIGNAL(sfinished()), qApp, SLOT(push_thread->quit()));
+    //QObject::connect(&push_thread, SIGNAL(sfinished()), qApp, SLOT(push_thread->quit()));
     system("/usr/bin/logger assetmanager 1316");
 
     push_thread.start();
@@ -1457,11 +1458,12 @@ void AssetManager::PublishDatabase(const gstAssetHandle& handle) {
                      &publish_assistant, SLOT(SetCanceled()));
     QObject::connect(
         &publish_thread, SIGNAL(sfinished()), &publish_assistant, SLOT(Stop()));
-    //QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(deleteLater()));
+    //QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(deleteLater()), Qt::QueuedConnection);
+    QObject::connect(&publish_thread, SIGNAL(sfinished()), this, SLOT(&QObject::deleteLater()));//, Qt::QueuedConnection);
     //QObject::connect(&publish_thread, SIGNAL(sfinished()), &publish_thread, SLOT(deleteLater()));
     //QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(&QObject::deleteLater()));
     //QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(publish_thread->deleteLater()));
-    QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(publish_thread->quit()));
+    //QObject::connect(&publish_thread, SIGNAL(sfinished()), qApp, SLOT(publish_thread->quit()));
 
     publish_thread.start();
     publish_assistant.Start();
